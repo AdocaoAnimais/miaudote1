@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+    @apply text-2xl
+}
+
+body {
+    @apply bg-gray-900 ; /* text-gray-100 */
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  a {
+    color: black;
+    text-decoration: none;
+    /* font-weight: bold; */
+  }
+  
+  a:hover {
+    /* font-style: italic; */
+    /* color: burlywood; */
+    @apply text-gray-600;
+  }
+  
+
+.btn {
+    @apply text-base font-medium rounded-lg p-3;
+}
+.btn--primary {
+    @apply bg-sky-500 text-white;
+} 
+.btn--secondary {
+    @apply bg-slate-100 text-slate-900;
+}
