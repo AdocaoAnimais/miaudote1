@@ -1,5 +1,6 @@
 import { fetchHygraphQuery } from './utils/fetch-hygraph-query';
 import ListBanco from './components/ListBanco';
+import Card from './components/Card.tsx';
 
 
 const getPageData = async () => {
@@ -42,8 +43,10 @@ export default async function Page() {
 
     return (
         <>
-            <div className='antialiased bg-slate-600 bg-center bg-cover bg-no-repeat min-h-screen items-center flex flex-col'>
+            <div className='antialiased bg-slate-600 bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col'>
                 <ListBanco />
+
+                <Card />
             </div>
         </>
     )
