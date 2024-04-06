@@ -41,12 +41,16 @@ export default function ListBanco() {
 
     return (
         <>
+            {/* CRUD: Create, Read, Update, Delete */}
+
+            {/* READ */}
             {users && users.length > 0 ? (
                 users.map((user, index) => <RowBanco key={index} user={user} users={users} setUsers={setUsers} setOnEdit={setOnEdit} />)
             ) : (
                 <p>Nenhum produto disponível.</p>
             )}
-
+            
+            {/* Create */}
             <Form getUsers={getUsers} onEdit={onEdit} setOnEdit={setOnEdit}/>
 
             <button onClick={() => newTab()}>NewTab</button>
