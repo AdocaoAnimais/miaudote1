@@ -13,7 +13,7 @@ export default function Card() {
             raw: "Conteúdo do Post 1 em formato raw"
           },
           picture: {
-            url: "https://github.com/weltergab/png"
+            url: "https://github.com/weltergab.png"
           },
           videoUrl: "URL do vídeo do Post 1",
           tech: "Tecnologia relacionada ao Post 1",
@@ -26,13 +26,13 @@ export default function Card() {
             raw: "Conteúdo do Post 2 em formato raw"
           },
           picture: {
-            url: "https://github.com/weltergab/png"
+            url: "https://github.com/weltergab.png"
           },
           videoUrl: "URL do vídeo do Post 2",
           tech: "Tecnologia relacionada ao Post 2",
           description: "Descrição do Post 2"
         },
-        // Adicione mais objetos conforme necessário para mais posts
+        // Adicione mais objetos conforme necessário
       ];
       
       console.log(posts1);
@@ -46,7 +46,9 @@ export default function Card() {
 
 
 
-        <br />
+
+
+        {/* <br />
             <div className="blue h-[300px] w-[300px]">
                 <h1>Nome do Animal</h1>
                 <div className="blue h-[300px] w-[300px]">
@@ -61,7 +63,7 @@ export default function Card() {
                 <button className="">
 
                 </button>
-            </div>
+            </div> */}
         </>
     )
 }
