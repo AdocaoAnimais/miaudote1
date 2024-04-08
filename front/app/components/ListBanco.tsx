@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RowBanco from "./RowBanco";
-import Form from "./Form";
 import { toast } from "react-toastify";
 
 
@@ -50,8 +49,7 @@ export default function ListBanco() {
                 <p>Nenhum produto disponível.</p>
             )}
             
-            {/* Create */}
-            <Form getUsers={getUsers} onEdit={onEdit} setOnEdit={setOnEdit}/>
+           
 
             <button onClick={() => newTab()}>NewTab</button>
         </>
