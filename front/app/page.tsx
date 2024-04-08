@@ -1,52 +1,23 @@
-import { fetchHygraphQuery } from './utils/fetch-hygraph-query';
 import ListBanco from './components/ListBanco';
 import Card from './components/Card.tsx';
-
-
-const getPageData = async () => {
-    const query = `
-    query MyQuery {
-        posts {
-            slug
-            title
-            rich {
-              raw
-            }
-            picture{
-                url
-            }
-            videoUrl
-            tech
-            description
-        }
-        experiences {
-            slug
-            title
-            rich {
-              raw
-            }
-            picture {
-                url
-            }
-            videoUrl
-        }
-      }
-      
-    `
-    return fetchHygraphQuery(
-        query
-    )
-}
+import Link from 'next/link';
 
 export default async function Page() {
-    const response = await getPageData();
-
     return (
         <>
             <div className='antialiased bg-slate-600 bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col'>
-                <ListBanco />
+
+                <div className='w-full p-12 text-right'>
+                <Link href={"/cadastrar_animal"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                    Cadastrar animal
+                </Link>
+                </div>
+                
 
                 <Card />
+
+
+                {/* <ListBanco /> */}
             </div>
         </>
     )

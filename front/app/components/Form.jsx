@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function Form({ getUsers, onEdit, setOnEdit }) {
+export default function Form({  }) {
+    //getUsers, onEdit, setOnEdit
 
     // const ref = useRef();
 
@@ -83,13 +84,12 @@ export default function Form({ getUsers, onEdit, setOnEdit }) {
             return;
         }
 
-        // Aqui você pode prosseguir com o processamento dos dados do formulário
-        console.log('Nome:', nome);
-        console.log('Tipo:', tipo);
-        console.log('Sexo:', sexo);
-        console.log('Porte:', porte);
-        console.log('Idade:', idade);
-        console.log('Descrição:', descricao);
+        // console.log('Nome:', nome);
+        // console.log('Tipo:', tipo);
+        // console.log('Sexo:', sexo);
+        // console.log('Porte:', porte);
+        // console.log('Idade:', idade);
+        // console.log('Descrição:', descricao);
     };
 
     return (
