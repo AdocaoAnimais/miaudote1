@@ -6,3 +6,4 @@ pillow==10.3.0
 sqlparse==0.4.4
 tzdata==2024.1
 six==1.16.0
+djangorestframework==3.15.1
