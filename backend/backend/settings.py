@@ -12,17 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
-# FOR SENDING OUT EMAILS
-from . info import * 
-
-EMAIL_USE_TLS = EMAIL_USE_TLS
-EMAIL_HOST = EMAIL_HOST
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_PORT = EMAIL_PORT
-
-
-##########################
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'accounts'
+    'accounts',
+    'rest_frame'
 ]
 
 MIDDLEWARE = [
@@ -113,9 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-# AUTH_USER_MODEL = "accounts.CustomUser"   #added the User table
-
+AUTH_USER_MODEL = 'accounts.CustomUser'# usa o custom user para entrar
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -139,3 +127,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# mandando emails usando sendgrid
+
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 587
+
