@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'accounts',
-    'rest_frame'
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,9 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
