@@ -1,0 +1,3 @@
+
+# ignora toda a pasta de cache do projeto
+__pycache__/
