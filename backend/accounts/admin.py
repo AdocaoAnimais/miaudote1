@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
-class CustomUserAdmin(UserAdmin):
-    model = CustomUser
-    list_display = ['username', 'email', 'bio']  # Add any other fields you want to display
+# class CustomUserAdmin(UserAdmin):
+#     model = CustomUser
+#     list_display = ['username', 'email', 'descricao']  # Add any other fields you want to display
 
-    # Optionally, define search fields if needed
-    search_fields = ('username', 'email')
+#     # Optionally, define search fields if needed
+#     search_fields = ('username', 'email')
 
     # Optionally, define fieldsets to customize the layout in the admin panel
     # fieldsets = (
@@ -18,4 +18,4 @@ class CustomUserAdmin(UserAdmin):
     # )
 
 # Register the CustomUserAdmin class with the CustomUser model
-admin.site.register(CustomUser, CustomUserAdmin)
+# admin.site.register(CustomUser, CustomUserAdmin)

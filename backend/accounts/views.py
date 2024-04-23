@@ -14,6 +14,7 @@ class IsSuperuserOrSelf(permissions.BasePermission):
         # Permite superusuarios a tudo
         if request.user.is_superuser:
             return True
+        # Permite usuarios modificar somente o proprio perfil
         if request.user.is_authenticated and obj == request.user:
             return True
         # Permitir leitura (GET) para todos os usuários, autenticados ou não
@@ -22,7 +23,6 @@ class IsSuperuserOrSelf(permissions.BasePermission):
          # Permitir criação (POST) para todos os usuários, autenticados ou não
         if request.method == 'POST':
             return True
-        # Permite usuarios modificar somente o proprio perfil
         return False
 
 class CustomUserViewSet(viewsets.ModelViewSet):
@@ -31,7 +31,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     `update` e `destroy`.
 
     """
-    queryset = CustomUser.objects.all().order_by('-date_joined')
+    queryset = CustomUser.objects.all().order_by('usuario_id')
     serializer_class = CustomUserSerializer
     permission_classes = [IsSuperuserOrSelf] #comentar fora se nao quiser restrições de acesso
 
