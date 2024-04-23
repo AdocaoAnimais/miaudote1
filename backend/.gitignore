@@ -1,3 +1,5 @@
 
 # ignora toda a pasta de cache do projeto
 __pycache__/
+.idea
+backend\.idea
