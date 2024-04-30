@@ -3,3 +3,5 @@
 __pycache__/
 .idea
 backend\.idea
+# tabela que Mari usou no teste NAO DELETAR
+old_tables/
