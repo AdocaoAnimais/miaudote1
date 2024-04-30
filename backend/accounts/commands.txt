@@ -1,4 +1,4 @@
-Comandos cURL para testar a API
+Comandos cURL para testar a API (pode usar a view do Django também)
 
 # Create: criar usuario
 
