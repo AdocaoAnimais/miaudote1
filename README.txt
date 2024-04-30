@@ -2,6 +2,17 @@ pip freeze > requirements.txt (atualizar dependencias da aplicação)
 
 pip install -r requirements.txt (instalar dependencias)
 
+Rodar o Django:
+
+1. fazer migraçoes necessarias
+python manage.py makemigrations
+python manage.py migrate
+
+2. rodar o server
+python manage.py runserver
+
+3. acessar os urls abaixo
+
 API urls:
 
 CRUD:
