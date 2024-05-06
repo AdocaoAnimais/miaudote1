@@ -1,6 +1,7 @@
 from rest_framework import permissions, viewsets
 from .models import CustomUser
-from .serializers import CustomUserSerializer
+from core import models
+from .serializers import CustomUserSerializer, PetSerializer
 
 class IsSuperuserOrSelf(permissions.BasePermission):
     """
@@ -34,4 +35,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('usuario_id')
     serializer_class = CustomUserSerializer
     permission_classes = [IsSuperuserOrSelf] #comentar fora se nao quiser restrições de acesso
+
+class PetViewSet(viewsets.ModelViewSet):
+    serializer_class = PetSerializer
+    queryset = models.PET.objects.all()
 
