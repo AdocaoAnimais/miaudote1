@@ -30,7 +30,6 @@ class CustomUser(models.Model):
     REQUIRED_FIELDS = ['nome', 'sobrenome', 'email']
 
 
-
     @property
     def is_anonymous(self):
         """

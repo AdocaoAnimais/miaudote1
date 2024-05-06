@@ -1,6 +1,7 @@
 # from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 from .models import CustomUser
+from core.models import PET
 
 class CustomUserSerializer(serializers.ModelSerializer):
     """
@@ -11,4 +12,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
     # sobrenome = serializers.CharField(source='last_name')
     class Meta:
         model = CustomUser
+        fields = '__all__'
+
+class PetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PET
         fields = '__all__'
