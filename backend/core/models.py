@@ -17,3 +17,22 @@ class PET(models.Model):
 
     def __str__(self):
         return self.nome
+
+    @property
+    def is_anonymous(self):
+        """
+        Always return False. This is a way of comparing User objects to
+        anonymous users.
+        """
+        return False
+
+    @property
+    def is_authenticated(self):
+        """
+        Always return False. This is a way of comparing User objects to
+        anonymous users.
+        """
+        return False
+
+    class Meta:
+        db_table = 'PET'
