@@ -48,7 +48,7 @@ class CustomUser(models.Model):
         return False
 
     class Meta:
-        db_table = 'usuario'
+        db_table = 'USUARIO'
 
 # # Para usar as mesmas informações de nome e sobrenome do Abstract User
 # @receiver(pre_save, sender=CustomUser)
