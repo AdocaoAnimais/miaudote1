@@ -17,13 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from accounts import views
+from accounts.views import CustomUserViewSet
+from pet.views import PetViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 
 
 router = routers.DefaultRouter()
-router.register(r'users', views.CustomUserViewSet)
-router.register(r'pets', views.PetViewSet)
+router.register(r'users', CustomUserViewSet)
+router.register(r'pets', PetViewSet)
 
 
 urlpatterns = [
