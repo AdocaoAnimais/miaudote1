@@ -3,11 +3,14 @@ pipenv shell
 
 API urls:
 
-CRUD:
+CRUD Users:
 http://127.0.0.1:8000/api/users/
 
 Para acessar usuario especifico: (exemplo)
 http://127.0.0.1:8000/api/users/3/
+
+CRUD Pets:
+http://127.0.0.1:8000/api/pets/
 
 LOGIN:
 http://127.0.0.1:8000/api-token-auth/
