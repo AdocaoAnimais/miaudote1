@@ -1,8 +1,6 @@
 # from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 from .models import CustomUser
-from core.models import PET
-
 class CustomUserSerializer(serializers.ModelSerializer):
     """
     Transforma o modelo CustomUser em JSON
@@ -14,7 +12,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
-class PetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PET
-        fields = '__all__'
