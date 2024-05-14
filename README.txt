@@ -1,5 +1,7 @@
-PRIMEIRO DE TUDO - rodar o virtual environment:
-pipenv shell
+PRIMEIRO DE TUDO - dentro do backend: 
+pip freeze > requirements.txt (atualizar dependencias da aplicação)
+
+pip install -r requirements.txt (instalar dependencias)
 
 API urls:
 
