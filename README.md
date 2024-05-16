@@ -30,3 +30,16 @@ python manage.py runserver
 
 Criar novo app:
 python manage.py startapp <name of app>
+
+
+### Rodar Kotlin 
+
+#### Metodo 1: Utilizando o IntellJ 
+ - Baixar o intelliJ: https://www.jetbrains.com/pt-br/idea/
+ - Abrir o intelliJ no projeto backend miaudote 
+ - Aguardar a IDE fazer o dowload das libs
+ - Executar o arquivo MiaudoteApplication em src/main/koltin/com/projeto2/miaudote
+
+
+
+

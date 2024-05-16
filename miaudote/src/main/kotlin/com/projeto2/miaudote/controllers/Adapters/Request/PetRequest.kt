@@ -1,7 +1,7 @@
 package com.projeto2.miaudote.controllers.Adapters.Request
 
 import com.projeto2.miaudote.entities.Pet
-import com.projeto2.miaudote.enums.*
+import com.projeto2.miaudote.enums.* 
 import java.time.LocalDateTime
 
 interface PetRequest {
