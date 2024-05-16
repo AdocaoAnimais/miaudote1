@@ -21,10 +21,9 @@ class PetController (val service: PetService, val usuarioService: UsuarioService
     }
 
     @PostMapping("/")
-    fun criarPet(@RequestBody(required = true) pet: PetCreate): ResponseEntity<List<Pet>> {
-        val id = pet.usuario?.toLongOrNull()
-        id ?: return ResponseEntity.badRequest().build()
+    fun criarPet(@RequestBody pet: PetCreate): ResponseEntity<Pet> {
+        val id = pet.usuario?.toLongOrNull() ?: return ResponseEntity.badRequest().build()
         usuarioService.obterPorId(id) ?: return ResponseEntity.notFound().build()
-        return ResponseEntity(service.obterTodos(), HttpStatus.OK)
+        return ResponseEntity(service.criar(pet.toPet()), HttpStatus.OK)
     }
 }

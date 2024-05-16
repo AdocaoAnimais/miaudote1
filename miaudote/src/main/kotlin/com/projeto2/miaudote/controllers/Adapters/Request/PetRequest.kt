@@ -2,6 +2,7 @@ package com.projeto2.miaudote.controllers.Adapters.Request
 
 import com.projeto2.miaudote.entities.Pet
 import com.projeto2.miaudote.enums.*
+import java.time.LocalDateTime
 
 interface PetRequest {
     fun toPet(): Pet
@@ -24,14 +25,14 @@ class PetCreate (
         val castradoIn = castrado?.toCastrado()
         val pet = Pet(
             nome = nome,
-            idade = idade?.toIntOrNull() ?: 1,
+            idade = idade?.toIntOrNull(),
             porte = porte?.toPorte(),
             sexo = sexoIn,
             tipo = tipo?.toTipo(),
-            castrado = Castrado.C,
+            castrado = castradoIn,
             descricao = descricao,
             idUsuario = usuarioIn,
-            dataCadastro = null,
+            dataCadastro = LocalDateTime.now(),
             id = null
         )
         return pet
