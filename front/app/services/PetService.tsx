@@ -12,7 +12,7 @@ export interface PetPost {
     },
     castrado: string, 
     descricao: string,
-    foto: Blob, 
+    foto: string, 
     tipo: {
         id: string,
         nome: string,
