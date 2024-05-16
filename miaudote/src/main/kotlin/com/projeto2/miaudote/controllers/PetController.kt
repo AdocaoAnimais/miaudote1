@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api/pet")
 class PetController (val service: PetService, val usuarioService: UsuarioService) {
-    @GetMapping("/")
+    @GetMapping("/obter-pets")
     fun obterPets(): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.obterTodos(), HttpStatus.OK)
     }

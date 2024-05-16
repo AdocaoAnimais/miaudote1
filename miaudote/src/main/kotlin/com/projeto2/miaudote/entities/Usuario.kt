@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.entities
 
+import com.projeto2.miaudote.security.UserAuthenticated
 import jakarta.persistence.*
 
 @Entity
@@ -41,5 +42,12 @@ class Usuario (
     val descricao: String?,
 
     @Column(name = "email_verificado")
-    val emailVerificado: Boolean?,
-)
+    val emailVerificado: Boolean = false,
+) {
+    fun toUserAuthenticated(): UserAuthenticated {
+        val userAuth = UserAuthenticated(
+            this
+        )
+        return userAuth
+    }
+}

@@ -5,9 +5,11 @@ import com.projeto2.miaudote.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -17,6 +19,11 @@ class UsuarioController (val service: UsuarioService) {
     @GetMapping("/")
     fun obterUsuarios(): ResponseEntity<List<Usuario>> {
         return ResponseEntity(service.obterTodos(), HttpStatus.OK)
+    }
+
+    @GetMapping("/{username}")
+    fun obterPorUsername(@PathVariable("username") username: String): ResponseEntity<Usuario> {
+        return ResponseEntity(service.obterUsername(username), HttpStatus.OK)
     }
 
     @PostMapping("/")

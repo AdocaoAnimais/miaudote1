@@ -13,6 +13,11 @@ class UsuarioService (
         return repository.findAll()
     }
 
+    fun obterUsername(username: String): Usuario? {
+        return repository.findByUsername(username)
+    }
+
+
     fun obterPorId(id: Long): Usuario? {
         return repository.findById(id).getOrNull()
     }
