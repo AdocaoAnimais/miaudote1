@@ -3,73 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { createPet } from "../services/PetService"
 
-export default function Form({  }) {
-    //getUsers, onEdit, setOnEdit
-
-    // const ref = useRef();
-
-    // useEffect(() => {
-    //     if (onEdit) {
-    //         const user = ref.current;
-
-    //         user.nome.value = onEdit.nome;
-    //         user.email.value = onEdit.email;
-    //         user.fone.value = onEdit.fone;
-    //         user.data_nascimento.value = onEdit.data_nascimento;
-    //     }
-    // }, [onEdit]);
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     const user = ref.current;
-
-    //     if (
-    //         !user.nome.value ||
-    //         !user.email.value ||
-    //         !user.fone.value ||
-    //         !user.data_nascimento.value
-    //     ) {
-    //         return toast.warn("Preencha todos os campos!");
-    //     }
-
-    //     if (onEdit) {
-    //         await axios
-    //             .put("https://dogs-back-gamma.vercel.app/" + onEdit.id, {
-    //                 nome: user.nome.value,
-    //                 email: user.email.value,
-    //                 fone: user.fone.value,
-    //                 data_nascimento: user.data_nascimento.value,
-    //             })
-    //             .then(({ data }) => toast.success(data))
-    //             .catch(({ data }) => toast.error(data));
-    //     } else {
-    //         await axios
-    //             .post("https://dogs-back-gamma.vercel.app", {
-    //                 nome: user.nome.value,
-    //                 email: user.email.value,
-    //                 fone: user.fone.value,
-    //                 data_nascimento: user.data_nascimento.value,
-    //             })
-    //             .then(({ data }) => toast.success(data))
-    //             .catch(({ data }) => toast.error(data));
-    //     }
-
-    //     user.nome.value = "";
-    //     user.email.value = "";
-    //     user.fone.value = "";
-    //     user.data_nascimento.value = "";
-
-    //     setOnEdit(null);
-    //     getUsers();
-    // };
-
+export default function Form({ }) {
     const ref = useRef(null);
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-
+        event.preventDefault(); 
         // Obtendo os valores dos campos
         const nome = ref.current.nome.value;
         const tipo = ref.current.tipo.value;
@@ -83,6 +23,17 @@ export default function Form({  }) {
             alert('A idade não pode ser negativa');
             return;
         }
+
+
+        createPet(
+            nome,
+            idade.toString(),
+            sexo,
+            porte,
+            tipo,
+            "N",
+            descricao,
+        )
 
         // console.log('Nome:', nome);
         // console.log('Tipo:', tipo);
@@ -142,8 +93,8 @@ export default function Form({  }) {
                         className="mt-1 p-3 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
                     >
-                        <option value="cachorro">Cachorro</option>
-                        <option value="gato">Gato</option>
+                        <option value="C">Cachorro</option>
+                        <option value="G">Gato</option>
                     </select>
                 </div>
 
@@ -157,8 +108,8 @@ export default function Form({  }) {
                         className="mt-1 p-3 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
                     >
-                        <option value="macho">Macho</option>
-                        <option value="femea">Fêmea</option>
+                        <option value="M">Macho</option>
+                        <option value="F">Fêmea</option>
                     </select>
                 </div>
 
@@ -172,9 +123,9 @@ export default function Form({  }) {
                         className="mt-1 p-3 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
                     >
-                        <option value="pequeno">Pequeno</option>
-                        <option value="medio">Médio</option>
-                        <option value="grande">Grande</option>
+                        <option value="P">Pequeno</option>
+                        <option value="M">Médio</option>
+                        <option value="G">Grande</option>
                     </select>
                 </div>
 
