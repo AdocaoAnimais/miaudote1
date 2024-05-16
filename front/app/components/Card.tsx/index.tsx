@@ -10,7 +10,7 @@ export default function Card() {
   const [pets, setUser] = useState(); 
   useEffect(() => {
     api
-      .get("http://127.0.0.1:8080/api/pet/")
+      .get("http://200.132.38.218:8004/api/pet/obter-pets")
       .then((response) => setUser(response.data))
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
