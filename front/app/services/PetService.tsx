@@ -32,7 +32,7 @@ export async function loginUser(username: string, senha: string) {
         "senha": senha
     }
 
-    await api.post("http://localhost:8080/api/auth/login", params).then(res => {
+    await api.post("http://200.132.38.218:8004/api/auth/login", params).then(res => {
         TOKEN = res.data.accessToken
     })
 }
@@ -57,7 +57,7 @@ export async function createPet(nome: string,
         "castrado": castrado,
         "descricao": descricao
     }
-    api.post("http://localhost:8080/api/pet/", params)
+    api.post("http://200.132.38.218:8004/api/pet/", params)
     .then(res => {
         console.log(res)
     })
