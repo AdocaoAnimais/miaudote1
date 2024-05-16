@@ -1,7 +1,9 @@
 package com.projeto2.miaudote.services
 
+import com.projeto2.miaudote.entities.Usuario
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters
@@ -13,22 +15,19 @@ import java.util.stream.Collectors
 
 @Service
 class JwtService (
-    private val jwtEncoder: JwtEncoder
+    val passwordEncoder: BCryptPasswordEncoder,
+    val jwtEncoder: JwtEncoder,
 ) {
 
-    fun generateToken(authentication: Authentication): String {
+    fun generateToken(usuario: Usuario): String {
         val now = Instant.now()
-        val scope = authentication.authorities
-            .stream()
-            .map { obj: GrantedAuthority -> obj.authority }
-            .collect(Collectors.joining(" "))
-        val claims = JwtClaimsSet.builder()
-            .issuer("self")
-            .issuedAt(now)
-            .expiresAt(now.plus(1, ChronoUnit.HOURS))
-            .subject(authentication.name)
-            .claim("scope", scope)
-            .build()
+        val expiraEm = 300L
+        val claims =
+            JwtClaimsSet.builder().issuer("backend")
+                .subject(usuario.id.toString())
+                .expiresAt(now.plusSeconds(expiraEm))
+                .issuedAt(now).build()
+
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).tokenValue
     }
 }

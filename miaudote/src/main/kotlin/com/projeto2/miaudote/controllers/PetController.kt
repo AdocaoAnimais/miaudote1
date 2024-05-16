@@ -6,6 +6,7 @@ import com.projeto2.miaudote.services.PetService
 import com.projeto2.miaudote.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,9 +22,9 @@ class PetController (val service: PetService, val usuarioService: UsuarioService
     }
 
     @PostMapping("/")
-    fun criarPet(@RequestBody pet: PetCreate): ResponseEntity<Pet> {
-        val id = pet.usuario?.toLongOrNull() ?: return ResponseEntity.badRequest().build()
-        usuarioService.obterPorId(id) ?: return ResponseEntity.notFound().build()
-        return ResponseEntity(service.criar(pet.toPet()), HttpStatus.OK)
+    fun criarPet(@RequestBody pet: PetCreate, token: JwtAuthenticationToken ): ResponseEntity<Pet> {
+        val id = token.name.toLongOrNull() ?: return ResponseEntity.badRequest().build()
+        val usuario = usuarioService.obterPorId(id) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity(service.criar(pet.toPet(usuario)), HttpStatus.OK)
     }
 }
