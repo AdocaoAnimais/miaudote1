@@ -22,24 +22,24 @@ class Usuario (
     @Column(name = "cpf", unique = true, nullable = false)
     val cpf: String,
 
-    @Column(name = "EMAIL", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     val email: String,
 
-    @Column(name = "SENHA", nullable = false)
+    @Column(name = "senha", nullable = false)
     val senha: String,
 
-    @Column(name = "ENDERECO_ID")
+    @Column(name = "endereco_id")
     val endereco: Long?,
 
-    @Column(name = "CONTATO")
+    @Column(name = "contato")
     val contato: String?,
 
-    @Column(name = "PERFIL_ACESSO")
+    @Column(name = "perfil_acesso")
     val perfilAcesso: String? = "A",
 
-    @Column(name = "DESCRICAO")
+    @Column(name = "descricao")
     val descricao: String?,
 
-    @Column(name = "EMAIL_VERIFICADO")
+    @Column(name = "email_verificado")
     val emailVerificado: Boolean?,
 )

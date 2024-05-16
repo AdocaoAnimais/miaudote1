@@ -17,14 +17,14 @@ class Pet (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PET_ID", length = 45)
+    @Column(name = "pet_id")
     val id: Long?,
 
     @Column(name = "nome", nullable = true)
     val nome: String,
 
     @Column(name = "idade", nullable = true)
-    val idade: Int,
+    val idade: Int?,
 
     @Convert(converter = PorteConverter::class)
     @Column(name = "porte", nullable = true)
@@ -45,9 +45,9 @@ class Pet (
     @Column(name = "descricao", length = 240, nullable = true)
     val descricao: String?,
 
-    @Column(name = "USUARIO_CADASTRO_ID", nullable = false)
+    @Column(name = "usuario_cadastro_id", nullable = false)
     val idUsuario: Long,
 
-    @Column(name = "DATA_CADASTRO", nullable = false)
+    @Column(name = "data_cadastro", nullable = false)
     val dataCadastro: LocalDateTime? = LocalDateTime.now(),
 )
