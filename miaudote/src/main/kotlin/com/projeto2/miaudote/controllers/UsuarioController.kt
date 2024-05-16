@@ -1,20 +1,18 @@
 package com.projeto2.miaudote.controllers
 
+import com.projeto2.miaudote.controllers.Adapters.Request.UsuarioCreate
+import com.projeto2.miaudote.controllers.Adapters.Response.UsuarioCreateResponse
+import com.projeto2.miaudote.controllers.Adapters.Response.fromEntity
 import com.projeto2.miaudote.entities.Usuario
+import com.projeto2.miaudote.services.JwtService
 import com.projeto2.miaudote.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/usuario")
-class UsuarioController (val service: UsuarioService) {
+class UsuarioController(val service: UsuarioService, val jwtService: JwtService) {
 
     @GetMapping("/")
     fun obterUsuarios(): ResponseEntity<List<Usuario>> {
@@ -26,9 +24,12 @@ class UsuarioController (val service: UsuarioService) {
         return ResponseEntity(service.obterUsername(username), HttpStatus.OK)
     }
 
-    @PostMapping("/")
-    fun criarUsuario(@RequestBody user: Usuario): ResponseEntity<Usuario> {
-        return ResponseEntity(service.criar(usuario = user), HttpStatus.OK)
+    @PostMapping("/cadastrar")
+    fun criarUsuario(@RequestBody user: UsuarioCreate): ResponseEntity<UsuarioCreateResponse> {
+        val usuario = user.toUsuario(jwtService.passwordEncoder)
+        val usuarioCriado = service.criar(usuario = usuario)
+        val token = jwtService.generateToken(usuarioCriado)
+        val response = usuario.fromEntity(token)
+        return ResponseEntity(response, HttpStatus.OK)
     }
-
 }

@@ -1,7 +1,8 @@
 package com.projeto2.miaudote.entities
 
-import com.projeto2.miaudote.security.UserAuthenticated
+import com.projeto2.miaudote.controllers.Adapters.Request.LoginRequest
 import jakarta.persistence.*
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
 @Table(name = "usuario")
@@ -9,7 +10,7 @@ class Usuario (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id", unique = true)
-    val id: Long,
+    val id: Long?,
 
     @Column(name = "nome", nullable = false)
     val nome: String,
@@ -32,7 +33,7 @@ class Usuario (
     @Column(name = "endereco_id")
     val endereco: Long?,
 
-    @Column(name = "contato")
+    @Column(name = "contato", unique = true)
     val contato: String?,
 
     @Column(name = "perfil_acesso")
@@ -44,10 +45,7 @@ class Usuario (
     @Column(name = "email_verificado")
     val emailVerificado: Boolean = false,
 ) {
-    fun toUserAuthenticated(): UserAuthenticated {
-        val userAuth = UserAuthenticated(
-            this
-        )
-        return userAuth
+    fun validaLogin(login: LoginRequest, passwordEncoder: PasswordEncoder): Boolean {
+        return passwordEncoder.matches(login.senha, senha)
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -35,31 +36,34 @@ class SecurityConfig(
 
     @Bean
     fun securityfilterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf{ it.disable() }.authorizeHttpRequests { auth ->
-            auth.requestMatchers("/autenticar").permitAll()
+        http.csrf { it.disable() }.authorizeHttpRequests { auth ->
+            auth.requestMatchers("api/auth/login", "api/usuario/cadastrar", "api/pet/obter-pets").permitAll()
                 .anyRequest().authenticated()
         }
-        .httpBasic(Customizer.withDefaults())
+            .httpBasic(Customizer.withDefaults())
             .oauth2ResourceServer { conf ->
                 conf.jwt(Customizer.withDefaults())
+            }
+            .sessionManagement { session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
         return http.build()
     }
 
     @Bean
-    fun jwtDecoder() : JwtDecoder {
+    fun jwtDecoder(): JwtDecoder {
         return NimbusJwtDecoder.withPublicKey(key).build()
     }
 
     @Bean
-    fun jwtEncoder() : JwtEncoder {
+    fun jwtEncoder(): JwtEncoder {
         val jwk: JWK = RSAKey.Builder(key).privateKey(private).build()
         val jwks: JWKSource<SecurityContext> = ImmutableJWKSet(JWKSet(jwk))
         return NimbusJwtEncoder(jwks)
     }
 
     @Bean
-    fun passwordEncoder() : PasswordEncoder {
+    fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 }
