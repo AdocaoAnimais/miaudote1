@@ -57,8 +57,5 @@ export async function createPet(nome: string,
         "castrado": castrado,
         "descricao": descricao
     }
-    api.post("http://localhost:8080/api/pet/PaulinaRehbein", params)
-    .then(res => {
-        console.log(res)
-    })
+    return api.post("http://200.132.38.218:8004/api/pet/PaulinaRehbein", params)
 }
