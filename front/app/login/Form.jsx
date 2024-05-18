@@ -61,6 +61,7 @@ export default function Form({ }) {
                 <div className="flex justify-end md:col-span-2">
                     <button
                         type="button"
+                        href={"/cadastro-usuario"}
                         className="py-2 px-4 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
                     >
                         Não tenho Login
