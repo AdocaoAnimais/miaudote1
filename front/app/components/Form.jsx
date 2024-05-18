@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { createPet } from "../services/PetService"
+import { createPet } from "../services/PetService";
+import { useRouter } from "next/navigation";
 
 export default function Form({ }) {
     const ref = useRef(null);
+    const router = useRouter()
 
     const handleSubmit = (event) => {
         event.preventDefault(); 
@@ -33,14 +35,9 @@ export default function Form({ }) {
             tipo,
             "N",
             descricao,
-        )
-
-        // console.log('Nome:', nome);
-        // console.log('Tipo:', tipo);
-        // console.log('Sexo:', sexo);
-        // console.log('Porte:', porte);
-        // console.log('Idade:', idade);
-        // console.log('Descrição:', descricao);
+        ).then( res => {
+            router.push("/")
+        });
     };
 
     return (
