@@ -1,4 +1,4 @@
-package com.projeto2.miaudote
+package com.projeto2.miaudote.security
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry

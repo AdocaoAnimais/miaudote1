@@ -45,9 +45,9 @@ export async function createPet(nome: string,
     castrado: string,
     descricao: string,
 ) {
-    const token = window.localStorage.getItem("tokenMiaudote")
-    console.log(token)
-    api.defaults.headers.common.Authorization = `${token}`
+    // const token = window.localStorage.getItem("tokenMiaudote")
+    // console.log(token)
+    // api.defaults.headers.common.Authorization = `${token}`
     const params = {
         "nome": nome,
         "sexo": sexo,
@@ -57,10 +57,8 @@ export async function createPet(nome: string,
         "castrado": castrado,
         "descricao": descricao
     }
-    api.post("http://200.132.38.218:8004/api/pet/", params)
+    api.post("http://localhost:8080/api/pet/PaulinaRehbein", params)
     .then(res => {
         console.log(res)
     })
-
-
 }

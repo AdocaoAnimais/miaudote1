@@ -10,9 +10,9 @@ export default async function Page() {
                 <Link href={"/cadastrar_animal"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                     Cadastrar animal
                 </Link>
-                <Link href={"/login"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                {/* <Link href={"/login"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                     Login
-                </Link>
+                </Link> */}
                 </div>
                 
 

@@ -17,7 +17,6 @@ class UsuarioService (
         return repository.findByUsername(username)
     }
 
-
     fun obterPorId(id: Long): Usuario? {
         return repository.findById(id).getOrNull()
     }
@@ -27,7 +26,6 @@ class UsuarioService (
     }
 
     fun deletar(id: Long) {
-
         return repository.deleteById(id)
     }
 
