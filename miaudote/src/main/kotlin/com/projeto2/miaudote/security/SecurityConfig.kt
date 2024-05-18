@@ -6,8 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import jakarta.servlet.http.HttpServlet
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,7 +21,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.util.matcher.RequestMatcher
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 
@@ -41,13 +38,8 @@ class SecurityConfig(
     @Bean
     fun securityfilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }.authorizeHttpRequests { auth ->
-            auth.requestMatchers(
-                "api/auth/login",
-                "api/usuario/cadastrar",
-                "api/pet/obter-pets",
-            ).permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "api/pet/{usuario}").permitAll()
+            auth.requestMatchers("api/auth/login", "api/usuario/cadastrar", "api/pet/obter-pets").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**" ).permitAll()
                 .anyRequest().authenticated()
         }
             .httpBasic(Customizer.withDefaults())
