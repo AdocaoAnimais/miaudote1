@@ -33,8 +33,8 @@ data class Usuario (
     @Column(name = "senha", nullable = false)
     val senha: String,
 
-    @Column(name = "endereco_id")
-    val endereco: Long?,
+    @Column(name = "endereco")
+    val endereco: String?,
 
     @Column(name = "contato", unique = true)
     val contato: String?,

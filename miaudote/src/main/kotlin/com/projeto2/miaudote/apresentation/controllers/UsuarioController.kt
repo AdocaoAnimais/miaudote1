@@ -7,6 +7,7 @@ import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -48,14 +49,14 @@ class UsuarioController(
         val handler = DeletarUsuarioHandler.newOrProblem(token).getOrElse {
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
-        val response = processorDeletar.process(handler).getOrElse {
+        processorDeletar.process(handler).getOrElse {
             return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }
         return ResponseEntity(HttpStatus.OK)
     }
 
     @PostMapping("atualizar")
-    fun atualizarUsuario(@RequestBody user: UsuarioCreate, token: JwtAuthenticationToken): ResponseEntity<Any>{
+    fun atualizarUsuario(@RequestBody user: UsuarioUpdate, token: JwtAuthenticationToken): ResponseEntity<Any>{
         val handler = AtualizarUsuarioHandler.newOrProblem(user, token).getOrElse{
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }

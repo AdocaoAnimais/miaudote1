@@ -10,3 +10,15 @@ class UsuarioCreate(
     val descricao: String?,
     val contato: String?,
 )
+
+class UsuarioUpdate(
+    val nome: String?,
+    val sobrenome: String?,
+    val username: String?,
+    val email: String?,
+    val cpf: String?,
+    val descricao: String?,
+    val contato: String?,
+    val edereco: String?,
+    val senha: String?,
+)
