@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.controllers.Adapters.Response
+package com.projeto2.miaudote.apresentation.Adapters.Response
 
 class LoginResponse(
     val username: String,

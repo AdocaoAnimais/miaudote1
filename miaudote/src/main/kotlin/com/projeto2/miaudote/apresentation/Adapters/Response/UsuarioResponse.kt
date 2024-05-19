@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.controllers.Adapters.Response
+package com.projeto2.miaudote.apresentation.Adapters.Response
 
 import com.projeto2.miaudote.entities.Usuario
 
@@ -7,7 +7,7 @@ class UsuarioCreateResponse(
     val token: String,
 )
 
-fun Usuario.fromEntity(token: String): UsuarioCreateResponse{
+fun Usuario.fromEntity(token: String): UsuarioCreateResponse {
     return UsuarioCreateResponse(
         username = this.username,
         token = token

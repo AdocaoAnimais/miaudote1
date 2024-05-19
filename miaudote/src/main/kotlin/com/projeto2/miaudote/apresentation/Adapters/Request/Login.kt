@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.controllers.Adapters.Request
+package com.projeto2.miaudote.apresentation.Adapters.Request
 
 class LoginRequest(
     val username: String,

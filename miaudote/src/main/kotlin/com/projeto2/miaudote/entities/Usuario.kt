@@ -1,6 +1,6 @@
 package com.projeto2.miaudote.entities
 
-import com.projeto2.miaudote.controllers.Adapters.Request.LoginRequest
+import com.projeto2.miaudote.apresentation.Adapters.Request.LoginRequest
 import jakarta.persistence.*
 import org.springframework.security.crypto.password.PasswordEncoder
 
