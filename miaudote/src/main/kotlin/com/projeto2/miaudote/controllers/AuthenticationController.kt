@@ -30,7 +30,10 @@ class AuthenticationController(
         if (!usuario.validaLogin(login, serviceJwt.passwordEncoder)) throw BadCredentialsException("Senha incorreta.")
         val expiraEm = 300L
         val jwtToken = serviceJwt.generateToken(usuario)
-        val response = LoginResponse(jwtToken, expiraEm)
+        val response = LoginResponse(
+            username = usuario.username,
+            accessToken = jwtToken,
+            expiresIn = expiraEm)
         return ResponseEntity(response, HttpStatus.OK)
     }
 }
