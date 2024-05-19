@@ -1,6 +1,6 @@
-package com.projeto2.miaudote.controllers
+package com.projeto2.miaudote.apresentation.controllers
 
-import com.projeto2.miaudote.controllers.Adapters.Request.PetCreate
+import com.projeto2.miaudote.apresentation.Adapters.Request.PetCreate
 import com.projeto2.miaudote.entities.Pet
 import com.projeto2.miaudote.services.PetService
 import com.projeto2.miaudote.services.UsuarioService
