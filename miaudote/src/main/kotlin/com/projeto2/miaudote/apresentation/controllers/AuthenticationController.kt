@@ -1,12 +1,12 @@
 package com.projeto2.miaudote.apresentation.controllers
 
-import com.projeto2.miaudote.apresentation.Adapters.Request.LoginRequest
-import com.projeto2.miaudote.apresentation.Adapters.Response.LoginResponse
-import com.projeto2.miaudote.services.JwtService
-import com.projeto2.miaudote.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Request.LoginRequest
+import com.projeto2.miaudote.application.handler.ProcessorHandler
+import com.projeto2.miaudote.application.handler.authentication.LoginHandler
+import com.projeto2.miaudote.application.services.JwtService
+import com.projeto2.miaudote.application.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api/auth")
 class AuthenticationController(
     private val service: UsuarioService,
-    val serviceJwt: JwtService
+    val serviceJwt: JwtService,
+    val loginProcessor: ProcessorHandler<LoginHandler>
 ) {
     @PostMapping("/login")
-    fun authenticate(@RequestBody login: LoginRequest): ResponseEntity<LoginResponse> {
-        val usuario = service.obterUsername(login.username) ?: return ResponseEntity.notFound().build()
-        if (!usuario.validaLogin(login, serviceJwt.passwordEncoder)) throw BadCredentialsException("Senha incorreta.")
-        val expiraEm = 300L
-        val jwtToken = serviceJwt.generateToken(usuario)
-        val response = LoginResponse(
-            username = usuario.username,
-            accessToken = jwtToken,
-            expiresIn = expiraEm)
+    fun authenticate(@RequestBody login: LoginRequest): ResponseEntity<Any> {
+        val request = LoginHandler.newOrProblem(login).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        val response = loginProcessor.process(request).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
         return ResponseEntity(response, HttpStatus.OK)
     }
 }
