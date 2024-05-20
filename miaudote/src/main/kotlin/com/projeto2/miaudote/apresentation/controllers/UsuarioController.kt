@@ -1,11 +1,11 @@
 package com.projeto2.miaudote.apresentation.controllers
 
-import com.projeto2.miaudote.apresentation.handler.ProcessorHandler
-import com.projeto2.miaudote.apresentation.handler.usuario.CriarUsuarioHandler
-import com.projeto2.miaudote.apresentation.Adapters.Request.UsuarioCreate
-import com.projeto2.miaudote.entities.Usuario
-import com.projeto2.miaudote.services.JwtService
-import com.projeto2.miaudote.services.UsuarioService
+import com.projeto2.miaudote.application.handler.ProcessorHandler
+import com.projeto2.miaudote.application.handler.usuario.CriarUsuarioHandler
+import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
+import com.projeto2.miaudote.domain.entities.Usuario
+import com.projeto2.miaudote.application.services.JwtService
+import com.projeto2.miaudote.application.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
