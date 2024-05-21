@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.domain.entities
 
+import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
 import com.projeto2.miaudote.domain.enums.Sexo
@@ -9,6 +10,8 @@ import com.projeto2.miaudote.domain.enums.converters.PorteConverter
 import com.projeto2.miaudote.domain.enums.converters.SexoConverter
 import com.projeto2.miaudote.domain.enums.converters.TipoConverter
 import jakarta.persistence.*
+import org.springframework.http.HttpStatus
+import java.net.URI
 import java.time.LocalDateTime
 
 @Entity
@@ -51,3 +54,16 @@ class Pet (
     @Column(name = "data_cadastro", nullable = false)
     val dataCadastro: LocalDateTime? = LocalDateTime.now(),
 )
+
+fun Pet?.toProblem(): Result<Pet> {
+    if(this != null) return Result.success(this)
+    return Result.failure(
+        Problem(
+            title = "Pet não encontrado",
+            detail = "O pet com id informado não esta cadastrado",
+            type = URI("/obter-pet-por-id"),
+            status = HttpStatus.BAD_REQUEST,
+            extra = null
+        )
+    )
+}
