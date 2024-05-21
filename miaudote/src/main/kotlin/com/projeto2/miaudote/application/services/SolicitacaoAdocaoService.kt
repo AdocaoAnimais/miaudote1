@@ -11,4 +11,8 @@ class SolicitacaoAdocaoService(
     fun criar(solicitacaoAdocao: SolicitacaoAdocao): SolicitacaoAdocao{
         return repository.save(solicitacaoAdocao)
     }
+
+    fun obterPorPetId(petId: Long): SolicitacaoAdocao? {
+        return repository.findByPetId(petId)
+    }
 }

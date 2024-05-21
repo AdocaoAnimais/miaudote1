@@ -28,18 +28,15 @@ class SolicitarAdocaoProcessor(
             .getOrElse { return Result.failure(it) }
 
         val pet = petService.obterPorId(handler.petId).toProblem().getOrElse { return Result.failure(it) }
+        if (service.obterPorPetId(pet.id!!) != null) return Result.failure(
+            solicitacaoInvalida("O pet ${pet.nome} já foi adotado.", null)
+        )
 
         val usuarioResponsavel = usuarioService.obterPorId(pet.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
 
         if (usuarioAdotante.username == usuarioResponsavel.username) return Result.failure(
-            Problem(
-                title = "Não foi possivel solicitar a adoção.",
-                detail = "O usuário adotante não pode ser o usuário responsavel pelo animal.",
-                type = URI("/solicitacao-adocao"),
-                status = HttpStatus.BAD_REQUEST,
-                extra = null
-            )
+            solicitacaoInvalida("O usuário adotante não pode ser o usuário responsavel pelo animal.", null)
         )
 
         val link = "google.com"
@@ -78,23 +75,11 @@ class SolicitarAdocaoHandler private constructor(
     companion object {
         fun newOrProblem(petId: String?, token: JwtAuthenticationToken): Result<SolicitarAdocaoHandler> {
             val pedIdIn: Long = petId?.toLongOrNull() ?: return Result.failure(
-                Problem(
-                    title = "Não foi possivel solicitar a adoção.",
-                    detail = "Id do pet inválido.",
-                    type = URI("/solicitacao-adocao"),
-                    status = HttpStatus.BAD_REQUEST,
-                    extra = null
-                )
+                solicitacaoInvalida("Id do pet inválido.", null)
             )
 
             val id = token.name.toLongOrNull() ?: return Result.failure(
-                Problem(
-                    title = "Não foi possivel solicitar a adoção.",
-                    detail = "Id do usuario é inválido.",
-                    type = URI("/solicitacao-adocao"),
-                    status = HttpStatus.BAD_REQUEST,
-                    extra = null
-                )
+                solicitacaoInvalida("Id do usuario é inválido.", null)
             )
             return Result.success(
                 SolicitarAdocaoHandler(
@@ -105,3 +90,11 @@ class SolicitarAdocaoHandler private constructor(
         }
     }
 }
+
+private fun solicitacaoInvalida(detail: String, extra: Map<String, String?>?): Problem = Problem(
+    title = "Não foi possivel solicitar a adoção.",
+    detail = detail,
+    type = URI("/solicitacao-adocao"),
+    status = HttpStatus.BAD_REQUEST,
+    extra = extra
+)
