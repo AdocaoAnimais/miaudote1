@@ -2,6 +2,7 @@ package com.projeto2.miaudote.application.services
 
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.Usuario
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
@@ -9,17 +10,25 @@ import org.springframework.stereotype.Service
 @Service
 class EmailService(
     val mailSender: JavaMailSender,
+    @Value("\${spring.mail.username}")
+    private val from: String,
 ) {
     fun enviarEmail(to: String, subject: String, conteudo: String) {
         val message = SimpleMailMessage()
         message.setTo(to)
         message.subject = subject
         message.text = conteudo
+        message.from = from
 
         mailSender.send(message)
     }
 
-    fun enviarEmailUsuarioSolicitante(solicitante: Usuario, pet: Pet, linkConfirmaAdocao: String, responsavel: Usuario) {
+    fun enviarEmailUsuarioSolicitante(
+        solicitante: Usuario,
+        pet: Pet,
+        linkConfirmaAdocao: String,
+        responsavel: Usuario
+    ) {
         val titulo = "[MIAUDOTE] Confirmação da Adoção - ${pet.nome}"
         val conteudo = """Prezado ${solicitante.nome} ${solicitante.sobrenome},
             Confirmamos o recebimento de sua solicitação de adoção para adotar o(a) ${pet.nome}.
@@ -45,7 +54,12 @@ class EmailService(
         )
     }
 
-    fun enviarEmailUsuarioResponsavel(responsavel: Usuario, pet: Pet, linkConfirmacaoSolicitacao: String, adotante: Usuario) {
+    fun enviarEmailUsuarioResponsavel(
+        responsavel: Usuario,
+        pet: Pet,
+        linkConfirmacaoSolicitacao: String,
+        adotante: Usuario
+    ) {
         val titulo = "[MIAUDOTE] Solicitação de Adoção - ${pet.nome}"
         val conteudo = """Prezado ${responsavel.nome} ${responsavel.sobrenome},
             Confirmamos o recebimento de sua solicitação de adoção para adotar o(a) ${pet.nome}.
