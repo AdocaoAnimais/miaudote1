@@ -7,21 +7,21 @@ pip install -r requirements.txt (instalar dependencias)
 ```
 API urls: 
 
-CRUD Users:\ 
+CRUD Users:   
 http://127.0.0.1:8000/api/users/ 
 
-Para acessar usuario especifico: (exemplo) \
+Para acessar usuario especifico: (exemplo)  
 http://127.0.0.1:8000/api/users/3/ 
 
-CRUD Pets: \
+CRUD Pets:  
 http://127.0.0.1:8000/api/pets/ 
 
-LOGIN: \
+LOGIN:  
 http://127.0.0.1:8000/api-token-auth/ 
 
 Rodar o Django: 
 
-1. fazer migraçoes necessarias \
+1. fazer migraçoes necessarias  
 ```
 python manage.py makemigrations
 python manage.py migrate 
@@ -32,7 +32,7 @@ python manage.py runserver
 
 4. acessar os urls acima 
 
-Criar novo app: \
+Criar novo app:  
 python manage.py startapp <name of app>
 
 
