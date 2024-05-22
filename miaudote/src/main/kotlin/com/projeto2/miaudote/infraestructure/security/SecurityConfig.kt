@@ -40,6 +40,7 @@ class SecurityConfig(
         http.csrf { it.disable() }.authorizeHttpRequests { auth ->
             auth.requestMatchers("api/auth/login", "/api/auth/logged", "api/usuario/cadastrar", "api/pet/obter-pets").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**" ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/solicitacao-adocao/**" ).permitAll()
                 .anyRequest().authenticated()
         }
             .httpBasic(Customizer.withDefaults())

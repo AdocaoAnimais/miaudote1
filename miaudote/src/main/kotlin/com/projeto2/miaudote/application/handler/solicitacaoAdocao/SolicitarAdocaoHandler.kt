@@ -23,6 +23,7 @@ class SolicitarAdocaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
 ) : ProcessorHandler<SolicitarAdocaoHandler>() {
+
     override fun process(handler: SolicitarAdocaoHandler): Result<Any> {
         val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
@@ -39,12 +40,15 @@ class SolicitarAdocaoProcessor(
             solicitacaoInvalida("O usuário adotante não pode ser o usuário responsavel pelo animal.", null)
         )
 
-        val link = "google.com"
-
+        val linkConfirmacao =
+            "http://localhost:8080/solicitacao-adocao/confirmar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
+        val linkCancelamento =
+            "http://localhost:8080/solicitacao-adocao/cancelar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
         emailService.enviarEmailUsuarioResponsavel(
             responsavel = usuarioResponsavel,
             pet = pet,
-            linkConfirmacaoSolicitacao = link,
+            linkConfirmacaoSolicitacao = linkConfirmacao,
+            linkCancelaSolicitacao = linkCancelamento,
             adotante = usuarioAdotante,
         )
 
@@ -61,11 +65,21 @@ class SolicitarAdocaoProcessor(
         val result = service.criar(solicitacaoAdocao = solicitacao)
         val response = SolicitarAdocaoResponse(
             id = result.petId,
+            response = geraConfirmacao(pet.nome)
         )
 
         return Result.success(response)
     }
 
+    private fun geraConfirmacao(nomePet: String): String {
+        val confirmacao = """
+            Solicitação de adoção realizada com sucesso!! 
+            Já enviamos um email ao responsável pelo(a) $nomePet informando seu:
+            nome, email e contato cadastrados aqui no Miaudote.
+            Para que ele possa entrar em contato com você e dar continualidade a adoção!
+        """.trimIndent()
+        return confirmacao
+    }
 }
 
 class SolicitarAdocaoHandler private constructor(

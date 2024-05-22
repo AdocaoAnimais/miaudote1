@@ -15,4 +15,16 @@ class SolicitacaoAdocaoService(
     fun obterPorPetId(petId: Long): SolicitacaoAdocao? {
         return repository.findByPetId(petId)
     }
+
+    fun atualizar(solicitacaoAdocao: SolicitacaoAdocao): SolicitacaoAdocao{
+        return repository.save(solicitacaoAdocao)
+    }
+
+    fun deletar(id: Long) {
+        repository.deleteById(id)
+    }
+
+    fun obterPorUsuariosIdPetId(usuarioId: Long, petId: Long,): SolicitacaoAdocao? {
+        return repository.findByUsuarioResponsavelOrUsuarioAdotanteAndId(usuarioId, petId, usuarioId)
+    }
 }
