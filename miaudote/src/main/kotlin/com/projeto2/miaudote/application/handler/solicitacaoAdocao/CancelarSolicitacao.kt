@@ -11,6 +11,7 @@ import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
+import java.util.*
 
 @Service
 class CancelarSolicitacaoProcessor(
@@ -28,10 +29,7 @@ class CancelarSolicitacaoProcessor(
             return Result.failure(it)
         }
 
-        val solicitacaoAdocao = service.obterPorUsuariosIdPetId(
-            usuarioId = responsavel.id!!,
-            petId = pet.id!!
-        ).toProblem().getOrElse {
+        val solicitacaoAdocao = service.obterPorId(UUID.randomUUID()).toProblem().getOrElse {
             return Result.failure(it)
         }
 

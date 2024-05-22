@@ -11,6 +11,7 @@ import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
+import java.util.*
 
 @Service
 class CancelarAdocaoProcessor(
@@ -28,10 +29,7 @@ class CancelarAdocaoProcessor(
             return Result.failure(it)
         }
 
-        val solicitacao = service.obterPorUsuariosIdPetId(
-            usuarioId = adotante.id!!,
-            petId = pet.id!!
-        ).toProblem().getOrElse {
+        val solicitacao = service.obterPorId(UUID.randomUUID()).toProblem().getOrElse {
             return Result.failure(it)
         }
         val responsavel = usuarioService.obterPorId(solicitacao.usuarioResponsavel).toProblem().getOrElse {
@@ -67,7 +65,7 @@ class CancelarAdocaoHandler private constructor(
     companion object {
         fun newOrProblem(petIdIn: String, username: String): Result<CancelarAdocaoHandler> {
             val petId = petIdIn.toLongOrNull() ?: return Result.failure(
-                solicitacaoInvalida("Id do pet inválido.", null)
+                adocaoInvalida("Id do pet inválido.", null)
             )
             return Result.success(
                 CancelarAdocaoHandler(
@@ -79,7 +77,7 @@ class CancelarAdocaoHandler private constructor(
     }
 }
 
-private fun solicitacaoInvalida(detail: String, extra: Map<String, String?>?): Problem = Problem(
+private fun adocaoInvalida(detail: String, extra: Map<String, String?>?): Problem = Problem(
     title = "Não foi possivel cancelar a adoção.",
     detail = detail,
     type = URI("/cancelar-adocao"),
