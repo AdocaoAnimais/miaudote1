@@ -1,4 +1,6 @@
-PRIMEIRO DE TUDO - dentro do backend: 
+# Back-end
+
+PRIMEIRO DE TUDO
 pip freeze > requirements.txt (atualizar dependencias da aplicação)
 
 pip install -r requirements.txt (instalar dependencias)
@@ -30,3 +32,11 @@ python manage.py runserver
 
 Criar novo app:
 python manage.py startapp <name of app>
+
+
+# Front-end
+
+cd ./front
+npm i
+npm run dev
+Geralmente http://localhost:3000/ 
