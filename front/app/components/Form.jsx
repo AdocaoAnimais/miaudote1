@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ButtonCancel from "./Buttons/ButtonCancel";
+import Button_Cancel from "./Buttons/Button_Cancel";
+import Button_YellowTarja from "./Buttons/Button_YellowTarja";
 
 export default function Form({}) {
   //getUsers, onEdit, setOnEdit
@@ -199,19 +200,8 @@ export default function Form({}) {
         </div>
 
         <div className="flex justify-between md:col-span-2">
-          {/* <ButtonCancel texto="Cancelar" /> */}
-          <button
-            type="button"
-            className="py-4 px-12 bg-[#0b132d] border border-[#f2a812] text-white rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-          >
-            Calcelar
-          </button>
-          <button
-            type="submit"
-            className="ml-2 py-4 px-20 bg-[#f2a812] text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
-          >
-            Cadastrar
-          </button>
+          <Button_Cancel texto="Cancelar" />
+          <Button_YellowTarja texto="Cadastrar" />
         </div>
       </form>
     </>

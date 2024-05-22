@@ -68,7 +68,7 @@ export default function LoginForm({ }) {
                             src={backIcon}
                             alt="Cadastro"
                         />
-                        <Link href={"/cadastro-usuario"} className=" text-white hover:text-[#f2a812]">
+                        <Link href={"/cadastro"} className=" text-white hover:text-[#f2a812]">
                             Não tem cadastro? Cadastre-se!
                         </Link>
                     </div>
