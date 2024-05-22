@@ -1,9 +1,9 @@
 'use client'
 import React, { use } from 'react';
 import Card from './components/Card.tsx';
-import Link from 'next/link'; 
+import Link from 'next/link';
 
-export default async function Page() {
+export default function Page() {
 
     return (
         <>
@@ -33,15 +33,8 @@ export default async function Page() {
                             Sair
                         </button>
                     </div>
-
                 </div>
-
-
-
                 <Card />
-
-
-                {/* <ListBanco /> */}
             </div>
         </>
     )
