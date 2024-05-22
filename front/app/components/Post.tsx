@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { PetPost } from "../services/PetService";
+import { useState } from "react";
 
-export default function Post({ animal }: any) {
-    // console.log(animal.picture.length)
-    // console.log(Object.keys(animal.picture).length);
-
+export default function Post( {animal} : { animal: PetPost }) { 
+    const [ pet, setPet ] = useState<PetPost>(animal) 
     return (
         <article className="text-white">
             {/* && animal.picture.length > 0  */}
@@ -18,23 +18,33 @@ export default function Post({ animal }: any) {
 
 
             <div className={`relative h-[240px] w-full overflow-hidden rounded-xl`}>
-                <Image
+                { pet?.foto != null ?  
+                    <Image
+                        key={"s"}
+                        src={pet?.foto}
+                        alt={`Imagem`}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                    /> 
+                    : 
+                    <Image
                     key={"s"}
-                    src={animal.picture.url}
+                    src={"https://igp.rs.gov.br/themes/modelo-noticias/images/outros/GD_imgSemImagem.png"}
                     alt={`Imagem`}
                     fill
                     style={{ objectFit: 'cover' }}
                 />
+                }
             </div>
 
-            <Link href={`post/${animal.slug}`}>
+            <Link href={`post/${pet.id}`}>
                 <div className="mt-1 p-2">
-                    <h2 className="text-theme-secondary text-lg">{animal.nome}</h2>
+                    <h2 className="text-theme-secondary text-lg">{pet.nome}</h2>
                     <div className="mt-1 text-sm text-slate-400 text-justify hyphens-auto">
-                        <p>{animal.description}</p>
+                        <p>{pet.descricao}</p>
                     </div>
                     <div className="mt-3 flex items-end justify-between">
-                        <p className="text-sm font-semibold text-blue-500">{animal.porte}</p>
+                        <p className="text-sm font-semibold text-blue-500">{pet?.porte?.nome}</p>
                     </div>
                 </div>
             </Link>
