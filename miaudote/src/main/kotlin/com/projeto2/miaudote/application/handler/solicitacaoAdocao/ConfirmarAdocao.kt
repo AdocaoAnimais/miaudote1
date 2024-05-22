@@ -3,11 +3,10 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.AdocaoService
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.domain.entities.Adocao
+import com.projeto2.miaudote.domain.entities.Pet
+import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -20,6 +19,7 @@ class ConfirmarAdocaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val adocaoService: AdocaoService,
+    val emailService: EmailService,
 ) : ProcessorHandler<ConfirmarAdocaoHandler>() {
     override fun process(handler: ConfirmarAdocaoHandler): Result<Any> {
         val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
@@ -44,7 +44,35 @@ class ConfirmarAdocaoProcessor(
 
         adocaoService.criar(adocao)
 
-        return Result.success("")
+        notificarResponsavel(responsavel = responsavel, pet = pet)
+
+        notificarAdotante(adotante = adotante, pet = pet)
+
+        return Result.success("Sucesso!!")
+    }
+
+    private fun notificarResponsavel(responsavel: Usuario, pet: Pet){
+        val conteudo = """
+            Recebemos a confirmação do novo tutor de ${pet.nome} que a adoção foi concluída com sucesso.
+            Então ${pet.nome} não esta mais dipoonível para adoção!!
+        """.trimIndent()
+        emailService.enviarEmail(
+            to = responsavel.email,
+            subject = "[MIAUDOTE] Adoção Concluída com SUCESSO! - ${pet.nome}",
+            conteudo = conteudo
+        )
+    }
+
+    private fun notificarAdotante(adotante: Usuario, pet: Pet){
+        val conteudo = """
+            Recebemos a confirmação da adoção de ${pet.nome} foi concluída com sucesso.
+            Então ${pet.nome} não esta mais dipoonível para adoção!!
+        """.trimIndent()
+        emailService.enviarEmail(
+            to = adotante.email,
+            subject = "[MIAUDOTE] Adoção Concluída com SUCESSO! - ${pet.nome}",
+            conteudo = conteudo
+        )
     }
 }
 
