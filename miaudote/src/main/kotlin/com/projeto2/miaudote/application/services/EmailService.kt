@@ -83,8 +83,13 @@ class EmailService(
             E-mail do Adotante: ${adotante.email}
             Telefone do Adotante: ${adotante.contato}
             
-            QUERO CONFIRMAR A SOLICITAÇÃO: 
+            Próximos passos: 
+            1. Entre em contato com ${adotante.nome}, para decidirem os detalhes e dar ou não continualidade à adoção.
+            2. Recomendamos apenas confirmar a solicitação se ${adotante.nome} for um candidato(a) real para a adoção.
             
+            ---------------------------------------------------------------
+            QUERO CONFIRMAR A SOLICITAÇÃO: 
+                
                 Para CONFIRMAR a continuação da adoção de ${pet.nome}, clique no link abaixo:
                  
                 LINK DE CONFIRMAÇÃO DA SOLICITAÇÃO DE ADOÇÃO: 
