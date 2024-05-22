@@ -3,10 +3,7 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.EmailService
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.apresentation.Response.SolicitarAdocaoResponse
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.entities.toProblem
@@ -22,16 +19,18 @@ class SolicitarAdocaoProcessor(
     val service: SolicitacaoAdocaoService,
     val usuarioService: UsuarioService,
     val petService: PetService,
+    val adocaoService: AdocaoService,
 ) : ProcessorHandler<SolicitarAdocaoHandler>() {
 
     override fun process(handler: SolicitarAdocaoHandler): Result<Any> {
-        val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
-            .getOrElse { return Result.failure(it) }
-
         val pet = petService.obterPorId(handler.petId).toProblem().getOrElse { return Result.failure(it) }
-        if (service.obterPorPetId(pet.id!!) != null) return Result.failure(
+
+        if (adocaoService.obterPorPetId(pet.id!!) != null) return Result.failure(
             solicitacaoInvalida("O pet ${pet.nome} já foi adotado.", null)
         )
+
+        val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
+            .getOrElse { return Result.failure(it) }
 
         val usuarioResponsavel = usuarioService.obterPorId(pet.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
@@ -44,6 +43,7 @@ class SolicitarAdocaoProcessor(
             "http://localhost:8080/solicitacao-adocao/confirmar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
         val linkCancelamento =
             "http://localhost:8080/solicitacao-adocao/cancelar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
+
         emailService.enviarEmailUsuarioResponsavel(
             responsavel = usuarioResponsavel,
             pet = pet,
@@ -54,7 +54,7 @@ class SolicitarAdocaoProcessor(
 
         val solicitacao = SolicitacaoAdocao(
             id = null,
-            petId = pet.id!!,
+            petId = pet.id,
             usuarioAdotante = usuarioAdotante.id!!,
             usuarioResponsavel = usuarioResponsavel.id!!,
             dataSolicitacao = LocalDateTime.now(),
