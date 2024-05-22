@@ -1,26 +1,64 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { Posts } from "../Posts" 
-import { PetPost } from "@/app/services/PetService";
-import axios from "axios";
-import api from "@/app/App";
+import Link from "next/link";
+import { Posts } from "../Posts"
 
 export default function Card() {
-  const [pets, setUser] = useState(); 
-  useEffect(() => {
-    api
-      .get("http://200.132.38.218:8004/api/pet/obter-pets")
-      .then((response) => setUser(response.data))
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-      });
-  }, []);  
 
-  
+  const animais = [
+    {
+      slug: "post-1",
+      nome: "Nome do animal",
+      picture: {
+        url: "https://github.com/AdocaoAnimais.png"
+      },
+      porte: "Porte Médio",
+      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, ipsum. Laboriosam est aperiam architecto a..."
+    },
+    {
+      slug: "post-1",
+      nome: "Nome do animal",
+      picture: {
+        url: "https://github.com/AdocaoAnimais.png"
+      },
+      porte: "Porte Médio",
+      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, ipsum. Laboriosam est aperiam architecto a..."
+    },
+    {
+      slug: "post-1",
+      nome: "Nome do animal",
+      picture: {
+        url: "https://github.com/AdocaoAnimais.png"
+      },
+      porte: "Porte Médio",
+      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, ipsum. Laboriosam est aperiam architecto a..."
+    },
+    {
+      slug: "post-1",
+      nome: "Nome do animal",
+      picture: {
+        url: "https://github.com/AdocaoAnimais.png"
+      },
+      porte: "Porte Médio",
+      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, ipsum. Laboriosam est aperiam architecto a..."
+    },
+    {
+      slug: "post-1",
+      nome: "Nome do animal",
+      picture: {
+        url: "https://github.com/AdocaoAnimais.png"
+      },
+      porte: "Porte Médio",
+      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, ipsum. Laboriosam est aperiam architecto a..."
+    },
+    // Adicione mais objetos conforme necessário
+  ];
+
+  // console.log(animais);
+
   return (
     <>
-      <Posts animais={pets} />
+      <Posts animais={animais} />
     </>
   )
 }
