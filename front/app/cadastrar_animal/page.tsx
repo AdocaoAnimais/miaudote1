@@ -11,8 +11,16 @@ export default async function Page() {
 
 
                     <div className="">
-                        <div className="img w-[300px] h-[300px]">
-
+                        <div className="justify-center items-center content-center text-center">
+                            <div className="relative w-[200px] h-[200px] overflow-hidden rounded-xl">
+                                <Image
+                                    src={"/logo.png"}
+                                    alt="Minha imagem"
+                                    fill
+                                    style={{ objectFit: 'contain' }} // cover
+                                />
+                                {/* <img src={produto.image} alt="Coffee" /> */}
+                            </div>
                         </div>
                         <div>
                             <h1 className="py-4">Cadastrar novo animal</h1>
