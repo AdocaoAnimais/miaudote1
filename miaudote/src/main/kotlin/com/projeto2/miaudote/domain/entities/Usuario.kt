@@ -1,12 +1,15 @@
 package com.projeto2.miaudote.domain.entities
 
+import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.apresentation.Request.LoginRequest
 import jakarta.persistence.*
+import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.net.URI
 
 @Entity
 @Table(name = "usuario")
-class Usuario (
+data class Usuario (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id", unique = true)
@@ -48,4 +51,17 @@ class Usuario (
     fun validaLogin(senha: String, passwordEncoder: PasswordEncoder): Boolean {
         return passwordEncoder.matches(senha, this.senha)
     }
+
+}
+fun Usuario?.toProblem(): Result<Usuario> {
+    if(this != null) return Result.success(this)
+    return Result.failure(
+        Problem(
+            title = "Usuário não encontrado",
+            detail = "O usuário com id informado não esta cadastrado",
+            type = URI("/obter-usuario-por-id"),
+            status = HttpStatus.BAD_REQUEST,
+            extra = null
+        )
+    )
 }

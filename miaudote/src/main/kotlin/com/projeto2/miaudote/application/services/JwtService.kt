@@ -21,7 +21,7 @@ class JwtService (
 
     fun generateToken(usuario: Usuario): String {
         val now = Instant.now()
-        val expiraEm = 300L
+        val expiraEm = 3600L
         val claims =
             JwtClaimsSet.builder().issuer("backend")
                 .subject(usuario.id.toString())
