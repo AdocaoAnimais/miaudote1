@@ -1,0 +1,4 @@
+FROM eclipse-temurin:21-jdk-ubi9-minimal
+COPY ./miaudote-0.0.1-SNAPSHOT.jar /miaudote/
+WORKDIR /miaudote/
+ENTRYPOINT [ "java", "-jar", "miaudote-0.0.1-SNAPSHOT.jar" ]
