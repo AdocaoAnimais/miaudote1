@@ -11,7 +11,6 @@ import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
-import java.time.LocalDateTime
 
 @Service
 class CancelarSolicitacaoProcessor(
@@ -49,6 +48,7 @@ class CancelarSolicitacaoProcessor(
         )
         return Result.success("Sucesso!!")
     }
+
     fun geraConteudo(nomePet: String): String {
         val conteudo = """
             A solicitação da adoção do animal $nomePet foi cancelada pelo responsável, 

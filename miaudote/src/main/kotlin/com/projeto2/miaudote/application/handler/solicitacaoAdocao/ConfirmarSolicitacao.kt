@@ -3,10 +3,7 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.EmailService
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -19,13 +16,17 @@ class ConfirmarSolicitacaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val emailService: EmailService,
+    val adocaoService: AdocaoService,
 ) : ProcessorHandler<ConfirmarSolicitacaoHandler>() {
     override fun process(handler: ConfirmarSolicitacaoHandler): Result<Any> {
-        val responsavel = usuarioService.obterUsername(handler.username).toProblem().getOrElse {
+        val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
+        if (adocaoService.obterPorPetId(pet.id!!) != null) return Result.failure(
+            solicitacaoInvalida("O pet ${pet.nome} já foi adotado.", null)
+        )
 
-        val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
+        val responsavel = usuarioService.obterUsername(handler.username).toProblem().getOrElse {
             return Result.failure(it)
         }
 
@@ -36,13 +37,14 @@ class ConfirmarSolicitacaoProcessor(
             return Result.failure(it)
         }
 
+        val adotante = usuarioService.obterPorId(solicitacaoAdocao.usuarioAdotante).toProblem().getOrElse {
+            return Result.failure(it)
+        }
+
         val solicitacaoAtualizada = solicitacaoAdocao.update(
             dataConfirmacaoUserResponsavel = LocalDateTime.now(),
             dataConfirmacaoUserAdotante = null
         )
-        val adotante = usuarioService.obterPorId(solicitacaoAdocao.usuarioAdotante).toProblem().getOrElse {
-            return Result.failure(it)
-        }
 
         emailService.enviarEmailUsuarioSolicitante(
             adotante = adotante,

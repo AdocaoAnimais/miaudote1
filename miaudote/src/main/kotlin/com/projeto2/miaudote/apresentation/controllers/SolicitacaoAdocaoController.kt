@@ -19,7 +19,7 @@ class SolicitacaoAdocaoController(
     private val cancelarAdocaoProcessor: ProcessorHandler<CancelarAdocaoHandler>
 ) {
 
-    @GetMapping("/confirmar-solicitacao/{username}/{petId}")
+    @GetMapping("/confirmar-solicitacao/{username}/{petId}/")
     fun confirmarSolicitacao(
         @PathVariable("username") username: String,
         @PathVariable("petId") petId: String

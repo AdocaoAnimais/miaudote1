@@ -39,7 +39,7 @@ data class SolicitacaoAdocao(
     ): SolicitacaoAdocao {
         return this.copy(
             dataConfirmacaoUserResponsavel = dataConfirmacaoUserResponsavel,
-            dataConfirmacaoUserAdotante = dataConfirmacaoUserAdotante
+            dataConfirmacaoUserAdotante = dataConfirmacaoUserAdotante,
         )
     }
 }
