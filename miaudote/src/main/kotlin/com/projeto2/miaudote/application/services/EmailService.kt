@@ -19,18 +19,18 @@ class EmailService(
         message.subject = subject
         message.text = conteudo
         message.from = from
-
         mailSender.send(message)
     }
 
     fun enviarEmailUsuarioSolicitante(
-        solicitante: Usuario,
+        adotante: Usuario,
         pet: Pet,
         linkConfirmaAdocao: String,
+        linkCancelaAdocao: String,
         responsavel: Usuario
     ) {
         val titulo = "[MIAUDOTE] Confirmação da Adoção - ${pet.nome}"
-        val conteudo = """Prezado ${solicitante.nome} ${solicitante.sobrenome},
+        val conteudo = """Prezado ${adotante.nome} ${adotante.sobrenome},
             Confirmamos o recebimento de sua solicitação de adoção para adotar o(a) ${pet.nome}.
             
             Segue abaixo o contato do tutor responsável pelo animal, você deve entrar em contato para dar continualidade à adoção:
@@ -40,15 +40,25 @@ class EmailService(
             Telefone do Tutor: ${responsavel.contato}
             
             Para CONFIRMAR o processo de adoção de ${pet.nome}, clique no link abaixo:
-    <strong>Apenas clique no link abaixo se a adoção correu com sucesso e o(a) ${pet.nome} já estiver na sua nova casa!!</strong>
             
-            Confirmar adoção: $linkConfirmaAdocao
+            Apenas clique no link abaixo se a ADOÇÃO OCORREU COM SUCESSO e o(a) ${pet.nome} já estiver no seu novo lar!!
             
-            Caso a adoção não tenha ocorrido, por favor ignore este email. 
+                CONFIRMAR ADOÇÃO: 
+                $linkConfirmaAdocao
+            
+            ----------------------------------------------------------------
+            
+            QUERO CANCELAR A ADOÇÃO RECEBIDA: 
+                Caso não queira proceder com a solicitação da adoção de ${pet.nome} clique no link abaixo:
+                
+                Link para CANCELAR a adoção do pet que você solicitou: 
+                $linkCancelaAdocao
+            
+            Não reponda este email.
             """.trimIndent()
 
         enviarEmail(
-            to = solicitante.email,
+            to = adotante.email,
             subject = titulo,
             conteudo = conteudo,
         )
@@ -58,26 +68,38 @@ class EmailService(
         responsavel: Usuario,
         pet: Pet,
         linkConfirmacaoSolicitacao: String,
+        linkCancelaSolicitacao: String,
         adotante: Usuario
     ) {
         val titulo = "[MIAUDOTE] Solicitação de Adoção - ${pet.nome}"
-        val conteudo = """Prezado ${responsavel.nome} ${responsavel.sobrenome},
-            Confirmamos o recebimento de sua solicitação de adoção para adotar o(a) ${pet.nome}.
+        val conteudo = """
+            Prezado ${responsavel.nome} ${responsavel.sobrenome},
+            Recebimento uma solicitação de adoção para adotar o(a) ${pet.nome}.
             
-    <strong>Segue abaixo o contato do usuario interessado em adotar o(a) ${pet.nome}.
-            Você deve entrar em contato para dar continualidade à adoção:</strong> 
+            Segue abaixo o contato do usuario interessado em adotar o(a) ${pet.nome}.
+            Você deve entrar em contato para dar continualidade à adoção:
   
             Nome do Adotante: ${adotante.nome}
             E-mail do Adotante: ${adotante.email}
             Telefone do Adotante: ${adotante.contato}
             
-            Para CONFIRMAR o a continuação da adoção de ${pet.nome}, clique no link abaixo:
-    <strong>Apenas clique no link abaixo se o ${pet.nome} estiver diponível para adoção.</strong>
-            Clicando no link abaixo, o usuário que solicitou a adoção receberá um email com seu nome, email e contato cadastrados no Miaudote, para entrar em contato. 
+            QUERO CONFIRMAR A SOLICITAÇÃO: 
             
-            LINK DE CONFIRMAÇÃO DA SOLICITAÇÃO DE ADOÇÃO: $linkConfirmacaoSolicitacao
+                Para CONFIRMAR a continuação da adoção de ${pet.nome}, clique no link abaixo:
+                 
+                LINK DE CONFIRMAÇÃO DA SOLICITAÇÃO DE ADOÇÃO: 
+                $linkConfirmacaoSolicitacao
+                
+            O usuário interessado na adoção receberá um email com seu nome, email e contato cadastrados no Miaudote para entrar em contato. 
+                
+            ----------------------------------------------------------------
             
-    <strong>Caso a adoção não tenha ocorrido, por favor ignore este email.</strong>
+            QUERO CANCELAR A SOLICITAÇÃO DE ADOÇÃO RECEBIDA: 
+                Caso não queira proceder com a adoção de ${pet.nome} clique no link abaixo:
+                
+                Link para CANCELAR a solicitação de adoção recebida: 
+                $linkCancelaSolicitacao
+            
             Não reponda este email.
             """.trimIndent()
 
