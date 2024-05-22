@@ -1,7 +1,4 @@
 # Back-end
-## title
-# Title
-
 
 PRIMEIRO DE TUDO
 pip freeze > requirements.txt (atualizar dependencias da aplicação)
