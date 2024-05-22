@@ -32,13 +32,8 @@ export async function loginUser(username: string, senha: string) {
         "senha": senha
     }
 
-    await api.post("http://localhost:8080/api/auth/login", params).then(res => {
+    await api.post("http://200.132.38.218:8004/api/auth/login", params).then(res => {
         TOKEN = res.data.accessToken
-        api.defaults.headers.common['Authorization'] = `Bearer ${TOKEN}` 
-
-    //await api.post("http://200.132.38.218:8004/api/auth/login", params).then(res => {
-        //TOKEN = res.data.accessToken
-
     })
 }
 
@@ -49,7 +44,10 @@ export async function createPet(nome: string,
     tipo: string,
     castrado: string,
     descricao: string,
-
+) {
+    // const token = window.localStorage.getItem("tokenMiaudote")
+    // console.log(token)
+    // api.defaults.headers.common.Authorization = `${token}`
     const params = {
         "nome": nome,
         "sexo": sexo,
@@ -59,11 +57,5 @@ export async function createPet(nome: string,
         "castrado": castrado,
         "descricao": descricao
     }
-      
-    api.post("http://localhost:8080/api/pet/", params)
-    .then(res => {
-        console.log(res)
-    })
+    return api.post("http://200.132.38.218:8004/api/pet/PaulinaRehbein", params)
 }
-<!--     return api.post("http://200.132.38.218:8004/api/pet/PaulinaRehbein", params) -->
-

@@ -3,47 +3,100 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { createPet } from "../services/PetService";
-import { useRouter } from "next/navigation";
+import Button_Cancel from "./Buttons/Button_Cancel";
+import Button_YellowTarja from "./Buttons/Button_YellowTarja";
 
-export default function Form({ }) {
-    const ref = useRef(null);
-    const router = useRouter()
+export default function Form({}) {
+  //getUsers, onEdit, setOnEdit
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); 
-        // Obtendo os valores dos campos
-        const nome = ref.current.nome.value;
-        const tipo = ref.current.tipo.value;
-        const sexo = ref.current.sexo.value;
-        const porte = ref.current.porte.value;
-        const idade = parseInt(ref.current.idade.value);
-        const descricao = ref.current.descricao.value;
+  // const ref = useRef();
 
-        // Validando a idade
-        if (idade < 0) {
-            alert('A idade não pode ser negativa');
-            return;
-        }
+  // useEffect(() => {
+  //     if (onEdit) {
+  //         const user = ref.current;
 
+  //         user.nome.value = onEdit.nome;
+  //         user.email.value = onEdit.email;
+  //         user.fone.value = onEdit.fone;
+  //         user.data_nascimento.value = onEdit.data_nascimento;
+  //     }
+  // }, [onEdit]);
 
-        createPet(
-            nome,
-            idade.toString(),
-            sexo,
-            porte,
-            tipo,
-            "N",
-            descricao,
-        ).then( res => {
-            router.push("/")
-        });
-    };
+  // const handleSubmit = async (e) => {
+  //     e.preventDefault();
 
-    return (
-        <>
-            {/* <form action="" ref={ref} onSubmit={handleSubmit}>
+  //     const user = ref.current;
 
+  //     if (
+  //         !user.nome.value ||
+  //         !user.email.value ||
+  //         !user.fone.value ||
+  //         !user.data_nascimento.value
+  //     ) {
+  //         return toast.warn("Preencha todos os campos!");
+  //     }
+
+  //     if (onEdit) {
+  //         await axios
+  //             .put("https://dogs-back-gamma.vercel.app/" + onEdit.id, {
+  //                 nome: user.nome.value,
+  //                 email: user.email.value,
+  //                 fone: user.fone.value,
+  //                 data_nascimento: user.data_nascimento.value,
+  //             })
+  //             .then(({ data }) => toast.success(data))
+  //             .catch(({ data }) => toast.error(data));
+  //     } else {
+  //         await axios
+  //             .post("https://dogs-back-gamma.vercel.app", {
+  //                 nome: user.nome.value,
+  //                 email: user.email.value,
+  //                 fone: user.fone.value,
+  //                 data_nascimento: user.data_nascimento.value,
+  //             })
+  //             .then(({ data }) => toast.success(data))
+  //             .catch(({ data }) => toast.error(data));
+  //     }
+
+  //     user.nome.value = "";
+  //     user.email.value = "";
+  //     user.fone.value = "";
+  //     user.data_nascimento.value = "";
+
+  //     setOnEdit(null);
+  //     getUsers();
+  // };
+
+  const ref = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Obtendo os valores dos campos
+    const nome = ref.current.nome.value;
+    const tipo = ref.current.tipo.value;
+    const sexo = ref.current.sexo.value;
+    const porte = ref.current.porte.value;
+    const idade = parseInt(ref.current.idade.value);
+    const descricao = ref.current.descricao.value;
+
+    // Validando a idade
+    if (idade < 0) {
+      alert("A idade não pode ser negativa");
+      return;
+    }
+
+    // console.log('Nome:', nome);
+    // console.log('Tipo:', tipo);
+    // console.log('Sexo:', sexo);
+    // console.log('Porte:', porte);
+    // console.log('Idade:', idade);
+    // console.log('Descrição:', descricao);
+  };
+
+  return (
+    <>
+      {/* <form action="" ref={ref} onSubmit={handleSubmit}>
                 <label htmlFor="">Nome: </label>
                 <input name="nome" type="text" />
 
@@ -58,7 +111,6 @@ export default function Form({ }) {
 
                 <button type="submit">SALVAR</button>
             </form> */}
-
 
       <form
         ref={ref}
