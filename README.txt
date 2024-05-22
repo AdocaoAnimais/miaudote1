@@ -1,4 +1,7 @@
-#Back-end
+# Back-end
+## title
+# Title
+
 
 PRIMEIRO DE TUDO
 pip freeze > requirements.txt (atualizar dependencias da aplicação)
@@ -34,7 +37,7 @@ Criar novo app:
 python manage.py startapp <name of app>
 
 
-#Front-end
+# Front-end
 
 cd ./front
 npm i
