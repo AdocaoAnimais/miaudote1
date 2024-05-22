@@ -40,8 +40,8 @@ python manage.py startapp <name of app>
 # Front-end
 
 ```
-cd ./front \
-npm i \
-npm run dev \
+cd ./front 
+npm i 
+npm run dev
 ```
 * Geralmente http://localhost:3000/ 
