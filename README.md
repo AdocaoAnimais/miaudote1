@@ -1,47 +1,52 @@
-# Back-end
 
-PRIMEIRO DE TUDO 
+### Rodar Kotlin 
+
+#### Metodo 1: Utilizando o IntellJ 
+ - Baixar o intelliJ: https://www.jetbrains.com/pt-br/idea/
+ - Abrir o intelliJ no projeto backend miaudote 
+ - Aguardar a IDE fazer o dowload das libs
+ - Executar o arquivo MiaudoteApplication em src/main/koltin/com/projeto2/miaudote
+
+## Criar usuario: 
+url: http://200.132.38.218:8004/api/usuario/cadastrar
+infos: 
 ```
-pip freeze > requirements.txt (atualizar dependencias da aplicação) 
-pip install -r requirements.txt (instalar dependencias) 
-```
-API urls: 
-
-CRUD Users:   
-http://127.0.0.1:8000/api/users/ 
-
-Para acessar usuario especifico: (exemplo)  
-http://127.0.0.1:8000/api/users/3/ 
-
-CRUD Pets:  
-http://127.0.0.1:8000/api/pets/ 
-
-LOGIN:  
-http://127.0.0.1:8000/api-token-auth/ 
-
-Rodar o Django: 
-
-1. fazer migraçoes necessarias  
-```
-python manage.py makemigrations
-python manage.py migrate 
+{
+    "nome": "user1",
+    "sobrenome": "user",
+    "username": "user",
+    "cpf": "21223123123",
+    "email": "email@user.com",
+    "senha": "senha123"
+}
 ```
 
-3. rodar o server 
-python manage.py runserver 
+Retorno: 
+username e token autenticação
 
-4. acessar os urls acima 
+## Fazer login:
+url: http://200.132.38.218:8004/api/auth/login
+{
+    "username":"PaulinaRehbein",
+    "senha": "paulina"
+}
 
-Criar novo app:  
-python manage.py startapp <name of app>
+Retorno: Token de autenticação
+## Listar pet: 
+url: http://200.132.38.218:8004/api/pet/obter-pets
 
-
-
-# Front-end
-
+### CRIAR PET:
+url: http://200.132.38.218:8004/api/pet/
+Passar o token de autenticação para criar o pet
 ```
-cd ./front 
-npm i 
-npm run dev
+{
+    "nome": "pet1",
+    "idade": "1",
+    "sexo": "F",
+    "porte": "P",
+    "tipo": "G",
+    "castrado": "N",
+    "descricao": "",
+}
 ```
-* Geralmente http://localhost:3000/ 
+
