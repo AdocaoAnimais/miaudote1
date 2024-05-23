@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Form from "../components/Form";
 import Image from 'next/image';
 import backIcon from "../../public/back.svg";
+import Form from "./Form";
 
 export default async function Page() {
     return (
@@ -23,8 +23,8 @@ export default async function Page() {
                             </div>
                         </div>
                         <div>
-                            <h1 className="py-4">Cadastrar novo animal</h1>
-                            <p className="text-[#737380]">Descreva o caso detalhadamente para encontrar um herói para resolver isso.</p>
+                            <h1 className="py-4">Cadastro</h1>
+                            <p className="text-[#737380]">Faça seu cadastro!</p>
                         </div>
                         <div className='w-full gap-2 flex p-12 text-left pt-32 pb-2 px-6'>
                             <Image
@@ -32,8 +32,8 @@ export default async function Page() {
                                 src={backIcon}
                                 alt="Follow us on Twitter"
                             />
-                            <Link href={"/"} className=" text-white hover:text-[#f2a812]">
-                                Voltar para home
+                            <Link href={"/login"} className=" text-white hover:text-[#f2a812]">
+                                Voltar para login
                             </Link>
                         </div>
                     </div>
