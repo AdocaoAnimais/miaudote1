@@ -6,6 +6,17 @@ class UsuarioCreateResponse(
     val username: String,
     val token: String,
 )
+class AtualizarUsuarioResponse(
+    val username: String,
+    val id: Long?,
+    val nome: String?,
+    val sobrenome: String?,
+    val email: String?,
+    val cpf: String?,
+    val descricao: String?,
+    val contato: String?,
+
+)
 
 fun Usuario.fromEntity(token: String): UsuarioCreateResponse {
     return UsuarioCreateResponse(
