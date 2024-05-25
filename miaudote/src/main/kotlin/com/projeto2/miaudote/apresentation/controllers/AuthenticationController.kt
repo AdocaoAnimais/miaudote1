@@ -7,6 +7,8 @@ import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,5 +31,13 @@ class AuthenticationController(
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
         return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    @GetMapping("/logged")
+    fun logged(token: JwtAuthenticationToken?): ResponseEntity<Any> {
+        if(token == null) {
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
+        }
+        return ResponseEntity(HttpStatus.OK)
     }
 }

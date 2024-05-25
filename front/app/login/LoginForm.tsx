@@ -1,28 +1,30 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
-import { loginUser } from "../services/PetService";
-import { toast, ToastContainer } from "react-toastify";
+import { Ref, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import backIcon from "../../public/back.svg";
 import Link from "next/link";
+import { AuthenticationService } from "@/data/AuthenticationService";
 
 export default function LoginForm({ }) {
+    const service = new AuthenticationService();
+
     const router = useRouter()
-    const ref = useRef(null);
-    const handleSubmit = (event) => {
+    const ref: Ref<any> = useRef(null);
+
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         const username = ref.current.username.value;
         const senha = ref.current.senha.value;
 
         try {
-            loginUser(username, senha);
+            await service.loggin(username, senha)
             console.log("Logado com sucesso!");
             router.push("/cadastrar_animal");
         } catch (e) {
-            console.log(e)
+            console.log("Error ao efetuar login: ", e);
         }
     };
 

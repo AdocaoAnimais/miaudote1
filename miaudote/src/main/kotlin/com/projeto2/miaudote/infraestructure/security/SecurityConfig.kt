@@ -38,7 +38,7 @@ class SecurityConfig(
     @Bean
     fun securityfilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }.authorizeHttpRequests { auth ->
-            auth.requestMatchers("api/auth/login", "api/usuario/cadastrar", "api/pet/obter-pets").permitAll()
+            auth.requestMatchers("api/auth/login", "/api/auth/logged", "api/usuario/cadastrar", "api/pet/obter-pets").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**" ).permitAll()
                 .anyRequest().authenticated()
         }
