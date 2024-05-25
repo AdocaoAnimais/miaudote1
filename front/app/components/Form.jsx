@@ -44,6 +44,7 @@ export default function Form({}) {
         "N",
         descricao,
       )
+      router.push("")
     } catch(e) {
       if(e instanceof AxiosError && e.response.status == 400) {
         console.log(e.response)
