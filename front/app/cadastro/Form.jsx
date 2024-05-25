@@ -1,113 +1,63 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import { AuthenticationService } from "@/data/AuthenticationService";
+import { UsuarioService } from "@/data/UsuarioService";
 
 export default function Form({}) {
-  //getUsers, onEdit, setOnEdit
-
-  // const ref = useRef();
-
-  // useEffect(() => {
-  //     if (onEdit) {
-  //         const user = ref.current;
-
-  //         user.nome.value = onEdit.nome;
-  //         user.email.value = onEdit.email;
-  //         user.fone.value = onEdit.fone;
-  //         user.data_nascimento.value = onEdit.data_nascimento;
-  //     }
-  // }, [onEdit]);
-
-  // const handleSubmit = async (e) => {
-  //     e.preventDefault();
-
-  //     const user = ref.current;
-
-  //     if (
-  //         !user.nome.value ||
-  //         !user.email.value ||
-  //         !user.fone.value ||
-  //         !user.data_nascimento.value
-  //     ) {
-  //         return toast.warn("Preencha todos os campos!");
-  //     }
-
-  //     if (onEdit) {
-  //         await axios
-  //             .put("https://dogs-back-gamma.vercel.app/" + onEdit.id, {
-  //                 nome: user.nome.value,
-  //                 email: user.email.value,
-  //                 fone: user.fone.value,
-  //                 data_nascimento: user.data_nascimento.value,
-  //             })
-  //             .then(({ data }) => toast.success(data))
-  //             .catch(({ data }) => toast.error(data));
-  //     } else {
-  //         await axios
-  //             .post("https://dogs-back-gamma.vercel.app", {
-  //                 nome: user.nome.value,
-  //                 email: user.email.value,
-  //                 fone: user.fone.value,
-  //                 data_nascimento: user.data_nascimento.value,
-  //             })
-  //             .then(({ data }) => toast.success(data))
-  //             .catch(({ data }) => toast.error(data));
-  //     }
-
-  //     user.nome.value = "";
-  //     user.email.value = "";
-  //     user.fone.value = "";
-  //     user.data_nascimento.value = "";
-
-  //     setOnEdit(null);
-  //     getUsers();
-  // };
+  const authService = new AuthenticationService();
+  const service = new UsuarioService();
+  const router = useRouter();
 
   const ref = useRef(null);
-
+  init();
+  async function init(){
+    try {
+      const response = await authService.logged();
+      if(response){
+        console.log("Usuário logado, redirecionando para tela inicial.");
+        router.push("/");
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Obtendo os valores dos campos
+    console.log(ref.current)
     const nome = ref.current.nome.value;
-    const tipo = ref.current.tipo.value;
-    const sexo = ref.current.sexo.value;
-    const porte = ref.current.porte.value;
-    const idade = parseInt(ref.current.idade.value);
-    const descricao = ref.current.descricao.value;
-
-    // Validando a idade
-    if (idade < 0) {
-      alert("A idade não pode ser negativa");
-      return;
+    const sobrenome = ref.current.sobrenome.value;
+    const username = ref.current.username.value;
+    const email = ref.current.email.value;
+    const senha = ref.current.senha.value;
+    const cpf = ref.current.cpf.value;  
+    const endereco = ref.current.endereco.value;  
+    const contato = ref.current.contato.value;  
+    
+    try{
+      service.cadastrar(
+        nome,
+        sobrenome,
+        username,
+        email,
+        senha,
+        cpf, 
+        contato,
+        endereco,
+      );
+      
+    } catch(e) {
+      console.log(e)
     }
-
-    // console.log('Nome:', nome);
-    // console.log('Tipo:', tipo);
-    // console.log('Sexo:', sexo);
-    // console.log('Porte:', porte);
-    // console.log('Idade:', idade);
-    // console.log('Descrição:', descricao);
+    
+    
   };
 
   return (
     <>
-      {/* <form action="" ref={ref} onSubmit={handleSubmit}>
-                <label htmlFor="">Nome: </label>
-                <input name="nome" type="text" />
-
-                <label htmlFor="">E-mail: </label>
-                <input name="email" type="email" />
-
-                <label htmlFor="">Telefone: </label>
-                <input name="fone" type="number" />
-
-                <label>Data de Nascimento</label>
-                <input name="data_nascimento" type="date" />
-
-                <button type="submit">SALVAR</button>
-            </form> */}
-
       <form
         ref={ref}
         onSubmit={handleSubmit}
@@ -121,52 +71,84 @@ export default function Form({}) {
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Seu Nome"
             required
+            htmlFor="nome"
           />
         </div>
         <div className="md:col-span-2">
           <input
-            id="nome"
-            name="nome"
+            id="sobrenome"
+            name="sobrenome"
+            type="text"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="Seu Sobrenome"
+            required
+            htmlFor="sobrenome"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <input
+            id="cpf"
+            name="cpf"
+            type="text"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="Seu cpf"
+            required
+            htmlFor="cpf"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <input
+            id="username"
+            name="username"
+            type="text"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="Seu Username"
+            required
+            htmlFor="username"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <input
+            id="email"
+            name="email"
             type="text"
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="E-mail"
             required
+            htmlFor="email"
           />
         </div>
         <div className="md:col-span-2">
           <input
-            id="nome"
-            name="nome"
+            id="senha"
+            name="senha"
+            type="password"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="Senha"
+            required
+            htmlFor="senha"
+          />
+        </div>
+        <div className="">
+          <input
+            id="endereco"
+            name="endereco"
+            type="text"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="CEP"
+            htmlFor="endereco"
+          />
+        </div> 
+        <div className="">
+          <input
+            id="contato"
+            name="contato"
             type="text"
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Celular"
-            required
+            htmlFor="contato"
           />
         </div>
-
-        <div className="">
-          <input
-            id="idade"
-            name="idade"
-            type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="Cidade"
-            required
-          />
-        </div>
-
-        <div className="">
-          <input
-            id="idade"
-            name="idade"
-            type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="UF"
-            required
-          />
-        </div>
-
-        
 
         <div className="flex justify-center md:col-span-2 pt-8">
           <button

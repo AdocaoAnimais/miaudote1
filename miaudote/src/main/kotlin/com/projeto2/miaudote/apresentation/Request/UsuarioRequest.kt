@@ -9,6 +9,7 @@ class UsuarioCreate(
     val cpf: String?,
     val descricao: String?,
     val contato: String?,
+    val endereco: String?,
 )
 
 class UsuarioUpdate(

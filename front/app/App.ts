@@ -1,7 +1,9 @@
 import axios, { AxiosError } from "axios";
 
+export const BASE_URL = "http://localhost:8080"
+
 const api = axios.create({
-  baseURL: "https://localhost:8080/api",
+  baseURL: BASE_URL,
   timeout: 10000,
 });
 
@@ -15,11 +17,7 @@ api.interceptors.request.use(function (config) {
 api.interceptors.response.use(function (response) {
   return response;
 }, 
-function (error) {
-  if (error.response?.status === 401) {
-    console.log(error.response)
-    window.location.href = '/login';
-  }
+function (error) { 
   return Promise.reject(error);
 });
 

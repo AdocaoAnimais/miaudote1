@@ -1,4 +1,4 @@
-import api from "@/app/App"
+import api, { BASE_URL } from "@/app/App"
 
 export class PetService {
     async createPet(nome: string,
@@ -18,6 +18,6 @@ export class PetService {
             "castrado": castrado,
             "descricao": descricao
         }
-        return api.post("http://localhost:8080/api/pet/", params)
+        return api.post(`${BASE_URL}/api/pet/`, params)
     }
 }

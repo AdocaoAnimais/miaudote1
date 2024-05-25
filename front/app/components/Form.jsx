@@ -16,7 +16,15 @@ export default function Form({}) {
 
   init();
   async function init(){
-    await authService.logged();
+    try {
+      const response = await authService.logged();
+      if(!response){
+        console.log("Usuário sem autenticação, direcionando para login");
+        router.push("/login");
+      }
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   const handleSubmit = async (event) => {
@@ -80,8 +88,8 @@ export default function Form({}) {
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           >
-            <option value="cachorro">Cachorro</option>
-            <option value="gato">Gato</option>
+            <option value="C">Cachorro</option>
+            <option value="G">Gato</option>
           </select>
         </div>
 
@@ -95,8 +103,8 @@ export default function Form({}) {
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           >
-            <option value="macho">Macho</option>
-            <option value="femea">Fêmea</option>
+            <option value="M">Macho</option>
+            <option value="F">Fêmea</option>
           </select>
         </div>
 
@@ -110,9 +118,9 @@ export default function Form({}) {
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           >
-            <option value="pequeno">Pequeno</option>
-            <option value="medio">Médio</option>
-            <option value="grande">Grande</option>
+            <option value="P">Pequeno</option>
+            <option value="M">Médio</option>
+            <option value="G">Grande</option>
           </select>
         </div>
 

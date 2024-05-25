@@ -9,6 +9,7 @@ import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
@@ -53,14 +54,15 @@ class CriarUsuarioProcessor(
             cpf = handler.cpf,
             contato = handler.contato,
             descricao = handler.descricao,
-            endereco = null,
+            endereco = handler.endereco,
             id = null,
         )
         val usuarioCriado = service.criar(usuario = usuario)
         val token = jwtService.generateToken(usuarioCriado)
-        val response = UsuarioCreateResponse(
+        val response = LoginResponse(
             username = usuarioCriado.username,
-            token = token,
+            accessToken = token,
+            expiresIn = 5000L
         )
         return Result.success(response)
     }
@@ -75,6 +77,7 @@ class CriarUsuarioHandler private constructor(
     val cpf: String,
     val descricao: String?,
     val contato: String?,
+    val endereco: String?,
 ) : RequestHandler {
     companion object {
         fun newOrProblem(
@@ -144,7 +147,8 @@ class CriarUsuarioHandler private constructor(
                     senha = senhaIn,
                     cpf = cpfIn,
                     descricao = usuario.descricao,
-                    contato = usuario.contato
+                    contato = usuario.contato,
+                    endereco = usuario.endereco,
                 )
             )
         }

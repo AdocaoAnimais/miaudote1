@@ -1,4 +1,4 @@
-import api from "@/app/App";
+import api, { BASE_URL } from "@/app/App";
 import { LoginResponse } from "@/domain/Login";
 
 export class AuthenticationService {
@@ -8,18 +8,14 @@ export class AuthenticationService {
             "senha": senha
         }
 
-        await api.post("http://localhost:8080/api/auth/login", params).then(res => {
-            let response = res.data as LoginResponse
-            // api.defaults.auth = {
-            //     username: response.username,
-            //     password: senha
-            // }
+        await api.post(`${BASE_URL}/api/auth/login`, params).then(res => {
+            let response = res.data as LoginResponse 
             api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`; 
         })
     }
 
     async logged(): Promise<boolean> { 
-        return await api.get("http://localhost:8080/api/auth/logged")
+        return await api.get(`${BASE_URL}/api/auth/logged`)
             .then(res => true)
             .catch((error) => false)
     }

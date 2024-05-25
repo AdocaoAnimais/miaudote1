@@ -34,9 +34,9 @@ class AuthenticationController(
     }
 
     @GetMapping("/logged")
-    fun logged(token: JwtAuthenticationToken?): ResponseEntity<Any> {
+    fun logged(token: JwtAuthenticationToken? ): ResponseEntity<Any> {
         if(token == null) {
-            return ResponseEntity(HttpStatus.UNAUTHORIZED)
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
         return ResponseEntity(HttpStatus.OK)
     }
