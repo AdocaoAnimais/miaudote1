@@ -182,9 +182,3 @@ private fun atualizarUsuarioProblem(detalhe: String, campo: String, valor: Strin
     status = HttpStatus.BAD_REQUEST,
     extra = mapOf(campo to valor)
 )
-
-
-fun main() {
-    val str = ""
-    println(str == null)
-}

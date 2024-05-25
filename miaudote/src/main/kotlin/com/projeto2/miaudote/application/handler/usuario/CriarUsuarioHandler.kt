@@ -3,7 +3,6 @@ package com.projeto2.miaudote.application.handler.usuario
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
-import com.projeto2.miaudote.apresentation.Response.UsuarioCreateResponse
 import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
