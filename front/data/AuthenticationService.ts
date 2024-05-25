@@ -19,4 +19,8 @@ export class AuthenticationService {
             .then(res => true)
             .catch((error) => false)
     }
+
+    logout() { 
+        api.defaults.headers.common['Authorization'] = null;
+    }
 }

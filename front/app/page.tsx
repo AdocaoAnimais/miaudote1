@@ -1,9 +1,15 @@
 'use client'
 import React, { use } from 'react';
 import Card from './components/Card.tsx';
-import Link from 'next/link';
+import Link from 'next/link'; 
+import { AuthenticationService } from '@/data/AuthenticationService';
 
 export default function Page() {
+    const service = new AuthenticationService();
+
+    function loggout(){
+        service.logout();
+    }
 
     return (
         <>
@@ -27,6 +33,7 @@ export default function Page() {
                     </div>
                     <div className='p-4 text-right'>
                         <button
+                            onClick={loggout}
                             type="button"
                             className="py-4 px-12 bg-[#0b132d] border border-[#f2a812] text-white rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
                         >

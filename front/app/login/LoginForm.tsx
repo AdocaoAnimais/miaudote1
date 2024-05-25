@@ -12,7 +12,18 @@ export default function LoginForm({ }) {
 
     const router = useRouter()
     const ref: Ref<any> = useRef(null);
-
+    init();
+    async function init(){
+      try {
+        const response = await service.logged();
+        if(response){
+          console.log("Usuário já logado, redirecionando para tela inicial.");
+          router.push("/");
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    }
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
