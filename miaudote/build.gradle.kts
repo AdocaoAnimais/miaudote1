@@ -13,7 +13,7 @@ group = "com.projeto2"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_20
+	sourceCompatibility = JavaVersion.VERSION_21
 }
 
 configurations {
@@ -50,7 +50,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "20"
+		jvmTarget = "21"
 	}
 }
 
