@@ -21,17 +21,17 @@ class CancelarAdocaoProcessor(
     val emailService: EmailService,
 ) : ProcessorHandler<CancelarAdocaoHandler>() {
     override fun process(handler: CancelarAdocaoHandler): Result<Any> {
-        val adotante = usuarioService.obterUsername(handler.username).toProblem().getOrElse {
+        val solicitacao = service.obterPorId(handler.solicitacaoAdocaoId).toProblem().getOrElse {
+            return Result.failure(it)
+        }
+        val adotante = usuarioService.obterPorId(solicitacao.usuarioAdotante).toProblem().getOrElse {
             return Result.failure(it)
         }
 
-        val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
+        val pet = petService.obterPorId(solicitacao.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
 
-        val solicitacao = service.obterPorId(UUID.randomUUID()).toProblem().getOrElse {
-            return Result.failure(it)
-        }
         val responsavel = usuarioService.obterPorId(solicitacao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }
@@ -41,6 +41,11 @@ class CancelarAdocaoProcessor(
         emailService.enviarEmail(
             to = responsavel.email,
             subject = "[MIAUDOTE] Adoção Cancelada - ${pet.nome}",
+            conteudo = geraConteudo(pet.nome)
+        )
+        emailService.enviarEmail(
+            to = adotante.email,
+            subject = "[MIAUDOTE] Adoção Cancelada com Sucesso- ${pet.nome}",
             conteudo = geraConteudo(pet.nome)
         )
 
@@ -59,18 +64,16 @@ class CancelarAdocaoProcessor(
 }
 
 class CancelarAdocaoHandler private constructor(
-    val username: String,
-    val petId: Long,
+    val solicitacaoAdocaoId: UUID,
 ) : RequestHandler {
     companion object {
-        fun newOrProblem(petIdIn: String, username: String): Result<CancelarAdocaoHandler> {
-            val petId = petIdIn.toLongOrNull() ?: return Result.failure(
-                adocaoInvalida("Id do pet inválido.", null)
+        fun newOrProblem(solicitacaoAdocaoIdIn: String): Result<CancelarAdocaoHandler> {
+            val solicitacaoAdocaoId = UUID.fromString(solicitacaoAdocaoIdIn) ?: return Result.failure(
+                adocaoInvalida("Id da solicitação da adoção inválida.", null)
             )
             return Result.success(
                 CancelarAdocaoHandler(
-                    username = username,
-                    petId = petId
+                    solicitacaoAdocaoId = solicitacaoAdocaoId,
                 )
             )
         }
