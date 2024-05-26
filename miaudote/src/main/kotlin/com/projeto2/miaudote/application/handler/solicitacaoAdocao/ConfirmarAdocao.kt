@@ -43,7 +43,8 @@ class ConfirmarAdocaoProcessor(
         val adocao = Adocao(
             id = null,
             petId = pet.id,
-            dataAdocao = LocalDateTime.now()
+            dataAdocao = LocalDateTime.now(),
+            solicitacaoId = solicitacao.id!!
         )
 
         adocaoService.criar(adocao)

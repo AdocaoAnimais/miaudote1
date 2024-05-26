@@ -2,6 +2,7 @@ package com.projeto2.miaudote.domain.entities
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity
 @Table(name = "adocao")
@@ -13,6 +14,9 @@ class Adocao(
 
     @Column(name = "pet_id")
     val petId: Long,
+
+    @Column(name = "solicitacao_adocao_id")
+    val solicitacaoId: UUID,
 
     @Column(name = "data_adocao")
     val dataAdocao: LocalDateTime

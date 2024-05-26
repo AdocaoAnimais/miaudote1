@@ -3,10 +3,7 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.EmailService
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -19,19 +16,21 @@ class CancelarAdocaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val emailService: EmailService,
+    val adocaoService: AdocaoService,
 ) : ProcessorHandler<CancelarAdocaoHandler>() {
     override fun process(handler: CancelarAdocaoHandler): Result<Any> {
         val solicitacao = service.obterPorId(handler.solicitacaoAdocaoId).toProblem().getOrElse {
             return Result.failure(it)
         }
-        val adotante = usuarioService.obterPorId(solicitacao.usuarioAdotante).toProblem().getOrElse {
-            return Result.failure(it)
-        }
-
         val pet = petService.obterPorId(solicitacao.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
-
+        if (adocaoService.obterPorSolicitacaoId(solicitacao.id!!) != null) return Result.failure(
+            adocaoInvalida("O pet ${pet.nome} já foi adotado.", null)
+        )
+        val adotante = usuarioService.obterPorId(solicitacao.usuarioAdotante).toProblem().getOrElse {
+            return Result.failure(it)
+        }
         val responsavel = usuarioService.obterPorId(solicitacao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }
