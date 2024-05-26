@@ -1,9 +1,7 @@
 package com.projeto2.miaudote.apresentation.controllers
 
 import com.projeto2.miaudote.application.handler.ProcessorHandler
-import com.projeto2.miaudote.application.handler.solicitacaoAdocao.CancelarAdocaoHandler
-import com.projeto2.miaudote.application.handler.solicitacaoAdocao.CancelarSolicitacaoHandler
-import com.projeto2.miaudote.application.handler.solicitacaoAdocao.ConfirmarSolicitacaoHandler
+import com.projeto2.miaudote.application.handler.solicitacaoAdocao.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController
 class SolicitacaoAdocaoController(
     private val confirmarSolicitacaoProcessor: ProcessorHandler<ConfirmarSolicitacaoHandler>,
     private val cancelarSolicitacaoProcessor: ProcessorHandler<CancelarSolicitacaoHandler>,
-    private val cancelarAdocaoProcessor: ProcessorHandler<CancelarAdocaoHandler>
+    private val cancelarAdocaoProcessor: ProcessorHandler<CancelarAdocaoHandler>,
+    private val confirmarAdocaoProcessor: ProcessorHandler<ConfirmarAdocaoHandler>
 ) {
 
     @GetMapping("/confirmar-solicitacao/{solicitacaoId}")
@@ -57,13 +56,13 @@ class SolicitacaoAdocaoController(
     fun confirmarAdocao(
         @PathVariable("solicitacaoId") solicitacaoId: String,
     ): ResponseEntity<Any> {
-        val request = ConfirmarSolicitacaoHandler.newOrProblem(
+        val request = ConfirmarAdocaoHandler.newOrProblem(
             solicitacaoIdIn = solicitacaoId,
         ).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
 
-        val response = confirmarSolicitacaoProcessor.process(request).getOrElse {
+        val response = confirmarAdocaoProcessor.process(request).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
 
