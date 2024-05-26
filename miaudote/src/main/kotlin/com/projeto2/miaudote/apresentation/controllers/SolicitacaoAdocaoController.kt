@@ -19,14 +19,12 @@ class SolicitacaoAdocaoController(
     private val cancelarAdocaoProcessor: ProcessorHandler<CancelarAdocaoHandler>
 ) {
 
-    @GetMapping("/confirmar-solicitacao/{username}/{petId}/")
+    @GetMapping("/confirmar-solicitacao/{solicitacaoId}")
     fun confirmarSolicitacao(
-        @PathVariable("username") username: String,
-        @PathVariable("petId") petId: String
+        @PathVariable("solicitacaoId") solicitacaoId: String,
     ): ResponseEntity<Any> {
         val request = ConfirmarSolicitacaoHandler.newOrProblem(
-            petIdIn = petId,
-            username = username
+            solicitacaoIdIn = solicitacaoId,
         ).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
@@ -38,14 +36,12 @@ class SolicitacaoAdocaoController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @GetMapping("/cancelar-solicitacao/{username}/{petId}")
+    @GetMapping("/cancelar-solicitacao/{solicitacaoId}")
     fun cancelarSolicitacao(
-        @PathVariable("username") username: String,
-        @PathVariable("petId") petId: String
+        @PathVariable("solicitacaoId") solicitacaoId: String,
     ): ResponseEntity<Any> {
         val request = CancelarSolicitacaoHandler.newOrProblem(
-            petIdIn = petId,
-            username = username
+            solicitacaoIdIn = solicitacaoId,
         ).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
@@ -57,14 +53,12 @@ class SolicitacaoAdocaoController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @GetMapping("/confirmar-adocao/{username}/{petId}")
+    @GetMapping("/confirmar-adocao/{solicitacaoId}")
     fun confirmarAdocao(
-        @PathVariable("username") username: String,
-        @PathVariable("petId") petId: String
+        @PathVariable("solicitacaoId") solicitacaoId: String,
     ): ResponseEntity<Any> {
         val request = ConfirmarSolicitacaoHandler.newOrProblem(
-            petIdIn = petId,
-            username = username
+            solicitacaoIdIn = solicitacaoId,
         ).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
@@ -76,14 +70,12 @@ class SolicitacaoAdocaoController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @GetMapping("/cancelar-adocao/{username}/{petId}")
+    @GetMapping("/cancelar-adocao/{solicitacaoId}")
     fun cancelarAdocao(
-        @PathVariable("username") username: String,
-        @PathVariable("petId") petId: String
+        @PathVariable("solicitacaoId") solicitacaoId: String,
     ): ResponseEntity<Any> {
         val request = CancelarAdocaoHandler.newOrProblem(
-            petIdIn = petId,
-            username = username
+            solicitacaoAdocaoIdIn = solicitacaoId,
         ).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }

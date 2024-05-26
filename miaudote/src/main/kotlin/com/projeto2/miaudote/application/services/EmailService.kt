@@ -22,7 +22,7 @@ class EmailService(
         mailSender.send(message)
     }
 
-    fun enviarEmailUsuarioSolicitante(
+    fun enviarEmailUsuarioAdotante(
         adotante: Usuario,
         pet: Pet,
         linkConfirmaAdocao: String,
