@@ -11,6 +11,7 @@ import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -22,25 +23,28 @@ class ConfirmarAdocaoProcessor(
     val emailService: EmailService,
 ) : ProcessorHandler<ConfirmarAdocaoHandler>() {
     override fun process(handler: ConfirmarAdocaoHandler): Result<Any> {
-        val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
+        val solicitacao = service.obterPorId(handler.solicitacaoId).toProblem().getOrElse {
+            return Result.failure(it)
+        }
+        val pet = petService.obterPorId(solicitacao.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
         if (adocaoService.obterPorPetId(pet.id!!) != null) return Result.failure(
             adocaoInvalida("O pet ${pet.nome} já foi adotado.", null)
         )
 
-        val adotante = usuarioService.obterUsername(handler.username).toProblem().getOrElse {
-            return Result.failure(it)
-        }
-
-        val solicitacao = service.obterPorId(UUID.randomUUID()).toProblem().getOrElse {
+        val adotante = usuarioService.obterPorId(solicitacao.usuarioAdotante).toProblem().getOrElse {
             return Result.failure(it)
         }
         val responsavel = usuarioService.obterPorId(solicitacao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }
 
-        val adocao = Adocao()
+        val adocao = Adocao(
+            id = null,
+            petId = pet.id,
+            dataAdocao = LocalDateTime.now()
+        )
 
         adocaoService.criar(adocao)
 
@@ -51,7 +55,7 @@ class ConfirmarAdocaoProcessor(
         return Result.success("Sucesso!!")
     }
 
-    private fun notificarResponsavel(responsavel: Usuario, pet: Pet){
+    private fun notificarResponsavel(responsavel: Usuario, pet: Pet) {
         val conteudo = """
             Recebemos a confirmação do novo tutor de ${pet.nome} que a adoção foi concluída com sucesso.
             Então ${pet.nome} não esta mais dipoonível para adoção!!
@@ -63,7 +67,7 @@ class ConfirmarAdocaoProcessor(
         )
     }
 
-    private fun notificarAdotante(adotante: Usuario, pet: Pet){
+    private fun notificarAdotante(adotante: Usuario, pet: Pet) {
         val conteudo = """
             Recebemos a confirmação da adoção de ${pet.nome} foi concluída com sucesso.
             Então ${pet.nome} não esta mais dipoonível para adoção!!
@@ -77,18 +81,16 @@ class ConfirmarAdocaoProcessor(
 }
 
 class ConfirmarAdocaoHandler private constructor(
-    val username: String,
-    val petId: Long,
+    val solicitacaoId: UUID,
 ) : RequestHandler {
     companion object {
-        fun newOrProblem(petIdIn: String, username: String): Result<ConfirmarAdocaoHandler> {
-            val petId = petIdIn.toLongOrNull() ?: return Result.failure(
-                adocaoInvalida("Id do pet inválido.", null)
+        fun newOrProblem(solicitacaoIdIn: String): Result<ConfirmarAdocaoHandler> {
+            val solicitacaoId = UUID.fromString(solicitacaoIdIn) ?: return Result.failure(
+                adocaoInvalida("Id da solicitação de adoção inválida.", null)
             )
             return Result.success(
                 ConfirmarAdocaoHandler(
-                    username = username,
-                    petId = petId
+                    solicitacaoId = solicitacaoId,
                 )
             )
         }
