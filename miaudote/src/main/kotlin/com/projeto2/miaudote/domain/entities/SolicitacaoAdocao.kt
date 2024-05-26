@@ -5,15 +5,16 @@ import jakarta.persistence.*
 import org.springframework.http.HttpStatus
 import java.net.URI
 import java.time.LocalDateTime
+import java.util.*
 
 @Entity
 @Table(name = "selicitacao_adocao")
 data class SolicitacaoAdocao(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "solicitacao_adocao_id")
-    val id: Long?,
+    val id: UUID?,
 
     @Column(name = "usuario_responsavel_id", nullable = false)
     val usuarioResponsavel: Long,

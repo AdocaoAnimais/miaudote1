@@ -5,6 +5,7 @@ import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.domain.entities.toProblem
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI
@@ -18,59 +19,53 @@ class ConfirmarSolicitacaoProcessor(
     val petService: PetService,
     val emailService: EmailService,
     val adocaoService: AdocaoService,
+    @Value("\${base.url}")
+    private val baseUrl: String
 ) : ProcessorHandler<ConfirmarSolicitacaoHandler>() {
     override fun process(handler: ConfirmarSolicitacaoHandler): Result<Any> {
-        val pet = petService.obterPorId(handler.petId).toProblem().getOrElse {
+        val solicitacaoAdocao = service.obterPorId(handler.solicitacaoId).toProblem().getOrElse {
+            return Result.failure(it)
+        }
+        val pet = petService.obterPorId(solicitacaoAdocao.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
         if (adocaoService.obterPorPetId(pet.id!!) != null) return Result.failure(
             solicitacaoInvalida("O pet ${pet.nome} já foi adotado.", null)
         )
-
-        val responsavel = usuarioService.obterUsername(handler.username).toProblem().getOrElse {
+        val responsavel = usuarioService.obterPorId(solicitacaoAdocao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }
-
-        val solicitacaoAdocao = service.obterPorId(UUID.randomUUID()).toProblem().getOrElse {
-            return Result.failure(it)
-        }
-
         val adotante = usuarioService.obterPorId(solicitacaoAdocao.usuarioAdotante).toProblem().getOrElse {
             return Result.failure(it)
         }
-
         val solicitacaoAtualizada = solicitacaoAdocao.update(
             dataConfirmacaoUserResponsavel = LocalDateTime.now(),
             dataConfirmacaoUserAdotante = null
         )
 
-        emailService.enviarEmailUsuarioSolicitante(
+        emailService.enviarEmailUsuarioAdotante(
             adotante = adotante,
             pet = pet,
-            linkConfirmaAdocao = "http://localhost:8080/solicitacao-adocao/confirmar-adocao/${responsavel.username}/${pet.id}",
-            linkCancelaAdocao = "http://localhost:8080/solicitacao-adocao/cancelar-adocao/${responsavel.username}/${pet.id}",
+            linkConfirmaAdocao = "$baseUrl/solicitacao-adocao/confirmar-adocao/${solicitacaoAdocao.id}",
+            linkCancelaAdocao = "$baseUrl/solicitacao-adocao/cancelar-adocao/${solicitacaoAdocao.id}",
             responsavel = responsavel
         )
-
         service.atualizar(solicitacaoAtualizada)
-
         return Result.success("Sucesso!!")
     }
 }
 
 class ConfirmarSolicitacaoHandler private constructor(
-    val username: String,
-    val petId: Long,
+    val solicitacaoId: UUID,
 ) : RequestHandler {
     companion object {
-        fun newOrProblem(petIdIn: String, username: String): Result<ConfirmarSolicitacaoHandler> {
-            val petId = petIdIn.toLongOrNull() ?: return Result.failure(
-                solicitacaoInvalida("Id do pet inválido.", null)
+        fun newOrProblem(solicitacaoIdIn: String): Result<ConfirmarSolicitacaoHandler> {
+            val solicitacaoId = UUID.fromString(solicitacaoIdIn) ?: return Result.failure(
+                solicitacaoInvalida("Id da solicitação da adoção inválido.", null)
             )
             return Result.success(
                 ConfirmarSolicitacaoHandler(
-                    username = username,
-                    petId = petId
+                    solicitacaoId = solicitacaoId,
                 )
             )
         }
