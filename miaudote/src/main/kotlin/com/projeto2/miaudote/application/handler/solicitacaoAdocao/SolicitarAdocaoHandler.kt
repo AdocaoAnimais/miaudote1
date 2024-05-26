@@ -7,6 +7,7 @@ import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.apresentation.Response.SolicitarAdocaoResponse
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.entities.toProblem
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
@@ -20,8 +21,9 @@ class SolicitarAdocaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val adocaoService: AdocaoService,
+    @Value("\${base.url}")
+    private val baseUrl: String,
 ) : ProcessorHandler<SolicitarAdocaoHandler>() {
-
     override fun process(handler: SolicitarAdocaoHandler): Result<Any> {
         val pet = petService.obterPorId(handler.petId).toProblem().getOrElse { return Result.failure(it) }
 
@@ -38,20 +40,6 @@ class SolicitarAdocaoProcessor(
         if (usuarioAdotante.username == usuarioResponsavel.username) return Result.failure(
             solicitacaoInvalida("O usuário adotante não pode ser o usuário responsavel pelo animal.", null)
         )
-
-        val linkConfirmacao =
-            "http://localhost:8080/solicitacao-adocao/confirmar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
-        val linkCancelamento =
-            "http://localhost:8080/solicitacao-adocao/cancelar-solicitacao/${usuarioResponsavel.username}/${pet.id}"
-
-        emailService.enviarEmailUsuarioResponsavel(
-            responsavel = usuarioResponsavel,
-            pet = pet,
-            linkConfirmacaoSolicitacao = linkConfirmacao,
-            linkCancelaSolicitacao = linkCancelamento,
-            adotante = usuarioAdotante,
-        )
-
         val solicitacao = SolicitacaoAdocao(
             id = null,
             petId = pet.id,
@@ -63,11 +51,23 @@ class SolicitarAdocaoProcessor(
         )
 
         val result = service.criar(solicitacaoAdocao = solicitacao)
+
+        val linkConfirmacao =
+            "$baseUrl/solicitacao-adocao/confirmar-solicitacao/${result.id}"
+        val linkCancelamento =
+            "$baseUrl/solicitacao-adocao/cancelar-solicitacao/${result.id}"
+
+        emailService.enviarEmailUsuarioResponsavel(
+            responsavel = usuarioResponsavel,
+            pet = pet,
+            linkConfirmacaoSolicitacao = linkConfirmacao,
+            linkCancelaSolicitacao = linkCancelamento,
+            adotante = usuarioAdotante,
+        )
         val response = SolicitarAdocaoResponse(
             id = result.petId,
             response = geraConfirmacao(pet.nome)
         )
-
         return Result.success(response)
     }
 

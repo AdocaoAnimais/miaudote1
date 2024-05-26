@@ -74,7 +74,7 @@ class EmailService(
         val titulo = "[MIAUDOTE] Solicitação de Adoção - ${pet.nome}"
         val conteudo = """
             Prezado ${responsavel.nome} ${responsavel.sobrenome},
-            Recebimento uma solicitação de adoção para adotar o(a) ${pet.nome}.
+            recebimento uma solicitação de adoção para adotar o(a) ${pet.nome}.
             
             Segue abaixo o contato do usuario interessado em adotar o(a) ${pet.nome}.
             Você deve entrar em contato para dar continualidade à adoção:
@@ -86,6 +86,7 @@ class EmailService(
             Próximos passos: 
             1. Entre em contato com ${adotante.nome}, para decidirem os detalhes e dar ou não continualidade à adoção.
             2. Recomendamos apenas confirmar a solicitação se ${adotante.nome} for um candidato(a) real para a adoção.
+            3. O usuário interessado na adoção receberá um email com seu nome, email e contato cadastrados no Miaudote para entrar em contato. 
             
             ---------------------------------------------------------------
             QUERO CONFIRMAR A SOLICITAÇÃO: 
@@ -94,8 +95,6 @@ class EmailService(
                  
                 LINK DE CONFIRMAÇÃO DA SOLICITAÇÃO DE ADOÇÃO: 
                 $linkConfirmacaoSolicitacao
-                
-            O usuário interessado na adoção receberá um email com seu nome, email e contato cadastrados no Miaudote para entrar em contato. 
                 
             ----------------------------------------------------------------
             
