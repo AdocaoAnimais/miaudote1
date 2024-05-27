@@ -3,7 +3,10 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.*
+import com.projeto2.miaudote.application.services.EmailService
+import com.projeto2.miaudote.application.services.PetService
+import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -16,7 +19,6 @@ class CancelarAdocaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val emailService: EmailService,
-    val adocaoService: AdocaoService,
 ) : ProcessorHandler<CancelarAdocaoHandler>() {
     override fun process(handler: CancelarAdocaoHandler): Result<Any> {
         val solicitacao = service.obterPorId(handler.solicitacaoAdocaoId).toProblem().getOrElse {

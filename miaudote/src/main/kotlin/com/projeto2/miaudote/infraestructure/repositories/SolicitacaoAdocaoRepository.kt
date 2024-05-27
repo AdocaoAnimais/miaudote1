@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface SolicitacaoAdocaoRepository : JpaRepository<SolicitacaoAdocao, UUID> {
-    fun findByIdAndusuarioAdotante(id: Long, usuarioAdotante: Long): SolicitacaoAdocao?
+    fun findByUsuarioAdotanteAndPetId(usuarioAdotante: Long, petId: Long): SolicitacaoAdocao?
 }
