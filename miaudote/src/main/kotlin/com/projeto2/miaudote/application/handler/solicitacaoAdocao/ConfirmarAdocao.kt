@@ -59,7 +59,7 @@ class ConfirmarAdocaoProcessor(
     private fun notificarResponsavel(responsavel: Usuario, pet: Pet) {
         val conteudo = """
             Recebemos a confirmação do novo tutor de ${pet.nome} que a adoção foi concluída com sucesso.
-            Então ${pet.nome} não esta mais dipoonível para adoção!!
+            Então ${pet.nome} não esta mais dísponivel para adoção!!
         """.trimIndent()
         emailService.enviarEmail(
             to = responsavel.email,
@@ -71,7 +71,7 @@ class ConfirmarAdocaoProcessor(
     private fun notificarAdotante(adotante: Usuario, pet: Pet) {
         val conteudo = """
             Recebemos a confirmação da adoção de ${pet.nome} foi concluída com sucesso.
-            Então ${pet.nome} não esta mais dipoonível para adoção!!
+            Então ${pet.nome} não esta mais dísponivel para adoção!!
         """.trimIndent()
         emailService.enviarEmail(
             to = adotante.email,
