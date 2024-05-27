@@ -25,9 +25,6 @@ class CancelarSolicitacaoProcessor(
         val pet = petService.obterPorId(solicitacaoAdocao.petId).toProblem().getOrElse {
             return Result.failure(it)
         }
-        if (adocaoService.obterPorSolicitacaoId(solicitacaoAdocao.id!!) != null) return Result.failure(
-            solicitacaoInvalida("O pet ${pet.nome} já foi adotado.", null)
-        )
         val responsavel = usuarioService.obterPorId(solicitacaoAdocao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }

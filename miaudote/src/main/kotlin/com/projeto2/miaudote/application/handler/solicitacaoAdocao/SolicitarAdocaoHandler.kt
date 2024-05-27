@@ -37,8 +37,8 @@ class SolicitarAdocaoProcessor(
         val usuarioResponsavel = usuarioService.obterPorId(pet.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
 
-        if (usuarioAdotante.username == usuarioResponsavel.username) return Result.failure(
-            solicitacaoInvalida("O usuário adotante não pode ser o usuário responsavel pelo animal.", null)
+        if (usuarioAdotante.id == usuarioResponsavel.id) return Result.failure(
+            solicitacaoInvalida("O usuário não pode solicitar a adoção de seu próprio pet.", null)
         )
         val solicitacao = SolicitacaoAdocao(
             id = null,

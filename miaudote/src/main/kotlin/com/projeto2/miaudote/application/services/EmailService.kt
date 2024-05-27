@@ -31,7 +31,7 @@ class EmailService(
     ) {
         val titulo = "[MIAUDOTE] Confirmação da Adoção - ${pet.nome}"
         val conteudo = """Prezado ${adotante.nome} ${adotante.sobrenome},
-            Confirmamos o recebimento de sua solicitação de adoção para adotar o(a) ${pet.nome}.
+            O tutor responsável quer dar continualidade à adoção do(a) ${pet.nome}.
             
             Segue abaixo o contato do tutor responsável pelo animal, você deve entrar em contato para dar continualidade à adoção:
 
