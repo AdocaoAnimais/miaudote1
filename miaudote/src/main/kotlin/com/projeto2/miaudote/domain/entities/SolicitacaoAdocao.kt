@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Table(name = "selicitacao_adocao")
+@Table(name = "solicitacao_adocao")
 data class SolicitacaoAdocao(
 
     @Id
