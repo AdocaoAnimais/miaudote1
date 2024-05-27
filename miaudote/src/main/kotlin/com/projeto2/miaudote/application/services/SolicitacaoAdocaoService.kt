@@ -25,4 +25,8 @@ class SolicitacaoAdocaoService(
     fun deletar(id: UUID) {
         repository.deleteById(id)
     }
+
+    fun obterPorAdotanteIdPetId(usuarioId: Long, petID: Long): SolicitacaoAdocao? {
+        return repository.findByIdAndusuarioAdotante(petID, usuarioId)
+    }
 }

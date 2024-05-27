@@ -49,9 +49,9 @@ fun SolicitacaoAdocao?.toProblem(): Result<SolicitacaoAdocao> {
     if (this != null) return Result.success(this)
     return Result.failure(
         Problem(
-            title = "Pet não encontrado",
-            detail = "O pet com id informado não esta cadastrado",
-            type = URI("/obter-pet-por-id"),
+            title = "Solicitação de adoção não encontrada",
+            detail = "Não existe solicitação para o Id informado.",
+            type = URI("/obter-solicitacao-por-id"),
             status = HttpStatus.BAD_REQUEST,
             extra = null
         )
