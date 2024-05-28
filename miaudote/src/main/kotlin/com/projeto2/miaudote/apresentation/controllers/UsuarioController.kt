@@ -21,18 +21,19 @@ import org.springframework.web.bind.annotation.PathVariable
 class UsuarioController(
     private val processor: ProcessorHandler<CriarUsuarioHandler>,
     private val processorDeletar: ProcessorHandler<DeletarUsuarioHandler>,
-    private val processorAtualizar: ProcessorHandler<AtualizarUsuarioHandler>
+    private val processorAtualizar: ProcessorHandler<AtualizarUsuarioHandler>,
+    private val processorObter: ProcessorHandler<ObterUsuarioHandler>
 ) {
-
-    // @GetMapping("/")
-    // fun obterUsuarios(): ResponseEntity<List<Usuario>> {
-    //    return ResponseEntity(service.obterTodos(), HttpStatus.OK)
-    // }
-
-    // @GetMapping("/{username}")
-    // fun obterPorUsername(@PathVariable("username") username: String): ResponseEntity<Usuario> {
-    //    return ResponseEntity(service.obterUsername(username), HttpStatus.OK)
-    // }
+     @GetMapping("/obter")
+     fun obterPorToken(token: JwtAuthenticationToken): ResponseEntity<Usuario> {
+         val handler = ObterUsuarioHandler.newOrProblem(token).getOrElse {
+             return ResponseEntity(HttpStatus.NOT_FOUND)
+         }
+         processorObter.process(handler).getOrElse {
+             return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+         }
+         return ResponseEntity(HttpStatus.OK)
+     }
 
     @PostMapping("/cadastrar")
     fun criarUsuario(@RequestBody user: UsuarioCreate): ResponseEntity<Any> {

@@ -13,7 +13,7 @@ export class UsuarioService {
         contato: string,
         endereco: string
     ) {
-        const params ={
+        const params = {
             "nome": nome,
             "sobrenome": sobrenome,
             "username": username,
@@ -24,12 +24,16 @@ export class UsuarioService {
             "endereco": endereco,
             "descricao": "",
         }
-        await api.post(`${BASE_URL}/api/usuario/cadastrar`, params).then(res => { 
-                let response = res.data as LoginResponse 
-                console.log(res)
-                api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
+        await api.post(`${BASE_URL}/api/usuario/cadastrar`, params).then(res => {
+            let response = res.data as LoginResponse
+            console.log(res)
+            api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
         }).catch((error) => {
             console.log(error)
         });
+    }
+
+    async obter() {
+        return await api.get(`${BASE_URL}/api/usuario/obter`)
     }
 }
