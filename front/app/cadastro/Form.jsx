@@ -68,7 +68,7 @@ export default function Form({}) {
             id="nome"
             name="nome"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Seu Nome"
             required
             htmlFor="nome"
@@ -79,7 +79,7 @@ export default function Form({}) {
             id="sobrenome"
             name="sobrenome"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Seu Sobrenome"
             required
             htmlFor="sobrenome"
@@ -90,7 +90,7 @@ export default function Form({}) {
             id="cpf"
             name="cpf"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Seu cpf"
             required
             htmlFor="cpf"
@@ -101,7 +101,7 @@ export default function Form({}) {
             id="username"
             name="username"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Seu Username"
             required
             htmlFor="username"
@@ -112,7 +112,7 @@ export default function Form({}) {
             id="email"
             name="email"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="E-mail"
             required
             htmlFor="email"
@@ -123,7 +123,7 @@ export default function Form({}) {
             id="senha"
             name="senha"
             type="password"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Senha"
             required
             htmlFor="senha"
@@ -134,7 +134,7 @@ export default function Form({}) {
             id="endereco"
             name="endereco"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="CEP"
             htmlFor="endereco"
           />
@@ -144,7 +144,7 @@ export default function Form({}) {
             id="contato"
             name="contato"
             type="text"
-            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Celular"
             htmlFor="contato"
           />
@@ -153,7 +153,7 @@ export default function Form({}) {
         <div className="flex justify-center md:col-span-2 pt-8">
           <button
             type="submit"
-            className="py-4 w-full bg-[#f2a812] text-white rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+            className="py-4 w-full bg-theme-button1 text-theme-text rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
           >
             Cadastrar
           </button>
