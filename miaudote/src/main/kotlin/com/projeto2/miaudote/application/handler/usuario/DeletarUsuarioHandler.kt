@@ -24,7 +24,7 @@ class DeletarUsuarioProcessor(
     }
 }
 
-class DeletarUsuarioHandler(
+class DeletarUsuarioHandler private constructor(
     val id: Long
 ) : RequestHandler {
     companion object {

@@ -7,7 +7,7 @@ import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
-import com.projeto2.miaudote.apresentation.Response.AtualizarUsuarioResponse
+import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
@@ -71,7 +71,7 @@ class AtualizarUsuarioProcessor(
         )
 
         val usuarioSalvo = service.atualizar(usuario = usuarioAtualizado)
-        val response = AtualizarUsuarioResponse(
+        val response = UsuarioResponse(
             username = usuarioSalvo.username,
             id = usuarioSalvo.id,
             nome = usuarioSalvo.nome,
