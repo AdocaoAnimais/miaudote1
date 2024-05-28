@@ -6,7 +6,7 @@ import Form from "./Form";
 export default async function Page() {
     return (
         <>
-            <div className='antialiased bg-[#0b132d] text-white bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
+            <div className='antialiased bg-theme-bg text-theme-text bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
                 <div className="flex flex-wrap gap-32">
 
 
@@ -32,13 +32,13 @@ export default async function Page() {
                                 src={backIcon}
                                 alt="Follow us on Twitter"
                             />
-                            <Link href={"/login"} className=" text-white hover:text-[#f2a812]">
+                            <Link href={"/login"} className=" text-theme-text hover:text-theme-texthighlight">
                                 Voltar para login
                             </Link>
                         </div>
                     </div>
 
-                    <div className="text-[#737380]">
+                    <div className="text-theme-text2">
                         <Form />
                         {/* Create */}
                         {/* getUsers={getUsers} onEdit={onEdit} setOnEdit={setOnEdit} */}

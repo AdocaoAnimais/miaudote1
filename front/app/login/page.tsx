@@ -6,7 +6,7 @@ export default function Login() {
 
     return (
         <>
-            <div className='antialiased bg-[#0b132d] text-white bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
+            <div className='antialiased bg-theme-bg text-theme-text bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
                 <div className="flex flex-wrap gap-32">
 
                     <div>
