@@ -17,7 +17,7 @@ export default function Card() {
 
   return (
     <>
-      <Posts animais={pets} />
+      <Posts animais={pets} title="Animais disponíveis para adoção" noData="Sem animais dísponiveis para adoção" />
     </>
   )
 }
