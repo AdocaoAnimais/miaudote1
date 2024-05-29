@@ -9,11 +9,10 @@ import kotlin.jvm.optionals.getOrNull
 class PetService (
     val repository: PetRepository
 ) {
-
     fun obterTodos(): List<Pet> {
         return  repository.findAll()
     }
-    fun obterMeusPets(id: Long): List<Pet>?{
+    fun obterPetsUsuario(id: Long): List<Pet>?{
         return repository.findByIdUsuario(id)
     }
 

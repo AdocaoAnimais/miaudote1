@@ -13,6 +13,10 @@ export interface PetPost {
     nome: string,
     id: string
   },
+  tipo: {
+    nome: string,
+    id: string
+  },
   descricao: string,
   idade: number,
   idUsuario: number

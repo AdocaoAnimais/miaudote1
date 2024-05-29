@@ -4,12 +4,18 @@ import { Usuario } from "@/domain/Usuario";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import InformacoesUsuario from "./InformacoesUsuario";
-import ListarPets from "./ListarPets";
+import { PetService } from "@/data/PetService";
+import { PetPost } from "@/domain/Pet";
+import { Posts } from "../components/Posts";
 
 export default function PerfilUsuario() {
   const service = new UsuarioService();
+  const petService = new PetService();
   const router = useRouter();
   const [usuario, setUsuario] = useState<Usuario>();
+
+  const [pets, setPets] = useState<PetPost[]>();
+
   useEffect(() => {
     service.obter()
       .then(res => setUsuario(res.data))
@@ -18,6 +24,11 @@ export default function PerfilUsuario() {
           router.push("/login");
         }
       });
+
+    petService.obterPetsUsuario()
+      .then(res => {
+        setPets(res.data)
+      })
   }, []);
 
   return (
@@ -30,12 +41,16 @@ export default function PerfilUsuario() {
             )
               :
               (
-                <h1>teste</h1>
+                <h2>Usuário não econtrado</h2>
               )
           }
           {
-            usuario != null ? (
-              <ListarPets petsIn={[]} />
+            pets?.length != null ? (
+              <Posts animais={pets}
+                title="Seus animais cadastrados"
+                noData="Nenhum animal cadastrado até o momento."
+                inTelaUsuario={true}
+              />
             )
               :
               (
