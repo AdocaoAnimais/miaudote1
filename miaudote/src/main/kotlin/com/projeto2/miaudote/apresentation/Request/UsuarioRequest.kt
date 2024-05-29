@@ -20,6 +20,6 @@ class UsuarioUpdate(
     val cpf: String?,
     val descricao: String?,
     val contato: String?,
-    val edereco: String?,
+    val endereco: String?,
     val senha: String?,
 )

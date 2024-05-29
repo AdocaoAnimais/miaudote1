@@ -3,6 +3,8 @@ package com.projeto2.miaudote.application.services
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.infraestructure.repositories.SolicitacaoAdocaoRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -27,5 +29,11 @@ class SolicitacaoAdocaoService(
     }
 
     fun obterPorAdotanteIdPetId(usuarioId: Long, petID: Long): SolicitacaoAdocao? { return repository.findByUsuarioAdotanteAndPetId(petID, usuarioId)
+    }
+    @Transactional
+    fun expirarAdocao() { // exclui uma solicitacao de adocao nao confirmada depois de um mes
+        val oneMonthAgo = LocalDateTime.now().minusMonths(1)
+        val oldUnconfirmedRequests = repository.findByDate(oneMonthAgo)
+        repository.deleteAll(oldUnconfirmedRequests)
     }
 }

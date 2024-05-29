@@ -3,19 +3,17 @@ package com.projeto2.miaudote.apresentation.controllers
 import com.projeto2.miaudote.apresentation.Request.PetCreate
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.pet.CriarPetHandler
-import com.projeto2.miaudote.application.handler.pet.CriarPetProcessor
+import com.projeto2.miaudote.application.handler.pet.AtualizarPetHandler
+import com.projeto2.miaudote.application.handler.pet.DeletarPetHandler
 import com.projeto2.miaudote.application.handler.solicitacaoAdocao.SolicitarAdocaoHandler
+import com.projeto2.miaudote.application.handler.usuario.DeletarUsuarioHandler
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.application.services.PetService
+import com.projeto2.miaudote.apresentation.Request.PetUpdate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/pet")
@@ -23,10 +21,17 @@ class PetController(
     private val service: PetService,
     private val criarPet: ProcessorHandler<CriarPetHandler>,
     private val solicitarAdocao: ProcessorHandler<SolicitarAdocaoHandler>,
+    private val editarPet: ProcessorHandler<AtualizarPetHandler>,
+    private val processorDeletar: ProcessorHandler<DeletarPetHandler>
 ) {
     @GetMapping("/obter-pets")
     fun obterPets(): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.obterTodos(), HttpStatus.OK)
+    }
+    @GetMapping("/obter-meus-pets")
+    fun obterMeusPets(token: JwtAuthenticationToken): ResponseEntity<List<Pet>> {
+        val id = token.name.toLongOrNull() ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(service.obterMeusPets(id), HttpStatus.OK)
     }
 
     @PostMapping("/")
@@ -38,6 +43,26 @@ class PetController(
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
         return ResponseEntity(response, HttpStatus.OK)
+    }
+    @PostMapping("/atualizar/{id}")
+    fun atualizarPet(@PathVariable("id") id: Long, @RequestBody pet: PetUpdate, token: JwtAuthenticationToken): ResponseEntity<Any> {
+        val request = AtualizarPetHandler.newOrProblem(id, pet, token).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        val response = editarPet.process(request).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+    @DeleteMapping("/deletar/{id}")
+    fun deletarPet(@PathVariable("id") id: Long, token: JwtAuthenticationToken): ResponseEntity<Any> {
+        val handler = DeletarPetHandler.newOrProblem(id, token).getOrElse {
+            return ResponseEntity(it, HttpStatus.NOT_FOUND)
+        }
+        processorDeletar.process(handler).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(HttpStatus.OK)
     }
 
     @PostMapping("/solicitar-adocao/{id}")

@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "pet")
-class Pet (
+data class Pet (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +53,7 @@ class Pet (
 
     @Column(name = "data_cadastro", nullable = false)
     val dataCadastro: LocalDateTime? = LocalDateTime.now(),
+    
 )
 
 fun Pet?.toProblem(): Result<Pet> {

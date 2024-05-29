@@ -167,7 +167,7 @@ class AtualizarUsuarioHandler private constructor(
                     cpf = cpfIn,
                     descricao = usuario.descricao,
                     contato = usuario.contato,
-                    endereco = usuario.edereco,
+                    endereco = usuario.endereco,
                     senha = usuario.senha,
                 )
             )
