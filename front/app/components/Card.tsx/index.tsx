@@ -1,9 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { Posts } from "../Posts" 
-import { PetPost } from "@/app/services/PetService";
-import axios from "axios";
+import { Posts } from "../Posts"  
 import api from "@/app/App";
 
 export default function Card() {
@@ -17,7 +15,6 @@ export default function Card() {
       });
   }, []);  
 
-  
   return (
     <>
       <Posts animais={pets} />

@@ -20,4 +20,13 @@ export class PetService {
         }
         return api.post(`${BASE_URL}/api/pet/`, params)
     }
+
+    async obterTodosPet(){
+        return api
+        .get(`${BASE_URL}/api/pet/obter-pets`)
+        .then((response) => response.data)
+        .catch((err) => {
+          console.error("ops! ocorreu um erro" + err);
+        });
+    }
 }
