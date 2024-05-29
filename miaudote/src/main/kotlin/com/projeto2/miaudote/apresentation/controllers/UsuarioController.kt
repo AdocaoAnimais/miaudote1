@@ -25,14 +25,14 @@ class UsuarioController(
     private val processorObter: ProcessorHandler<ObterUsuarioHandler>
 ) {
      @GetMapping("/obter")
-     fun obterPorToken(token: JwtAuthenticationToken): ResponseEntity<Usuario> {
+     fun obterPorToken(token: JwtAuthenticationToken): ResponseEntity<Any> {
          val handler = ObterUsuarioHandler.newOrProblem(token).getOrElse {
              return ResponseEntity(HttpStatus.NOT_FOUND)
          }
-         processorObter.process(handler).getOrElse {
+         val response = processorObter.process(handler).getOrElse {
              return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
          }
-         return ResponseEntity(HttpStatus.OK)
+         return ResponseEntity(response, HttpStatus.OK)
      }
 
     @PostMapping("/cadastrar")
