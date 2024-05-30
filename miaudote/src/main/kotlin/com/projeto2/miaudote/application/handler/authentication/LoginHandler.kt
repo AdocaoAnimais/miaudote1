@@ -1,17 +1,17 @@
 package com.projeto2.miaudote.application.handler.authentication
 
-import com.projeto2.miaudote.apresentation.Request.LoginRequest
-import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Request.LoginRequest
+import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 
-@Service
+@Component
 class LoginProcessor(
     private val service: UsuarioService,
     private val serviceJwt: JwtService

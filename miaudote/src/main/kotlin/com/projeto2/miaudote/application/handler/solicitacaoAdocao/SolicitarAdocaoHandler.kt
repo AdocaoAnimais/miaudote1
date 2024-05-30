@@ -10,11 +10,11 @@ import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 import java.time.LocalDateTime
 
-@Service
+@Component
 class SolicitarAdocaoProcessor(
     val emailService: EmailService,
     val service: SolicitacaoAdocaoService,
@@ -34,7 +34,7 @@ class SolicitarAdocaoProcessor(
         val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
 
-        if(!service.obterPorAdotanteIdPetId(usuarioAdotante.id!!, pet.id).isNullOrEmpty()) return Result.failure(
+        if (!service.obterPorAdotanteIdPetId(usuarioAdotante.id!!, pet.id).isNullOrEmpty()) return Result.failure(
             solicitacaoInvalida("O usuário já possui solicitação pendente para o pet ${pet.nome}.", null)
         )
 

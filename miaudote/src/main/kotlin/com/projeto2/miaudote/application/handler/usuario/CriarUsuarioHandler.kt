@@ -2,18 +2,18 @@ package com.projeto2.miaudote.application.handler.usuario
 
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
-import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
-import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.LoginResponse
+import com.projeto2.miaudote.domain.entities.Usuario
 import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 
-@Service
+@Component
 class CriarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,
@@ -83,7 +83,7 @@ class CriarUsuarioHandler private constructor(
             usuario: UsuarioCreate
         ): Result<CriarUsuarioHandler> {
             val nomeIn = usuario.nome
-            if(nomeIn.isNullOrBlank()) return Result.failure(
+            if (nomeIn.isNullOrBlank()) return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'nome' não pode ser vazio",
                     "nome",
@@ -91,7 +91,7 @@ class CriarUsuarioHandler private constructor(
                 )
             )
             val sobrenomeIn = usuario.sobrenome
-            if(sobrenomeIn.isNullOrBlank()) return Result.failure(
+            if (sobrenomeIn.isNullOrBlank()) return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'sobrenome' não pode ser vazio",
                     "sobrenome",
@@ -99,7 +99,7 @@ class CriarUsuarioHandler private constructor(
                 )
             )
             val usernameIn = usuario.username
-            if(usernameIn.isNullOrBlank()) return Result.failure(
+            if (usernameIn.isNullOrBlank()) return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'username' não pode ser vazio",
                     "username",
@@ -107,7 +107,7 @@ class CriarUsuarioHandler private constructor(
                 )
             )
             val emailIn = usuario.email
-            if(emailIn.isNullOrBlank()) return Result.failure(
+            if (emailIn.isNullOrBlank()) return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'email' não pode ser vazio",
                     "email",

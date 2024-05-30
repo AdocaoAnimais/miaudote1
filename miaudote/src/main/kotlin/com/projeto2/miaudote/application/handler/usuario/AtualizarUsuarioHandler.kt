@@ -10,10 +10,10 @@ import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
 import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 
-@Service
+@Component
 class AtualizarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,

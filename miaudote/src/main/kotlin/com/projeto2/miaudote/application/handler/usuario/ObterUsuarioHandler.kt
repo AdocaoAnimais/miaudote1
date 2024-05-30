@@ -8,10 +8,10 @@ import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 
-@Service
+@Component
 class ObterUsuarioProcessor(
     private val service: UsuarioService,
 ) : ProcessorHandler<ObterUsuarioHandler>() {

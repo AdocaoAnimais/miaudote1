@@ -17,7 +17,7 @@ class ExpirarAdocaoTask(private val solicitarAdocaoService: SolicitacaoAdocaoSer
     exclui uma solicitacao de adocao nao confirmada depois de um mes
      */
     @Scheduled(cron = "0 0 0 * * *") // roda toda meia noite
-    fun deleteOldUnconfirmedRequests(){
+    fun deletaSolicitacoesAdocaoExpiradas(){
         val dataExpiracao = LocalDateTime.now().minusMonths(1)
         val solicitacoes = solicitarAdocaoService.obterSolicitacoesDesatualizadasNaData(dataExpiracao)
         solicitarAdocaoService.deletarTodas(solicitacoes)

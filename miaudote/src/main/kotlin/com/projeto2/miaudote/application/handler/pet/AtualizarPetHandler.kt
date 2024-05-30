@@ -1,18 +1,18 @@
 package com.projeto2.miaudote.application.handler.pet
 
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.apresentation.Request.PetUpdate
-import com.projeto2.miaudote.domain.enums.*
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
+import com.projeto2.miaudote.application.services.PetService
+import com.projeto2.miaudote.apresentation.Request.PetUpdate
+import com.projeto2.miaudote.domain.enums.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 
-@Service
+@Component
 class AtualizarPetProcessor(
     private val petService: PetService,
 ) : ProcessorHandler<AtualizarPetHandler>() {

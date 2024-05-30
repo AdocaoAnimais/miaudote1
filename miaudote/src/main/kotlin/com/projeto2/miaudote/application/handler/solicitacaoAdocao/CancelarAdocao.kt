@@ -9,11 +9,11 @@ import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.net.URI
 import java.util.*
 
-@Service
+@Component
 class CancelarAdocaoProcessor(
     val service: SolicitacaoAdocaoService,
     val usuarioService: UsuarioService,
