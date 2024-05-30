@@ -34,7 +34,7 @@ class SolicitarAdocaoProcessor(
         val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
 
-        if(service.obterPorAdotanteIdPetId(usuarioAdotante.id!!, pet.id) != null) return Result.failure(
+        if(!service.obterPorAdotanteIdPetId(usuarioAdotante.id!!, pet.id).isNullOrEmpty()) return Result.failure(
             solicitacaoInvalida("O usuário já possui solicitação pendente para o pet ${pet.nome}.", null)
         )
 
