@@ -18,20 +18,13 @@ export class AuthenticationService {
     }
 
     async logged(): Promise<boolean> { 
-        const token = window.localStorage.getItem(this.chave)
-        console.log("token", token)
+        const token = window.localStorage.getItem(this.chave) 
         if(token!=null){
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`; 
         }
         return await api.get(`${BASE_URL}/api/auth/logged`)
-            .then(res => {
-                console.log("esta logado")
-                return true
-            })
-            .catch((error) => {
-                console.log("não esta logado")
-                return false
-            })
+            .then(res => true)
+            .catch((error) => false)
     }
 
     logout() { 
