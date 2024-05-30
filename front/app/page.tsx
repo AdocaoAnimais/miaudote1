@@ -3,6 +3,7 @@ import React, { use, useState } from 'react';
 import Card from './components/Card.tsx';
 import Link from 'next/link';
 import { AuthenticationService } from '@/data/AuthenticationService';
+import Button_Sair from './components/Buttons/Button_Sair';
 
 export default function Page() {
   const service = new AuthenticationService();
@@ -17,7 +18,6 @@ export default function Page() {
 
   function loggout() {
     service.logout();
-    setLogado(false)
   }
 
   return (
@@ -47,15 +47,8 @@ export default function Page() {
             logado ?
               (
                 <div className='p-4 text-right'>
-                  <button
-                    onClick={loggout}
-                    type="button"
-                    className="py-4 px-12 bg-[#0b132d] border border-[#f2a812] text-white rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-                  >
-                    Sair
-                  </button>
+                  <Button_Sair/>
                 </div>
-
               )
               :
               (
