@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button_Cancel from "./Buttons/Button_Cancel";
 import Button_YellowTarja from "./Buttons/Button_YellowTarja";
@@ -8,35 +8,37 @@ import { AuthenticationService } from "@/data/AuthenticationService";
 import { PetService } from "@/data/PetService";
 import { AxiosError } from "axios";
 
-export default function Form({}) {
+export default function Form({ }) {
   const authService = new AuthenticationService();
   const service = new PetService();
   const ref = useRef(null);
   const router = useRouter();
+  const [imagem, setImagem] = useState(null);
+  const [tamImg, setTamImg] = useState(10);
 
   init();
-  async function init(){
+  async function init() {
     try {
       const response = await authService.logged();
-      if(!response){
+      if (!response) {
         console.log("Usuário sem autenticação, direcionando para login");
         router.push("/login");
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
- 
+
     const nome = ref.current.nome.value;
     const tipo = ref.current.tipo.value;
     const sexo = ref.current.sexo.value;
     const porte = ref.current.porte.value;
     const idade = parseInt(ref.current.idade.value);
     const descricao = ref.current.descricao.value;
- 
+
     if (idade < 0) {
       alert("A idade não pode ser negativa");
       return;
@@ -51,13 +53,27 @@ export default function Form({}) {
         tipo,
         "N",
         descricao,
+        imagem
       )
       router.push("")
-    } catch(e) {
-      if(e instanceof AxiosError && e.response.status == 400) {
+    } catch (e) {
+      if (e instanceof AxiosError && e.response.status == 400) {
         console.log(e.response)
       }
     };
+  };
+
+  const loadFile = function (event) {
+    let input = event.target;
+    let file = input.files[0];
+    setImagem(file);
+    setTamImg(22)
+    let type = file.type;
+    let output = document.getElementById('preview_img');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+      URL.revokeObjectURL(output.src) // free memory
+    }
   };
 
   return (
@@ -148,10 +164,26 @@ export default function Form({}) {
             required
           ></textarea>
         </div>
-
-        <div className="flex justify-between md:col-span-2">
-          <Button_Cancel texto="Cancelar" />
-          <Button_YellowTarja texto="Cadastrar" />
+        <div className=" md:col-span-2">
+          <label className="block">
+            <span className="sr-only">Choose profile photo</span>
+            <input type="file" onChange={loadFile} className="block w-full text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-violet-700
+              hover:file:bg-violet-100
+            "/>
+          </label>
+          <div className="shrink-0 my-5">
+            <img id='preview_img' className={`h-${tamImg} w-${tamImg} object-cover`}
+              src="https://igp.rs.gov.br/themes/modelo-noticias/images/outros/GD_imgSemImagem.png"
+              alt="Imgem pet" />
+          </div>
+          <div className="flex justify-between md:col-span-2">
+            <Button_Cancel texto="Cancelar" />
+            <Button_YellowTarja texto="Cadastrar" />
+          </div>
         </div>
       </form>
     </>
