@@ -1,26 +1,65 @@
 'use client'
 
-import { PetPost } from "@/domain/Pet";
-import Post from "./Post";
 
-export function Posts({ animais, title, noData, inTelaUsuario }: { animais: PetPost[], title: string, noData: string, inTelaUsuario: boolean }) {
-  return (
-    <>
-      {/* {console.log(animais.length)} */}
-      <section className="w-full">
-        <div className="py-28 text-center">
-          <h1 className="text-2xl font-semibold text-theme-secondary">{title}</h1>
-        </div>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-          {
-            Array.isArray(animais) && animais.length > 0
-              ? (
-                animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} inTelaUsuario={inTelaUsuario}/>)
-              ) : (
-                <p>{noData}</p>
-              )}
-        </div>
-      </section>
-    </>
-  );
+import { PetPost } from "../services/PetService";
+import Post from "./Post";
+import LinkButton_YellowTarja from "./Buttons/LinkButton_YellowTarja";
+import { AuthenticationService } from '@/data/AuthenticationService';
+import { useState } from "react";
+import Link from "next/link";
+
+export function Posts({animais} : { animais: PetPost[] }) {
+
+    const service = new AuthenticationService();
+    init();
+
+    const [logado, setLogado] = useState(false);
+
+    async function init() {
+        const response = await service.logged();
+        setLogado(response)
+    }
+
+    function loggout() {
+        service.logout();
+        setLogado(false)
+    }
+    return (
+        <>
+        {/* {console.log(animais.length)} */}
+            <section className="w-full py-12 mx-auto max-w-7xl">
+            {
+                        logado ?
+                            (
+                                <div className='w-full p-4 justify-end items-center text-leth' >
+                                    <Link href={"/cadastrar_animal"} className="inline-flex">
+                                        <LinkButton_YellowTarja texto="Cadastrar animal" />
+                                    </Link>
+                                </div>
+                            )
+                            : // Vai para login !!!
+                            (
+                                <div className='w-full p-4 justify-end items-center text-right'>
+                                    <Link href={"/login"} className="inline-flex">
+                                        <LinkButton_YellowTarja texto="Cadastrar animal" />
+                                    </Link>
+                                </div>
+                            )
+                    }
+
+                <div className="py-28 text-center">
+                    <h1 className="text-5xl font-bold text-theme-text">Animais cadastrados</h1>
+                </div>
+                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-9 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"> 
+                    {
+                    Array.isArray(animais) && animais.length > 0 
+                    ? (
+                        animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} />)
+                    ) : (
+                        <p>Nenhum animal disponível.</p>
+                    )}
+                </div>
+            </section>
+        </>
+    );
 }
