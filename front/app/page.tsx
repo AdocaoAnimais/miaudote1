@@ -28,7 +28,7 @@ export default function Page() {
             logado ?
               (
                 <div className='w-full p-4 text-right'>
-                  <Link href={"/perfil-usuario"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                  <Link href={"/usuario"} className="ml-2 py-2 px-6 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                     Perfil Usuario
                   </Link>
                 </div>
