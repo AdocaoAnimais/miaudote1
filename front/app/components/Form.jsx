@@ -14,7 +14,7 @@ export default function Form({ }) {
   const ref = useRef(null);
   const router = useRouter();
   const [imagem, setImagem] = useState(null);
-  const [tamImg, setTamImg] = useState(10);
+  const [tamImg, setTamImg] = useState(0);
 
   init();
   async function init() {
@@ -45,7 +45,7 @@ export default function Form({ }) {
     }
 
     try {
-      await service.createPet(
+      const response = await service.createPet(
         nome,
         idade,
         sexo,
@@ -55,6 +55,9 @@ export default function Form({ }) {
         descricao,
         imagem
       )
+      console.log(response )
+      await service.uploadImagemPet(imagem, response.data.id);
+
       router.push("")
     } catch (e) {
       if (e instanceof AxiosError && e.response.status == 400) {
@@ -67,7 +70,7 @@ export default function Form({ }) {
     let input = event.target;
     let file = input.files[0];
     setImagem(file);
-    setTamImg(22)
+    setTamImg(150)
     let type = file.type;
     let output = document.getElementById('preview_img');
     output.src = URL.createObjectURL(event.target.files[0]);
@@ -177,6 +180,7 @@ export default function Form({ }) {
           </label>
           <div className="shrink-0 my-5">
             <img id='preview_img' className={`h-${tamImg} w-${tamImg} object-cover`}
+              style={{ height: tamImg }}
               src="https://igp.rs.gov.br/themes/modelo-noticias/images/outros/GD_imgSemImagem.png"
               alt="Imgem pet" />
           </div>
