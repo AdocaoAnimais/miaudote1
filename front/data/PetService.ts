@@ -21,6 +21,13 @@ export class PetService {
     return api.post(`${BASE_URL}/api/pet/`, params)
   }
 
+  async uploadImagemPet(imagem: any, id: number){
+    const form = new FormData()
+    form.append("imagem", imagem)
+
+    api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form).then((res) => console.log(res)).catch(error => console.log(error))
+  }
+
   async obterTodosPet() {
     return api
       .get(`${BASE_URL}/api/pet/obter-pets`)
