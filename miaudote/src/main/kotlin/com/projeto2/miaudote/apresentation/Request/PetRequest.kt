@@ -1,5 +1,7 @@
 package com.projeto2.miaudote.apresentation.Request
 
+import org.springframework.web.multipart.MultipartFile
+
 data class PetCreate(
     val nome: String?,
     val sexo: String?,
@@ -7,7 +9,8 @@ data class PetCreate(
     val idade: String?,
     val tipo: String?,
     val castrado: String?,
-    val descricao: String?,
+    val descricao: String?
+//    val imagem: MultipartFile?
 )
 data class PetUpdate(
     val nome: String?,
@@ -16,5 +19,6 @@ data class PetUpdate(
     val idade: String?,
     val tipo: String?,
     val castrado: String?,
-    val descricao: String?,
+    val descricao: String?
+//    val imagem: MultipartFile?
 )

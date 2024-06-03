@@ -53,7 +53,10 @@ data class Pet (
 
     @Column(name = "data_cadastro", nullable = false)
     val dataCadastro: LocalDateTime? = LocalDateTime.now(),
-    
+
+    @Lob
+    @Column(name= "imagemUrl", nullable = true)
+    val imagemUrl: String?,
 )
 
 fun Pet?.toProblem(): Result<Pet> {

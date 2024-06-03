@@ -4,6 +4,7 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.pet.AtualizarPetHandler
 import com.projeto2.miaudote.application.handler.pet.CriarPetHandler
 import com.projeto2.miaudote.application.handler.pet.DeletarPetHandler
+import com.projeto2.miaudote.application.handler.pet.SalvarImagemHandler
 import com.projeto2.miaudote.application.handler.solicitacaoAdocao.SolicitarAdocaoHandler
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.apresentation.Request.PetCreate
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("api/pet")
@@ -21,7 +23,8 @@ class PetController(
     private val criarPet: ProcessorHandler<CriarPetHandler>,
     private val solicitarAdocao: ProcessorHandler<SolicitarAdocaoHandler>,
     private val editarPet: ProcessorHandler<AtualizarPetHandler>,
-    private val processorDeletar: ProcessorHandler<DeletarPetHandler>
+    private val processorDeletar: ProcessorHandler<DeletarPetHandler>,
+    private val salvarImagem: ProcessorHandler<SalvarImagemHandler>
 ) {
     @GetMapping("/obter-pets")
     fun obterPets(): ResponseEntity<List<Pet>> {
@@ -44,6 +47,17 @@ class PetController(
         }
         return ResponseEntity(response, HttpStatus.OK)
     }
+    @PostMapping("/salvar-imagem/{id}")
+    fun salvarImagem(@PathVariable("id") id: Long, @RequestParam("imagem") imagem: MultipartFile?, token: JwtAuthenticationToken): ResponseEntity<Any>{
+        val request = SalvarImagemHandler.newOrProblem(id, imagem, token).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        val response = salvarImagem.process(request).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
 
     @PostMapping("/atualizar/{id}")
     fun atualizarPet(

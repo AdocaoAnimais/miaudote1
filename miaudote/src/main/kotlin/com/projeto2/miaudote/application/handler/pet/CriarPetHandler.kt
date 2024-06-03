@@ -40,7 +40,8 @@ class CriarPetProcessor(
             descricao = handler.descricao,
             idUsuario = id,
             dataCadastro = LocalDateTime.now(),
-            id = null
+            id = null,
+            imagemUrl = ""
         )
         val result = service.criar(pet)
         return Result.success(result)
