@@ -34,6 +34,7 @@ export default function Form({ }) {
 
     const nome = ref.current.nome.value;
     const tipo = ref.current.tipo.value;
+    const castrado = ref.current.castrado.value;
     const sexo = ref.current.sexo.value;
     const porte = ref.current.porte.value;
     const idade = parseInt(ref.current.idade.value);
@@ -51,14 +52,16 @@ export default function Form({ }) {
         sexo,
         porte,
         tipo,
-        "N",
+        castrado,
         descricao,
         imagem
       )
-      console.log(response )
-      await service.uploadImagemPet(imagem, response.data.id);
+      console.log(response)
+      if (imagem) {
+        await service.uploadImagemPet(imagem, response.data.id);
+      }
 
-      router.push("")
+      router.push("/usuario");
     } catch (e) {
       if (e instanceof AxiosError && e.response.status == 400) {
         console.log(e.response)
@@ -140,6 +143,21 @@ export default function Form({ }) {
             <option value="P">Pequeno</option>
             <option value="M">Médio</option>
             <option value="G">Grande</option>
+          </select>
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="castrado" className="block text-sm font-medium">
+            Castrado:
+          </label>
+          <select
+            id="castrado"
+            name="castrado"
+            className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            required
+          >
+            <option value="N">Não castrado</option>
+            <option value="C">Castrado</option> 
           </select>
         </div>
 

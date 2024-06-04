@@ -46,7 +46,8 @@ export default function NavBar() {
 
     function loggout() {
         service.logout();
-        setLogado(false)
+        setLogado(false);
+        router.refresh();
     }
 
     async function entrar(){

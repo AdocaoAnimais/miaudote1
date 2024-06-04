@@ -7,8 +7,8 @@ export class UsuarioService {
     nome: string,
     sobrenome: string,
     username: string,
-    senha: string,
     email: string,
+    senha: string,
     cpf: string,
     contato: string,
     endereco: string
@@ -24,13 +24,11 @@ export class UsuarioService {
       "endereco": endereco,
       "descricao": "",
     }
-    await api.post(`${BASE_URL}/api/usuario/cadastrar`, params).then(res => {
-      let response = res.data as LoginResponse
-      console.log(res)
+    console.log(params)
+    return await api.post(`${BASE_URL}/api/usuario/cadastrar`, params).then(res => {
+      let response = res.data as LoginResponse 
       api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
-    }).catch((error) => {
-      console.log(error)
-    });
+    }).catch((error) => {throw error});
   }
 
   async obter() {

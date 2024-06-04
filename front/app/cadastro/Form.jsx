@@ -23,7 +23,7 @@ export default function Form({}) {
       console.log(e)
     }
   }
-  const handleSubmit = (event) => {
+  async function cadastrar(event){
     event.preventDefault();
 
     // Obtendo os valores dos campos
@@ -38,7 +38,7 @@ export default function Form({}) {
     const contato = ref.current.contato.value;  
     
     try{
-      service.cadastrar(
+      await service.cadastrar(
         nome,
         sobrenome,
         username,
@@ -48,19 +48,16 @@ export default function Form({}) {
         contato,
         endereco,
       );
-      
+      router.push("/"); 
     } catch(e) {
       console.log(e)
     }
-    
-    
   };
 
   return (
     <>
       <form
-        ref={ref}
-        onSubmit={handleSubmit}
+        ref={ref} 
         className="max-w-lg mx-auto grid grid-cols-1 md:grid-cols-2 gap-3"
       >
         <div className="md:col-span-2">
@@ -152,7 +149,7 @@ export default function Form({}) {
 
         <div className="flex justify-center md:col-span-2 pt-8">
           <button
-            type="submit"
+            onClick={cadastrar}
             className="py-4 w-full bg-theme-button1 text-theme-text rounded-md hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
           >
             Cadastrar

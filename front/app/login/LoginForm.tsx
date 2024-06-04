@@ -33,7 +33,7 @@ export default function LoginForm({ }) {
         try {
             await service.loggin(username, senha)
             console.log("Logado com sucesso!");
-            router.back()
+            router.refresh();
         } catch (e) {
             console.log("Error ao efetuar login: ", e);
         }

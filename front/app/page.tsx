@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import Card from './components/Card.tsx';   
-import Header from './components/Header.tsx';
+import Header from './components/Header';
 
 export default function Page() {
 

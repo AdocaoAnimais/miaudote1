@@ -8,7 +8,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { PetPost } from "@/domain/Pet";
 
-export function Posts({animais, inPerfil } : { animais: PetPost[], inPerfil: boolean }) {
+export function Posts({animais, inPerfil } : { animais: PetPost[], inPerfil: boolean }) { 
 
     const service = new AuthenticationService();
     init();
@@ -18,11 +18,6 @@ export function Posts({animais, inPerfil } : { animais: PetPost[], inPerfil: boo
     async function init() {
         const response = await service.logged();
         setLogado(response)
-    }
-
-    function loggout() {
-        service.logout();
-        setLogado(false)
     }
     return (
         <>
