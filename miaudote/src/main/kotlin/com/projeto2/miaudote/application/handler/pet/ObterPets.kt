@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component
 @Component
 class ObterPetsProcessor(
     private val service: PetService,
-) : ProcessorHandler<ObterPetsHanler>() {
-    override fun process(handler: ObterPetsHanler): Result<Any> {
+) : ProcessorHandler<ObterPetsHandler>() {
+    override fun process(handler: ObterPetsHandler): Result<Any> {
         val response = when (handler.id) {
             is Long -> service.obterPetsOutrosUsuarios(handler.id)
             else -> service.obterTodosDiponiveis()
@@ -19,14 +19,14 @@ class ObterPetsProcessor(
     }
 }
 
-class ObterPetsHanler private constructor(
+class ObterPetsHandler private constructor(
     val id: Long?
 ) : RequestHandler {
     companion object {
-        fun newOrProblem(token: JwtAuthenticationToken?): Result<ObterPetsHanler> {
+        fun newOrProblem(token: JwtAuthenticationToken?): Result<ObterPetsHandler> {
             val id = token?.name?.toLongOrNull()
 
-            return Result.success(ObterPetsHanler(id))
+            return Result.success(ObterPetsHandler(id))
         }
     }
 }

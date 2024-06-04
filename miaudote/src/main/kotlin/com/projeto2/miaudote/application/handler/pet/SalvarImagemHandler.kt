@@ -4,18 +4,17 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
-import com.projeto2.miaudote.application.services.ImagemService
 import com.projeto2.miaudote.application.services.PetService
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
+import javax.sql.rowset.serial.SerialBlob
 
 @Service
 class SalvarImagemProcessor(
-    private val petService: PetService,
-    val imagemService: ImagemService
+    private val petService: PetService
 ) : ProcessorHandler<SalvarImagemHandler>() {
     override fun process(handler: SalvarImagemHandler): Result<Any> {
         val id = handler.token.name.toLongOrNull() ?: return salvarImagemProblem(
@@ -35,14 +34,12 @@ class SalvarImagemProcessor(
                 id.toString()
             ).toFailure()
         }
-
-        val imagemUrl: String? = handler.imagem?.let {
-            imagemService.salvarImagem(it) // Save the image file and get the URL
-        }
-
+        val imageData = handler.imagem?.bytes
+        val blob = SerialBlob(imageData)
         val petAtualizado = petExistente.copy(
-            imagemUrl = imagemUrl
+            imageData = blob
         )
+
         val result = petService.atualizar(petAtualizado)
         return Result.success(result)
     }

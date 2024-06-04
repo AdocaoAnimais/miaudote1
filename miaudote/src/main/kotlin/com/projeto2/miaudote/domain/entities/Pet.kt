@@ -1,5 +1,7 @@
 package com.projeto2.miaudote.domain.entities
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
@@ -9,9 +11,12 @@ import com.projeto2.miaudote.domain.enums.converters.CastradoConverter
 import com.projeto2.miaudote.domain.enums.converters.PorteConverter
 import com.projeto2.miaudote.domain.enums.converters.SexoConverter
 import com.projeto2.miaudote.domain.enums.converters.TipoConverter
+import com.projeto2.miaudote.domain.serialization.BlobDeserializer
+import com.projeto2.miaudote.domain.serialization.BlobSerializer
 import jakarta.persistence.*
 import org.springframework.http.HttpStatus
 import java.net.URI
+import java.sql.Blob
 import java.time.LocalDateTime
 
 @Entity
@@ -54,9 +59,10 @@ data class Pet (
     @Column(name = "data_cadastro", nullable = false)
     val dataCadastro: LocalDateTime? = LocalDateTime.now(),
 
-    @Lob
-    @Column(name= "imagemUrl", nullable = true)
-    val imagemUrl: String?,
+    @JsonSerialize(using = BlobSerializer::class)
+    @JsonDeserialize(using = BlobDeserializer::class)
+    @Column(name = "imageData")
+    val imageData: Blob?,
 )
 
 fun Pet?.toProblem(): Result<Pet> {
