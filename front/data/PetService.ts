@@ -48,4 +48,9 @@ export class PetService {
     return api.post(`${BASE_URL}/api/pet/solicitar-adocao/${id}`)
       .then(res => res.data) 
   }
+
+  async deletar(id: string){
+    return api.delete(`${BASE_URL}/api/pet/deletar/${id}`)
+      .then(res => res.data) 
+  }
 }

@@ -1,14 +1,17 @@
 'use client'
 
 import { PetService } from "@/data/PetService";
-import { PetPost } from "@/domain/Pet"; 
+import { PetPost } from "@/domain/Pet";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "next/link"; 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Post({ animal, inPerfil }: { animal: PetPost, inPerfil: boolean }) {
+    const router = useRouter()
     const service = new PetService();
     const [pet, setPet] = useState<PetPost>(animal)
+    const [deletado, setDeletado] = useState(false)
     const truncateDescription = (text: string, maxLength: number) => {
         if (text.length <= maxLength) return text;
         return text.slice(0, maxLength) + '...';
@@ -28,8 +31,19 @@ export default function Post({ animal, inPerfil }: { animal: PetPost, inPerfil: 
 
         })
     }
+    async function deletar(event: any) {
+        console.log(event.target.id)
+        const id = event.target.id
+        await service.deletar(id).then(res => {
+            setDeletado(true)
+        }).catch((res: any) => {
+            console.log(res)
+        });
+        router.refresh()
+    }
 
     return (
+        deletado ? <></> :
         <div className="h-[440px] rounded-lg overflow-hidden shadow-lg bg-gray-800 transform transition-transform hover:scale-105">
             <div className="relative w-auto h-[240px] overflow-hidden rounded-t-lg">
                 {/* <Image src={"/logo.png"} alt={"title"} width={400} height={400} className="rounded-lg" /> */}
@@ -67,22 +81,32 @@ export default function Post({ animal, inPerfil }: { animal: PetPost, inPerfil: 
             </Link>
             {
                 inPerfil ? (
-                    <button
-                        id={`${pet.id}`}
-                        className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-                    >
-                        Editar
-                    </button>
+                    <>
+                        <button
+                            id={`${pet.id}`}
+                            className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                        >
+                            Editar
+                        </button>
+                        <button
+                            onClick={deletar}
+                            id={`${pet.id}`}
+                            className="py-2 px-6 m-2 bg-theme-button2 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                        >
+                            Deletar
+                        </button>
+                    </>
+
                 ) :
-                (
-                    <button
-                        id={`${pet.id}`}
-                        className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-                        onClick={solicitarAdocao}
-                    >
-                        Adotar
-                    </button>
-                )
+                    (
+                        <button
+                            id={`${pet.id}`}
+                            className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                            onClick={solicitarAdocao}
+                        >
+                            Adotar
+                        </button>
+                    )
             }
         </div>
     );
