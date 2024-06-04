@@ -1,8 +1,7 @@
 'use client'
 
 import { PetService } from "@/data/PetService";
-import { PetPost } from "@/domain/Pet";
-import { AxiosError } from "axios";
+import { PetPost } from "@/domain/Pet"; 
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
