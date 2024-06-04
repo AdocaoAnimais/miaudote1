@@ -9,8 +9,8 @@ import kotlin.jvm.optionals.getOrNull
 class PetService (
     val repository: PetRepository
 ) {
-    fun obterTodos(): List<Pet> {
-        return  repository.findAll()
+    fun obterTodosDiponiveis(): List<Pet>? {
+        return repository.findPetsNaoAdotados()
     }
     fun obterPetsOutrosUsuarios(id: Long): List<Pet>?{
         return repository.findPetsOthersUsuarios(id)

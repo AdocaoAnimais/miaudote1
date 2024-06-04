@@ -11,7 +11,21 @@ interface PetRepository : JpaRepository<Pet, Long>{
     @Query(
         """
         select pet from Pet pet 
-        where pet.idUsuario != :idUsuario"""
+        where pet.idUsuario != :idUsuario
+        and pet.id not in (
+            select adocao.petId from Adocao adocao
+        )
+        """
     )
     fun findPetsOthersUsuarios(@Param("idUsuario") idUsuario: Long): List<Pet>?
+
+    @Query(
+        """
+        select pet from Pet pet 
+        where pet.id not in (
+            select adocao.petId from Adocao adocao
+        )"""
+    )
+    fun findPetsNaoAdotados(): List<Pet>?
+
 }

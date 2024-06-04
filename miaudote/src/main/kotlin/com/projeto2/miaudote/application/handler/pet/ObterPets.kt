@@ -13,7 +13,7 @@ class ObterPetsProcessor(
     override fun process(handler: ObterPetsHanler): Result<Any> {
         val response = when (handler.id) {
             is Long -> service.obterPetsOutrosUsuarios(handler.id)
-            else -> service.obterTodos()
+            else -> service.obterTodosDiponiveis()
         }
         return Result.success(response) as Result<Any>
     }
