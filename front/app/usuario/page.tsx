@@ -59,10 +59,8 @@ export default function PerfilUsuario() {
           }
           {
             pets?.length != null ? (
-              <Posts animais={pets}
-                title="Seus animais cadastrados"
-                noData="Nenhum animal cadastrado até o momento."
-                inTelaUsuario={true}
+              <Posts animais={pets} 
+                inPerfil={true}
               />
             )
               :

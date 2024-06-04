@@ -14,7 +14,7 @@ import Image from 'next/image'
 import { Fragment, useState } from 'react'
 import { AuthenticationService } from '@/data/AuthenticationService';
 import Link from 'next/link';
-import LinkButton_YellowTarja from './Buttons/LinkButton_YellowTarja';
+import { useRouter } from 'next/navigation';
 
 interface NavigationItem {
     name: string
@@ -24,7 +24,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Sobre', href: '/sobre', current: false },
+    // { name: 'Sobre', href: '/sobre', current: false },
     // { name: 'Cadastre-se', href: '/cadastro', current: false },
     // { name: 'Calendar', href: '#', current: false },
 ]
@@ -34,11 +34,11 @@ function classNames(...classes: (string | false | null | undefined)[]): string {
 }
 
 export default function NavBar() {
-    const service = new AuthenticationService();
-    init();
-
+    const router = useRouter()
     const [logado, setLogado] = useState(false);
-
+    const service = new AuthenticationService();
+    
+    init();
     async function init() {
         const response = await service.logged();
         setLogado(response)
@@ -47,6 +47,13 @@ export default function NavBar() {
     function loggout() {
         service.logout();
         setLogado(false)
+    }
+
+    async function entrar(){
+        await init();
+        if(!logado){
+            router.push("/login");
+        }
     }
 
     return (
@@ -170,7 +177,7 @@ export default function NavBar() {
                                 </div>
                             ) : (
                                 <div className='p-4 text-right'>
-                                    <Link href={"/login"} >
+                                    <button onClick={entrar}>
                                         <div
                                             className="flex justify-center items-center font-bold w-[120px] h-[40px] text-center relative rounded-lg bg-gray-900 p-1 text-theme-button1 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                         >
@@ -179,7 +186,7 @@ export default function NavBar() {
                                             <span className="sr-only">Entrar</span>
                                             <span className="block h-6 w-6">Entrar</span> */}
                                         </div>
-                                    </Link>
+                                    </button>
                                 </div>
                             )
                             }

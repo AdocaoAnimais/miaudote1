@@ -1,14 +1,14 @@
 'use client'
 
 
-import { PetPost } from "../services/PetService";
 import Post from "./Post";
 import LinkButton_YellowTarja from "./Buttons/LinkButton_YellowTarja";
 import { AuthenticationService } from '@/data/AuthenticationService';
 import { useState } from "react";
 import Link from "next/link";
+import { PetPost } from "@/domain/Pet";
 
-export function Posts({animais} : { animais: PetPost[] }) {
+export function Posts({animais, inPerfil } : { animais: PetPost[], inPerfil: boolean }) {
 
     const service = new AuthenticationService();
     init();
@@ -54,7 +54,7 @@ export function Posts({animais} : { animais: PetPost[] }) {
                     {
                     Array.isArray(animais) && animais.length > 0 
                     ? (
-                        animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} />)
+                        animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} inPerfil={inPerfil}/>)
                     ) : (
                         <p>Nenhum animal disponível.</p>
                     )}

@@ -21,7 +21,7 @@ export class PetService {
     return api.post(`${BASE_URL}/api/pet/`, params)
   }
 
-  async uploadImagemPet(imagem: any, id: number){
+  async uploadImagemPet(imagem: any, id: number) {
     const form = new FormData()
     form.append("imagem", imagem)
 
@@ -40,5 +40,10 @@ export class PetService {
   async obterPetsUsuario() {
     return api
       .get(`${BASE_URL}/api/pet/obter-pets-usuario`)
+  }
+
+  async solicitarAdocao(id: string){
+    return api.post(`${BASE_URL}/api/pet/solicitar-adocao/${id}`)
+      .then(res => res.data) 
   }
 }

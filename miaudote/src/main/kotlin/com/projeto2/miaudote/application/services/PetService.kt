@@ -12,6 +12,10 @@ class PetService (
     fun obterTodos(): List<Pet> {
         return  repository.findAll()
     }
+    fun obterPetsOutrosUsuarios(id: Long): List<Pet>?{
+        return repository.findPetsOthersUsuarios(id)
+    }
+
     fun obterPetsUsuario(id: Long): List<Pet>?{
         return repository.findByIdUsuario(id)
     }
