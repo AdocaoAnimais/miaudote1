@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@graphcms/rich-text-react-renderer": "^0.6.1",
     "@headlessui/react": "^2.0.4",
+    "@mui/material": "^5.15.19",
+    "@nextui-org/modal": "^2.0.35",
     "axios": "^1.6.8",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
