@@ -19,5 +19,6 @@ export interface PetPost {
   },
   descricao: string,
   idade: number,
-  idUsuario: number
+  idUsuario: number,
+  imageData: string
 }
