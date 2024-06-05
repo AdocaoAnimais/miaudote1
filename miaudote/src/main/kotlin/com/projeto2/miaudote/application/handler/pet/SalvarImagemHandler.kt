@@ -4,27 +4,29 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
+import com.projeto2.miaudote.application.services.ImagemService
 import com.projeto2.miaudote.application.services.PetService
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
 import javax.sql.rowset.serial.SerialBlob
 
-@Service
+@Component
 class SalvarImagemProcessor(
-    private val petService: PetService
+    private val petService: PetService,
 ) : ProcessorHandler<SalvarImagemHandler>() {
+
     override fun process(handler: SalvarImagemHandler): Result<Any> {
         val id = handler.token.name.toLongOrNull() ?: return salvarImagemProblem(
             "Id do usuário não encontrado.",
-            "ID",
+            "ID"
         ).toFailure()
 
         val petExistente = petService.obterPorId(handler.id) ?: return salvarImagemProblem(
             "Pet não encontrado",
-            "pet",
+            "pet"
         ).toFailure()
 
         if (petExistente.idUsuario != id) {
@@ -34,7 +36,28 @@ class SalvarImagemProcessor(
                 id.toString()
             ).toFailure()
         }
-        val imageData = handler.imagem?.bytes
+
+        val imageData = handler.imagem?.bytes ?: return salvarImagemProblem(
+            "Nenhuma imagem uploaded",
+            campo = "imageData"
+        ).toFailure()
+
+        val fileType = handler.imagem.contentType
+        if (fileType == null || !fileType.startsWith("image/")) {
+            return salvarImagemProblem(
+                detalhe = "Imagem em formato incorreto",
+                campo = "imageData"
+            ).toFailure()
+        }
+
+        val maxFileSize = 16000000 // 16MB
+        if (handler.imagem.size > maxFileSize ) {
+            return salvarImagemProblem(
+                detalhe = "Imagem excede o tamanho de 16MB",
+                campo = "compressedImageData",
+            ).toFailure()
+        }
+
         val blob = SerialBlob(imageData)
         val petAtualizado = petExistente.copy(
             imageData = blob
@@ -44,6 +67,7 @@ class SalvarImagemProcessor(
         return Result.success(result)
     }
 }
+
 
 class SalvarImagemHandler private constructor(
     val id: Long,

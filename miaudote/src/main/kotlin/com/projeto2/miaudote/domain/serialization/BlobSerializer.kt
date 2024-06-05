@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import org.hibernate.engine.jdbc.BlobProxy
 import java.io.IOException
+import java.sql.Blob
 
-class BlobSerializer : JsonSerializer<BlobProxy>() {
+class BlobSerializer : JsonSerializer<Blob>() {
 
     @Throws(IOException::class)
-    override fun serialize(value: BlobProxy?, gen: JsonGenerator, serializers: SerializerProvider) {
+    override fun serialize(value: Blob?, gen: JsonGenerator, serializers: SerializerProvider) {
         if (value != null) {
             val bytes = value.binaryStream.readBytes()
             gen.writeBinary(bytes)
