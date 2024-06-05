@@ -4,7 +4,6 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
-import com.projeto2.miaudote.application.services.ImagemService
 import com.projeto2.miaudote.application.services.PetService
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
