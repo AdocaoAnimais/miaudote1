@@ -1,31 +1,39 @@
 'use client'
 
-import { Ref, useRef } from "react";
+import { Ref, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import backIcon from "../../public/back.svg";
 import Link from "next/link";
 import { AuthenticationService } from "@/data/AuthenticationService";
+import Alerts from "../components/Alerts";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { AxiosError } from "axios";
 
 export default function LoginForm({ }) {
     const service = new AuthenticationService();
 
     const router = useRouter()
     const ref: Ref<any> = useRef(null);
+
+    const [error, setError] = useState<string | null>(null);
+
     init();
-    async function init(){
-      try {
-        const response = await service.logged();
-        if(response){
-          console.log("Usuário já logado, redirecionando para tela inicial.");
-          router.push("/");
+    async function init() {
+        try {
+            const response = await service.logged();
+            if (response) {
+                console.log("Usuário já logado, redirecionando para tela inicial.");
+                router.push("/");
+            }
+        } catch (e) {
+            console.log(e)
         }
-      } catch(e) {
-        console.log(e)
-      }
     }
     const handleSubmit = async (event: any) => {
         event.preventDefault();
+        setError(null); // Reset error state before attempting login
 
         const username = ref.current.username.value;
         const senha = ref.current.senha.value;
@@ -33,14 +41,17 @@ export default function LoginForm({ }) {
         try {
             await service.loggin(username, senha)
             console.log("Logado com sucesso!");
-            router.refresh();
-        } catch (e) {
-            console.log("Error ao efetuar login: ", e);
+            router.back()
+        } catch (e: any) {
+            console.log("Erro ao efetuar login: ", e.response?.data?.detail);
+            setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
         }
     };
 
     return (
         <>
+            {/* REsponse > data > title
+        data > detail  */}
             <form
                 ref={ref}
                 onSubmit={handleSubmit}
@@ -67,7 +78,9 @@ export default function LoginForm({ }) {
                         required
                     />
                 </div>
+                <div>
 
+                </div>
                 <div className="justify-start md:col-span-2">
                     <button
                         type="submit"
@@ -85,6 +98,13 @@ export default function LoginForm({ }) {
                             Não tem cadastro? Cadastre-se!
                         </Link>
                     </div>
+                </div>
+                <div className="md:col-span-2">
+                    {error && (
+                        <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert severity="error">{error}</Alert>
+                        </Stack>
+                    )}
                 </div>
             </form>
         </>

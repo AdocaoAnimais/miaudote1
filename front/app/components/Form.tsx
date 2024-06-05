@@ -7,6 +7,8 @@ import Button_YellowTarja from "./Buttons/Button_YellowTarja";
 import { AuthenticationService } from "@/data/AuthenticationService";
 import { PetService } from "@/data/PetService";
 import { AxiosError } from "axios";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 export default function Form({ }) {
   const authService = new AuthenticationService();
@@ -15,6 +17,7 @@ export default function Form({ }) {
   const router = useRouter();
   const [imagem, setImagem] = useState(null);
   const [tamImg, setTamImg] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   init();
   async function init() {
@@ -31,6 +34,9 @@ export default function Form({ }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setError(null); // Reset error state before attempting login
+
 
     const nome = ref.current.nome.value;
     const tipo = ref.current.tipo.value;
@@ -61,11 +67,12 @@ export default function Form({ }) {
         await service.uploadImagemPet(imagem, response.data.id);
       }
 
-      router.push("/usuario");
-    } catch (e) {
+      router.push("/usuario")
+    } catch (e: any) {
       if (e instanceof AxiosError && e.response.status == 400) {
         console.log(e.response)
       }
+      setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
     };
   };
 
@@ -157,7 +164,7 @@ export default function Form({ }) {
             required
           >
             <option value="N">Não castrado</option>
-            <option value="C">Castrado</option> 
+            <option value="C">Castrado</option>
           </select>
         </div>
 
@@ -207,6 +214,11 @@ export default function Form({ }) {
             <Button_YellowTarja texto="Cadastrar" />
           </div>
         </div>
+        {error && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+            <Alert severity="error">{error}</Alert>
+          </Stack>
+        )}
       </form>
     </>
   );
