@@ -49,7 +49,7 @@ export function Posts({animais, inPerfil } : { animais: PetPost[], inPerfil: boo
                     {
                     Array.isArray(animais) && animais.length > 0 
                     ? (
-                        animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} inPerfil={inPerfil}/>)
+                        animais.map((animal: PetPost) => <Post key={animal.id} animal={animal} inPerfil={inPerfil} isLogado={logado} />)
                     ) : (
                         <p>Nenhum animal disponível.</p>
                     )}

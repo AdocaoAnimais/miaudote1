@@ -34,7 +34,7 @@ export class AuthenticationService {
                 return false
             })
     }
-
+    
     logout() {
         window.localStorage.removeItem(this.chave)
         api.defaults.headers.common['Authorization'] = null;
