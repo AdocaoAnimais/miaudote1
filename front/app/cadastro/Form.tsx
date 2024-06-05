@@ -1,29 +1,33 @@
-"use client";
+'use client'
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthenticationService } from "@/data/AuthenticationService";
 import { UsuarioService } from "@/data/UsuarioService";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
-export default function Form({}) {
+export default function Form({ }) {
   const authService = new AuthenticationService();
   const service = new UsuarioService();
   const router = useRouter();
 
+  const [error, setError] = useState<string | null>(null);
+
   const ref = useRef(null);
   init();
-  async function init(){
+  async function init() {
     try {
       const response = await authService.logged();
-      if(response){
+      if (response) {
         console.log("Usuário logado, redirecionando para tela inicial.");
         router.push("/");
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
-  async function cadastrar(event){
+  async function cadastrar(event) {
     event.preventDefault();
 
     // Obtendo os valores dos campos
@@ -33,31 +37,33 @@ export default function Form({}) {
     const username = ref.current.username.value;
     const email = ref.current.email.value;
     const senha = ref.current.senha.value;
-    const cpf = ref.current.cpf.value;  
-    const endereco = ref.current.endereco.value;  
-    const contato = ref.current.contato.value;  
-    
-    try{
+    const cpf = ref.current.cpf.value;
+    const endereco = ref.current.endereco.value;
+    const contato = ref.current.contato.value;
+
+    try {
       await service.cadastrar(
         nome,
         sobrenome,
         username,
         email,
         senha,
-        cpf, 
+        cpf,
         contato,
         endereco,
       );
-      router.push("/"); 
-    } catch(e) {
+      router.push("/");
+    } catch (e) {
       console.log(e)
+      console.log("Erro ao efetuar login: ", e.response?.data?.detail);
+      setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
     }
   };
 
   return (
     <>
       <form
-        ref={ref} 
+        ref={ref}
         className="max-w-lg mx-auto grid grid-cols-1 md:grid-cols-2 gap-3"
       >
         <div className="md:col-span-2">
@@ -135,7 +141,7 @@ export default function Form({}) {
             placeholder="CEP"
             htmlFor="endereco"
           />
-        </div> 
+        </div>
         <div className="">
           <input
             id="contato"
@@ -155,7 +161,13 @@ export default function Form({}) {
             Cadastrar
           </button>
         </div>
+
       </form>
+      {error && (
+        <Stack sx={{ width: '100%' }} spacing={2}>
+          <Alert severity="error">{error}</Alert>
+        </Stack>
+      )}
     </>
   );
 }
