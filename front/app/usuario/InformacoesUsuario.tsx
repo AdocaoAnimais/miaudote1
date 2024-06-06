@@ -20,9 +20,9 @@ export default function InformacoesUsuario({ usuarioIn }: { usuarioIn: Usuario }
               <p className="text-white-700 text-base">CPF: {usuario.cpf}</p>
             </div>
             <div>
-              <Link href={"usuario/editar"} className="m-2 py-5 px-10 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+              <Link href={"/usuario/editar"} className="m-2 py-5 px-10 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                 Editar
-              </Link>
+              </Link> 
               <Button_Sair />
             </div>
           </div>

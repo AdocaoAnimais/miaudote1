@@ -34,4 +34,28 @@ export class UsuarioService {
   async obter() {
     return await api.get(`${BASE_URL}/api/usuario/obter`)
   }
+
+  async atualizar(
+    nome: string,
+    sobrenome: string,
+    username: string,
+    email: string, 
+    cpf: string,
+    contato: string,
+    endereco: string,
+    senha: string
+  ){
+    const params = {
+      "nome": nome,
+      "sobrenome": sobrenome,
+      "username": username,
+      "email": email, 
+      "cpf": cpf,
+      "contato": contato,
+      "endereco": endereco,
+      "descricao": "",
+      "senha": senha
+    }
+    return await api.post(`${BASE_URL}/api/usuario/atualizar`, params)
+  }
 }
