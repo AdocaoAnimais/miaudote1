@@ -22,7 +22,7 @@ export default function Form({ }) {
     const [tamImg, setTamImg] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
-    const petId = searchParams.get('id');
+    const petId: string = searchParams.get('id') ?? "0"
     const [nome, setNome] = useState(searchParams.get('nome') || "");
     const [tipo, setTipo] = useState(searchParams.get('tipo') || "C");
     const [castrado, setCastrado] = useState(searchParams.get('castrado') || "N");
@@ -66,8 +66,7 @@ export default function Form({ }) {
         }
 
         try {
-            const response = await service.updatePet(
-                petId,
+            const response = await service.atualizar(
                 nome,
                 idade,
                 sexo,
@@ -75,7 +74,7 @@ export default function Form({ }) {
                 tipo,
                 castrado,
                 descricao,
-                imagem
+                petId
             )
             console.log(response)
             if (imagem) {

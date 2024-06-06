@@ -43,7 +43,7 @@ export default function Form({ }) {
     const castrado = ref.current.castrado.value;
     const sexo = ref.current.sexo.value;
     const porte = ref.current.porte.value;
-    const idade = parseInt(ref.current.idade.value);
+    const idade = ref.current.idade.value;
     const descricao = ref.current.descricao.value;
 
     if (idade < 0) {
@@ -59,10 +59,8 @@ export default function Form({ }) {
         porte,
         tipo,
         castrado,
-        descricao,
-        imagem
-      )
-      console.log(response)
+        descricao
+      ) 
       if (imagem) {
         await service.uploadImagemPet(imagem, response.data.id);
       }
