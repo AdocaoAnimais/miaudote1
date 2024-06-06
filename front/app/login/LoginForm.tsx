@@ -6,7 +6,6 @@ import Image from "next/image";
 import backIcon from "../../public/back.svg";
 import Link from "next/link";
 import { AuthenticationService } from "@/data/AuthenticationService";
-import Alerts from "../components/Alerts";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { AxiosError } from "axios";
@@ -42,7 +41,7 @@ export default function LoginForm({ }) {
             await service.loggin(username, senha)
             console.log("Logado com sucesso!");
             router.back()
-        } catch (e: any) {
+        } catch (e) {
             console.log("Erro ao efetuar login: ", e.response?.data?.detail);
             setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
         }

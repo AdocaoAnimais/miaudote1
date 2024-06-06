@@ -6,9 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ErrorMessage from "./ErrorMesagem";
+import ToastDemo from "./Mensagem";
 
 export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, inPerfil: boolean, isLogado: boolean }) {
     const router = useRouter()
+    const [error, setError] = useState<{ title: string; detalhes: string } | null>(null);
     const service = new PetService();
     const [pet, setPet] = useState<PetPost>(animal)
     const [imageSrc, setImageSrc] = useState(pet.imageData ? 'data:image/jpeg;base64,' + pet.imageData : null)
@@ -28,7 +31,8 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
             }).catch((res: any) => {
                 const title = res.response.data.title
                 const detalhes = res.response.data.detail
-                alert(`${title} ${detalhes}`)
+                // alert(`${title} ${detalhes}`)
+                setError({ title, detalhes });
             });
         }
     }
@@ -83,12 +87,28 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                 {
                     inPerfil ? (
                         <>
-                            <button
-                                id={`${pet.id}`}
-                                className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                            <Link
+                                href={{
+                                    pathname: `/editar_animal/${pet.id}`,
+                                    query: {
+                                        id: pet.id,
+                                        nome: pet.nome,
+                                        tipo: pet.tipo,
+                                        castrado: pet.castrado,
+                                        sexo: pet.sexo,
+                                        porte: pet.porte,
+                                        idade: pet.idade,
+                                        descricao: pet.descricao,
+                                    },
+                                }}
                             >
-                                Editar
-                            </button>
+                                <button
+                                    id={`${pet.id}`}
+                                    className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                                >
+                                    Editar
+                                </button>
+                            </Link>
                             <button
                                 onClick={deletar}
                                 id={`${pet.id}`}
@@ -100,13 +120,16 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
 
                     ) :
                         (
-                            <button
-                                id={`${pet.id}`}
-                                className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-                                onClick={solicitarAdocao}
-                            >
-                                Adotar
-                            </button>
+                            <div>
+                                <button
+                                    id={`${pet.id}`}
+                                    className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                                    onClick={solicitarAdocao}
+                                >
+                                    Adotar
+                                </button>
+                                {error && <ToastDemo title={error.title} detalhes={error.detalhes} />}
+                            </div>
                         )
                 }
             </div>
