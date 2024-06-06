@@ -158,6 +158,18 @@ class AtualizarUsuarioHandler private constructor(
                     )
                 )
             }
+
+            val senhaIn = usuario.senha
+            if (!senhaIn.isNullOrBlank() && senhaIn.length <= 5) {
+                return Result.failure(
+                    atualizarUsuarioProblem(
+                        "Campo 'senha' não pode ser menor que cinco caracteres",
+                        "senha",
+                        senhaIn
+                    )
+                )
+            }
+
             return Result.success(
                 AtualizarUsuarioHandler(
                     id = id,
