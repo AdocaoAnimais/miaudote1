@@ -1,6 +1,5 @@
 'use client'
 
-
 import Post from "./Post";
 import LinkButton_YellowTarja from "./Buttons/LinkButton_YellowTarja";
 import { AuthenticationService } from '@/data/AuthenticationService';

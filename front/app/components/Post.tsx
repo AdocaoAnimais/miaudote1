@@ -83,12 +83,28 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                 {
                     inPerfil ? (
                         <>
-                            <button
-                                id={`${pet.id}`}
-                                className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                            <Link
+                                href={{
+                                    pathname: `/editar_animal/${pet.id}`,
+                                    query: {
+                                        id: pet.id,
+                                        nome: pet.nome,
+                                        tipo: pet.tipo,
+                                        castrado: pet.castrado,
+                                        sexo: pet.sexo,
+                                        porte: pet.porte,
+                                        idade: pet.idade,
+                                        descricao: pet.descricao,
+                                    },
+                                }}
                             >
-                                Editar
-                            </button>
+                                <button
+                                    id={`${pet.id}`}
+                                    className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                                >
+                                    Editar
+                                </button>
+                            </Link>
                             <button
                                 onClick={deletar}
                                 id={`${pet.id}`}
