@@ -79,7 +79,8 @@ class AtualizarUsuarioProcessor(
             email = usuarioSalvo.email,
             cpf = usuarioSalvo.cpf,
             descricao = usuarioSalvo.descricao,
-            contato = usuarioSalvo.contato
+            contato = usuarioSalvo.contato,
+            endereco = usuarioSalvo.endereco
         )
         return Result.success(response)
     }

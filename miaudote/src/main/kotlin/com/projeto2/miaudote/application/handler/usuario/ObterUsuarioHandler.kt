@@ -25,7 +25,8 @@ class ObterUsuarioProcessor(
             email = usuario.email,
             cpf = usuario.cpf,
             descricao = usuario.descricao,
-            contato = usuario.contato
+            contato = usuario.contato,
+            endereco = usuario.endereco
         )
         return Result.success(response)
     }
