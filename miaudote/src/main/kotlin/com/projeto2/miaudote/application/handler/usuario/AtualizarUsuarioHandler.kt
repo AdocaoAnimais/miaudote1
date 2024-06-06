@@ -6,6 +6,7 @@ import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
 import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
@@ -100,7 +101,7 @@ class AtualizarUsuarioHandler private constructor(
 ) : RequestHandler {
     companion object {
         fun newOrProblem(
-            usuario: UsuarioUpdate,
+            usuario: UsuarioCreate,
             token: JwtAuthenticationToken
         ): Result<AtualizarUsuarioHandler> {
             val id = token.name.toLongOrNull() ?: return Result.failure(
@@ -116,31 +117,12 @@ class AtualizarUsuarioHandler private constructor(
                     id.toString()
                 )
             )
-            val nomeIn = usuario.nome
-            if (nomeIn.isNullOrBlank()) return Result.failure(
-                atualizarUsuarioProblem(
-                    "Campo 'nome' não pode ser vazio",
-                    "nome",
-                    usuario.nome
-                )
-            )
-            val sobrenomeIn = usuario.sobrenome
-            if (sobrenomeIn.isNullOrBlank()) return Result.failure(
-                atualizarUsuarioProblem(
-                    "Campo 'sobrenome' não pode ser vazio",
-                    "sobrenome",
-                    usuario.sobrenome
-                )
-            )
-            val usernameIn = usuario.username
-            if (usernameIn.isNullOrBlank()) return Result.failure(
-                atualizarUsuarioProblem(
-                    "Campo 'username' não pode ser vazio",
-                    "username",
-                    usuario.username
-                )
-            )
-            val emailIn = usuario.email
+            val nomeIn = usuario.validaNome().getOrElse { return Result.failure(it) }
+            val sobrenomeIn = usuario.validaSobrenome().getOrElse { return Result.failure(it) }
+            val usernameIn = usuario.validaUsername().getOrElse { return Result.failure(it) }
+            val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
+            val emailIn = usuario.validaEmailRegex().getOrElse { return Result.failure(it) }
+
             if (emailIn.isNullOrBlank()) return Result.failure(
                 atualizarUsuarioProblem(
                     "Campo 'email' não pode ser vazio",
@@ -148,17 +130,6 @@ class AtualizarUsuarioHandler private constructor(
                     usuario.email
                 )
             )
-            val cpfIn = usuario.cpf
-            if (cpfIn.isNullOrBlank() || cpfIn.length != 11) {
-                return Result.failure(
-                    atualizarUsuarioProblem(
-                        "Campo 'cpf' precisa ter 11 caracteres",
-                        "cpf",
-                        usuario.cpf
-                    )
-                )
-            }
-
             val senhaIn = usuario.senha
             if (!senhaIn.isNullOrBlank() && senhaIn.length <= 5) {
                 return Result.failure(

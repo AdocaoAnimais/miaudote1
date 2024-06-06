@@ -17,6 +17,17 @@ class UsuarioCreate(
 ) {
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
 
+    fun validaEmailRegex (): Result<String?> {
+        if (!this.email.isNullOrBlank() && this.email.matches(emailRegex.toRegex())) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'email' não é um email valido",
+                "email",
+                this.email
+            )
+        )
+        return Result.success(email)
+    }
+
     fun validaEmail(): Result<String> {
         if (this.email.isNullOrBlank()) return Result.failure(
             criarUsuarioProblem(
