@@ -106,6 +106,7 @@ export default function Form({ }) {
 
     return (
         <>
+        <div className="text-white">
             <form
                 ref={ref}
                 onSubmit={handleSubmit}
@@ -252,6 +253,7 @@ export default function Form({ }) {
                     </Stack>
                 )}
             </form>
+            </div>
         </>
     );
 }
