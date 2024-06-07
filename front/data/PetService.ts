@@ -75,4 +75,8 @@ export class PetService {
     return api.delete(`${BASE_URL}/api/pet/deletar/${id}`)
       .then(res => res.data)
   }
+
+  async obterPorId(id: string) {
+    return api.get(`${BASE_URL}/api/pet/obter-pet/${id}`).then(res => res.data)
+  }
 }

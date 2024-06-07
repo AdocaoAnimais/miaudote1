@@ -88,19 +88,7 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                     inPerfil ? (
                         <>
                             <Link
-                                href={{
-                                    pathname: `/editar_animal/${pet.id}`,
-                                    query: {
-                                        id: pet.id,
-                                        nome: pet.nome,
-                                        tipo: pet.tipo,
-                                        castrado: pet.castrado,
-                                        sexo: pet.sexo,
-                                        porte: pet.porte,
-                                        idade: pet.idade,
-                                        descricao: pet.descricao,
-                                    },
-                                }}
+                                href={`/editar_animal/${pet.id}`}
                             >
                                 <button
                                     id={`${pet.id}`}
