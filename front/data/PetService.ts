@@ -79,4 +79,8 @@ export class PetService {
   async obterPorId(id: string) {
     return api.get(`${BASE_URL}/api/pet/obter-pet/${id}`).then(res => res.data)
   }
+
+  async obterPetsAdotados() {
+    return api.get(`${BASE_URL}/api/pet/obter-pets-adotados`)
+  }
 }

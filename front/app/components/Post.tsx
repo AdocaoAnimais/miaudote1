@@ -9,7 +9,7 @@ import { useState } from "react";
 import ErrorMessage from "./ErrorMesagem";
 import ToastDemo from "./Mensagem";
 
-export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, inPerfil: boolean, isLogado: boolean }) {
+export default function Post({ animal, inPerfil, isLogado, inAdotados }: { animal: PetPost, inPerfil: boolean, isLogado: boolean, inAdotados: boolean }) {
     const router = useRouter()
     const [error, setError] = useState<{ title: string; detalhes: string } | null>(null);
     const service = new PetService();
@@ -85,7 +85,7 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                     </div>
                 </Link>
                 {
-                    inPerfil ? (
+                    inPerfil && !inAdotados ? (
                         <>
                             <Link
                                 href={`/editar_animal/${pet.id}`}
@@ -106,7 +106,7 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                             </button>
                         </>
 
-                    ) :
+                    ) :  !inAdotados &&
                         (
                             <div>
                                 <button
