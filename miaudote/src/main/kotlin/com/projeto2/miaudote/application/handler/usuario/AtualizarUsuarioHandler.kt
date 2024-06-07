@@ -7,7 +7,6 @@ import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
-import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
 import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
