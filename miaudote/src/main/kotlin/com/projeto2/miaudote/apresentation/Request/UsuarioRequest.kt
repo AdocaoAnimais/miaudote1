@@ -18,7 +18,7 @@ class UsuarioCreate(
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
 
     fun validaEmailRegex (): Result<String?> {
-        if (!this.email.isNullOrBlank() && this.email.matches(emailRegex.toRegex())) return Result.failure(
+        if (!this.email.isNullOrEmpty() && !this.email.matches(emailRegex.toRegex())) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'email' não é um email valido",
                 "email",
@@ -29,7 +29,7 @@ class UsuarioCreate(
     }
 
     fun validaEmail(): Result<String> {
-        if (this.email.isNullOrBlank()) return Result.failure(
+        if (this.email.isNullOrEmpty()) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'email' não pode ser vazio",
                 "email",
@@ -49,7 +49,7 @@ class UsuarioCreate(
     }
 
     fun validaNome(): Result<String> {
-        if (this.nome.isNullOrBlank()) return Result.failure(
+        if (this.nome.isNullOrEmpty()) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'nome' não pode ser vazio",
                 "nome",
@@ -61,7 +61,7 @@ class UsuarioCreate(
     }
 
     fun validaSobrenome(): Result<String> {
-        if (this.sobrenome.isNullOrBlank()) return Result.failure(
+        if (this.sobrenome.isNullOrEmpty()) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'sobrenome' não pode ser vazio",
                 "sobrenome",
@@ -73,7 +73,7 @@ class UsuarioCreate(
     }
 
     fun validaSenha(): Result<String> {
-        if (this.senha.isNullOrBlank() || this.senha.length <= 5) {
+        if (this.senha.isNullOrEmpty() || this.senha.length <= 5) {
             return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'senha' não pode ser null ou menor que cinco caracteres",
@@ -87,7 +87,7 @@ class UsuarioCreate(
     }
 
     fun validaCpf(): Result<String> {
-        if (this.cpf.isNullOrBlank() || this.cpf.length != 11) {
+        if (this.cpf.isNullOrEmpty() || this.cpf.length != 11) {
             return Result.failure(
                 criarUsuarioProblem(
                     "Campo 'cpf' precisa ter 11 caracteres",
@@ -101,7 +101,7 @@ class UsuarioCreate(
     }
 
     fun validaEndereco(): Result<String> {
-        if (this.endereco.isNullOrBlank()) return Result.failure(
+        if (this.endereco.isNullOrEmpty()) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'endereco' não pode ser vazio",
                 "endereco",
@@ -113,7 +113,7 @@ class UsuarioCreate(
     }
 
     fun validaUsername(): Result<String> {
-        if (this.username.isNullOrBlank()) return Result.failure(
+        if (this.username.isNullOrEmpty()) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'username' não pode ser vazio",
                 "username",

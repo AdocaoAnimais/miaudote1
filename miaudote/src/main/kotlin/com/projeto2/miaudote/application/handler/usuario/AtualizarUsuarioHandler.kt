@@ -49,7 +49,7 @@ class AtualizarUsuarioProcessor(
             }
         }
 
-        if (service.obterUsername(username = handler.username) != null) {
+        if (usuarioExistente.username != handler.username && service.obterUsername(username = handler.username) != null) {
             return atualizarUsuarioProblem(
                 "Usuário com o username '${handler.username}' já existe",
                 "username",
@@ -57,10 +57,12 @@ class AtualizarUsuarioProcessor(
             ).toFailure()
         }
 
-        val senhaAtualizada = handler.senha?.let { jwtService.passwordEncoder.encode(it) } ?: usuarioExistente.senha
+
+        val senhaAtualizada = if (!handler.senha.isNullOrEmpty()) jwtService.passwordEncoder.encode(handler.senha)
+        else usuarioExistente.senha
 
         val usuarioAtualizado = usuarioExistente.copy(
-            nome = handler.nome ?: usuarioExistente.nome,
+            nome = handler.nome,
             sobrenome = handler.sobrenome,
             username = handler.username,
             email = handler.email,
@@ -89,7 +91,7 @@ class AtualizarUsuarioProcessor(
 
 class AtualizarUsuarioHandler private constructor(
     val id: Long,
-    val nome: String?,
+    val nome: String,
     val sobrenome: String,
     val username: String,
     val email: String,
@@ -123,7 +125,7 @@ class AtualizarUsuarioHandler private constructor(
             val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
             val emailIn = usuario.validaEmailRegex().getOrElse { return Result.failure(it) }
 
-            if (emailIn.isNullOrBlank()) return Result.failure(
+            if (emailIn.isNullOrEmpty()) return Result.failure(
                 atualizarUsuarioProblem(
                     "Campo 'email' não pode ser vazio",
                     "email",
@@ -131,7 +133,7 @@ class AtualizarUsuarioHandler private constructor(
                 )
             )
             val senhaIn = usuario.senha
-            if (!senhaIn.isNullOrBlank() && senhaIn.length <= 5) {
+            if (!senhaIn.isNullOrEmpty() && senhaIn.length <= 5) {
                 return Result.failure(
                     atualizarUsuarioProblem(
                         "Campo 'senha' não pode ser menor que cinco caracteres",
