@@ -1,11 +1,7 @@
 import api, { BASE_URL } from "@/app/App"
 
 export class PetService {
-
-  constructor() {
-
-  }
-
+  
   async createPet(nome: string,
     idade: string,
     sexo: string,
