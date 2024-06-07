@@ -4,6 +4,7 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
+import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
@@ -14,7 +15,7 @@ class ObterPetPorIdProcessor(
     private val service: PetService,
 ) : ProcessorHandler<ObterPetPorIdHandler>() {
     override fun process(handler: ObterPetPorIdHandler): Result<Any> {
-        val response = service.obterPorId(handler.id)
+        val response = service.obterPorId(handler.id).toProblem().getOrElse { return Result.failure(it) }
         return Result.success(response) as Result<Any>
     }
 }
