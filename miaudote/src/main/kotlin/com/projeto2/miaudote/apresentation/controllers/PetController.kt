@@ -22,7 +22,8 @@ class PetController(
     private val editarPet: ProcessorHandler<AtualizarPetHandler>,
     private val processorDeletar: ProcessorHandler<DeletarPetHandler>,
     private val salvarImagem: ProcessorHandler<SalvarImagemHandler>,
-    private val obterPets: ProcessorHandler<ObterPetsHandler>
+    private val obterPets: ProcessorHandler<ObterPetsHandler>,
+    private val obterPetPorId: ProcessorHandler<ObterPetPorIdHandler>
 ) {
     @GetMapping("/obter-pets")
     fun obterPets(token: JwtAuthenticationToken?): ResponseEntity<Any> {
@@ -30,6 +31,17 @@ class PetController(
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
         val response = obterPets.process(request).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    @GetMapping("/obter-pet/{id}")
+    fun obterPetPorId(@PathVariable("id") id: Long, token: JwtAuthenticationToken): ResponseEntity<Any> {
+        val request = ObterPetPorIdHandler.newOrProblem(id, token).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        val response = obterPetPorId.process(request).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
         return ResponseEntity(response, HttpStatus.OK)
