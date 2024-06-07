@@ -36,6 +36,12 @@ class PetController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
+    @GetMapping("/obter-pets-adotados")
+    fun obterPetsAdotados(): ResponseEntity<Any> {
+        val response = service.obterPetsAdotados()
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
     @GetMapping("/obter-pet/{id}")
     fun obterPetPorId(@PathVariable("id") id: Long, token: JwtAuthenticationToken): ResponseEntity<Any> {
         val request = ObterPetPorIdHandler.newOrProblem(id, token).getOrElse {

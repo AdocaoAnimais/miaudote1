@@ -28,4 +28,13 @@ interface PetRepository : JpaRepository<Pet, Long>{
     )
     fun findPetsNaoAdotados(): List<Pet>?
 
+    @Query(
+        """
+        select pet from Pet pet 
+        where pet.id in (
+            select adocao.petId from Adocao adocao
+        )"""
+    )
+    fun findPetsAdotados(): List<Pet>?
+
 }
