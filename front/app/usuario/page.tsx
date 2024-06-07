@@ -6,25 +6,16 @@ import { useEffect, useState } from "react";
 import InformacoesUsuario from "./InformacoesUsuario";
 import { PetService } from "@/data/PetService";
 import { PetPost } from "@/domain/Pet";
-import { Posts } from "../components/Posts";
-import { AuthenticationService } from "@/data/AuthenticationService";
+import { Posts } from "../components/Posts"; 
 
 export default function PerfilUsuario() {
   const service = new UsuarioService();
-  const petService = new PetService();
-  const authService = new AuthenticationService()
+  const petService = new PetService(); 
   const router = useRouter();
   const [usuario, setUsuario] = useState<Usuario>();
 
   const [pets, setPets] = useState<PetPost[]>();
 
-  init();
-  async function init() {
-    const response = await authService.logged(); 
-    if(!response){
-      router.push("/")
-    }
-  }
   useEffect(() => {
     service.obter()
       .then(res => setUsuario(res.data))
@@ -49,24 +40,15 @@ export default function PerfilUsuario() {
       <div className='antialiased bg-[#0b132d] text-white bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
         <div>
           {
-            usuario != null ? (
+            usuario != null && (
               <InformacoesUsuario usuarioIn={usuario} />
             )
-              :
-              (
-                <h2>Usuário não econtrado</h2>
-              )
           }
           {
-            pets?.length != null ? (
-              <Posts animais={pets} 
-                inPerfil={true}
-              />
+            pets?.length != null && (
+              <Posts animais={pets}
+              inPerfil={true} inAdotados={false}/>
             )
-              :
-              (
-                <h1>teste</h1>
-              )
           }
         </div>
       </div>
