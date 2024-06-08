@@ -49,7 +49,7 @@ export function Posts({ animais, inPerfil, inAdotados }: { animais: PetPost[], i
     return (
         <>
             {/* {console.log(animais.length)} */}
-            <section className="w-full py-12 mx-auto max-w-7xl">
+            <section className="w-full py-12 mx-auto max-w-7xl overflow-hidden">
 
                 <motion.div
                     variants={cardVariants}

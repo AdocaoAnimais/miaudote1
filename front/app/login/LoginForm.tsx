@@ -62,7 +62,7 @@ export default function LoginForm({ }) {
                         id="username"
                         name="username"
                         type="text"
-                        className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-500 focus:ring-opacity-20"
                         placeholder="Usuário"
                         required
                     />
@@ -72,7 +72,7 @@ export default function LoginForm({ }) {
                         id="senha"
                         name="senha"
                         type="password"
-                        className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-500 focus:ring-opacity-80"
                         placeholder="Senha"
                         required
                     />
