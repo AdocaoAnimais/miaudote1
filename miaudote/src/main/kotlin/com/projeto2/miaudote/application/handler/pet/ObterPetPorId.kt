@@ -15,27 +15,33 @@ class ObterPetPorIdProcessor(
     private val service: PetService,
 ) : ProcessorHandler<ObterPetPorIdHandler>() {
     override fun process(handler: ObterPetPorIdHandler): Result<Any> {
-        val response = service.obterPorId(handler.id).toProblem().getOrElse { return Result.failure(it) }
-        return Result.success(response) as Result<Any>
+        val pet = service.obterPorId(handler.id).toProblem().getOrElse { return Result.failure(it) }
+        if(pet.idUsuario != handler.idUsuario) return Result.failure(
+            obterPorIdProblem("Usuário não cadastrou o pet.")
+        )
+        return Result.success(pet)
     }
 }
 
 class ObterPetPorIdHandler private constructor(
-    val id: Long
+    val id: Long,
+    val idUsuario: Long,
 ) : RequestHandler {
     companion object {
         fun newOrProblem(idPet: Long, token: JwtAuthenticationToken): Result<ObterPetPorIdHandler> {
-            token.name.toLongOrNull() ?: return Result.failure(
-                Problem(
-                    title = "Não foi possivel obter o pet",
-                    detail = "Id do usuário inválido.",
-                    type = URI("/obter-pet-por-id"),
-                    status = HttpStatus.BAD_REQUEST,
-                    extra = null
-                )
+            val idUsuario = token.name.toLongOrNull() ?: return Result.failure(
+                obterPorIdProblem("Id do usuário inválido.")
             )
 
-            return Result.success(ObterPetPorIdHandler(idPet))
+            return Result.success(ObterPetPorIdHandler(idPet, idUsuario))
         }
     }
 }
+
+private fun obterPorIdProblem(detail: String) = Problem(
+    title = "Não foi possivel obter o pet",
+    detail = detail,
+    type = URI("/obter-pet-por-id"),
+    status = HttpStatus.BAD_REQUEST,
+    extra = null
+)
