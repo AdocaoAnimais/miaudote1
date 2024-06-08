@@ -10,18 +10,20 @@ export const DragCat = () => {
   return (
     <>
       <motion.div ref={constraintsRef} className="bg-gray-900 w-full h-[80px]">
-        <motion.div
-          drag
-          dragConstraints={constraintsRef}
-          className="bg-blue-900 w-[30px] h-[30px]"
-        >
-          <Image
-            priority
-            src={catIcon}
-            alt="Cat"
-            className="w-[30px] h-[30px] text-white"
-          />
-        </motion.div>
+        <div className="h-[30px] w-[30px]">
+          <motion.div
+            drag
+            dragConstraints={constraintsRef}
+            className="bg-blue-900"
+          >
+            <Image
+              priority
+              src={catIcon}
+              alt="Cat"
+              className="w-full h-full text-white"
+            />
+          </motion.div>
+        </div>
       </motion.div>
     </>
   );

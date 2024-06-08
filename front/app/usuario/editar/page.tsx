@@ -1,23 +1,15 @@
 'use client'
-import { UsuarioService } from "@/data/UsuarioService"
+import Form from "./Form";
 import { Usuario } from "@/domain/Usuario";
+import { useEffect, useState } from "react";
+import { UsuarioService } from "@/data/UsuarioService"; 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";  
-import { AuthenticationService } from "@/data/AuthenticationService";
 
-export default function PerfilUsuario() {
-  const service = new UsuarioService(); 
-  const authService = new AuthenticationService()
+export default function Page() {
   const router = useRouter();
+  const service = new UsuarioService();
   const [usuario, setUsuario] = useState<Usuario>();
 
-  init();
-  async function init() {
-    const response = await authService.logged(); 
-    if(!response){
-      router.push("/")
-    }
-  }
   useEffect(() => {
     service.obter()
       .then(res => setUsuario(res.data))
@@ -30,9 +22,16 @@ export default function PerfilUsuario() {
 
   return (
     <>
-      <div className='antialiased bg-[#0b132d] text-white bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
-        <div>
-          <p>editar infos usuario</p>
+      <div className='antialiased bg-theme-bg text-theme-text bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
+        <div className="flex flex-wrap gap-32">
+
+          <div className="text-theme-text2">
+            {
+              usuario && (
+                <Form usuario={usuario} />
+              )
+            }
+          </div>
         </div>
       </div>
     </>

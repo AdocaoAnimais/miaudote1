@@ -54,7 +54,7 @@ class UsuarioController(
     }
 
     @PostMapping("atualizar")
-    fun atualizarUsuario(@RequestBody user: UsuarioUpdate, token: JwtAuthenticationToken): ResponseEntity<Any> {
+    fun atualizarUsuario(@RequestBody user: UsuarioCreate, token: JwtAuthenticationToken): ResponseEntity<Any> {
         val handler = AtualizarUsuarioHandler.newOrProblem(user, token).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }

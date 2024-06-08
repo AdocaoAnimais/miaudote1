@@ -4,6 +4,7 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
+import com.projeto2.miaudote.application.services.AdocaoService
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.apresentation.Request.PetUpdate
 import com.projeto2.miaudote.domain.enums.*
@@ -15,6 +16,7 @@ import java.net.URI
 @Component
 class AtualizarPetProcessor(
     private val petService: PetService,
+    private val adocaoService: AdocaoService,
 ) : ProcessorHandler<AtualizarPetHandler>() {
 
     override fun process(handler: AtualizarPetHandler): Result<Any> {
@@ -25,6 +27,11 @@ class AtualizarPetProcessor(
 
         val petExistente = petService.obterPorId(handler.id) ?: return atualizarPetProblem(
             "Pet não encontrado",
+            "pet",
+        ).toFailure()
+
+        if(adocaoService.obterPorPetId(handler.id) != null) return atualizarPetProblem(
+            "Pet que já foi adotado não pode ser editado.",
             "pet",
         ).toFailure()
 

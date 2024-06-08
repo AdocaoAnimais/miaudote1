@@ -82,60 +82,13 @@ class CriarUsuarioHandler private constructor(
         fun newOrProblem(
             usuario: UsuarioCreate
         ): Result<CriarUsuarioHandler> {
-            val nomeIn = usuario.nome
-            if (nomeIn.isNullOrBlank()) return Result.failure(
-                criarUsuarioProblem(
-                    "Campo 'nome' não pode ser vazio",
-                    "nome",
-                    usuario.nome
-                )
-            )
-            val sobrenomeIn = usuario.sobrenome
-            if (sobrenomeIn.isNullOrBlank()) return Result.failure(
-                criarUsuarioProblem(
-                    "Campo 'sobrenome' não pode ser vazio",
-                    "sobrenome",
-                    usuario.sobrenome
-                )
-            )
-            val usernameIn = usuario.username
-            if (usernameIn.isNullOrBlank()) return Result.failure(
-                criarUsuarioProblem(
-                    "Campo 'username' não pode ser vazio",
-                    "username",
-                    usuario.username
-                )
-            )
-            val emailIn = usuario.email
-            if (emailIn.isNullOrBlank()) return Result.failure(
-                criarUsuarioProblem(
-                    "Campo 'email' não pode ser vazio",
-                    "email",
-                    usuario.email
-                )
-            )
 
-            val senhaIn = usuario.senha
-            if (senhaIn.isNullOrBlank() || senhaIn.length <= 5) {
-                return Result.failure(
-                    criarUsuarioProblem(
-                        "Campo 'senha' não pode ser null ou menor que cinco caracteres",
-                        "senha",
-                        usuario.senha
-                    )
-                )
-            }
-
-            val cpfIn = usuario.cpf
-            if (cpfIn.isNullOrBlank() || cpfIn.length != 11) {
-                return Result.failure(
-                    criarUsuarioProblem(
-                        "Campo 'cpf' precisa ter 11 caracteres",
-                        "cpf",
-                        usuario.cpf
-                    )
-                )
-            }
+            val nomeIn = usuario.validaNome().getOrElse { return Result.failure(it) }
+            val sobrenomeIn = usuario.validaSobrenome().getOrElse { return Result.failure(it) }
+            val usernameIn = usuario.validaUsername().getOrElse { return Result.failure(it) }
+            val emailIn = usuario.validaEmail().getOrElse { return Result.failure(it) }
+            val senhaIn = usuario.validaSenha().getOrElse { return Result.failure(it) }
+            val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
 
             return Result.success(
                 CriarUsuarioHandler(

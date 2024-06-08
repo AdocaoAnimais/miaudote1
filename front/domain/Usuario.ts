@@ -7,4 +7,5 @@ export interface Usuario {
   cpf: string,
   descricao: string,
   contato: string,
+  endereco: string,
 }

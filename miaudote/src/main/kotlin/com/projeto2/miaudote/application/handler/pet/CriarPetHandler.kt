@@ -21,12 +21,8 @@ class CriarPetProcessor(
     val usuarioService: UsuarioService,
 ) : ProcessorHandler<CriarPetHandler>() {
     override fun process(handler: CriarPetHandler): Result<Any> {
-        val id = handler.token.name.toLongOrNull() ?: return criarPetProblem(
-            "Id do usuário não encontrado.",
-            "ID",
-        ).toFailure()
 
-        val usuario = usuarioService.obterPorId(id) ?: return criarPetProblem(
+        val usuario = usuarioService.obterPorId(handler.idUsuario) ?: return criarPetProblem(
             "Usuario invalido para cadastro de pet",
             "usuario",
         ).toFailure()
@@ -38,7 +34,7 @@ class CriarPetProcessor(
             tipo = handler.tipo,
             castrado = handler.castrado,
             descricao = handler.descricao,
-            idUsuario = id,
+            idUsuario = handler.idUsuario,
             dataCadastro = LocalDateTime.now(),
             id = null,
             imageData = null,
@@ -56,10 +52,16 @@ class CriarPetHandler private constructor(
     val tipo: Tipo,
     val castrado: Castrado,
     val descricao: String?,
-    val token: JwtAuthenticationToken
+    val idUsuario: Long
 ) : RequestHandler {
     companion object {
         fun newOrProblem(petIn: PetCreate, token: JwtAuthenticationToken): Result<CriarPetHandler> {
+            val id = token.name.toLongOrNull() ?: return Result.failure(
+                criarPetProblem(
+                    "Id do usuário inválido.",
+                    "ID",
+                )
+            )
             val nomeIn = petIn.nome
             if (nomeIn.isNullOrBlank() || nomeIn.length <= 2) return Result.failure(
                 criarPetProblem(
@@ -119,7 +121,7 @@ class CriarPetHandler private constructor(
                 tipo = tipoIn,
                 castrado = castradoIn,
                 descricao = petIn.descricao,
-                token = token
+                idUsuario = id
             )
             return Result.success(response)
         }

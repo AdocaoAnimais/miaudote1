@@ -9,7 +9,7 @@ import { useState } from "react";
 import ToastDemo from "./Mensagem";
 import { motion, Variants } from "framer-motion";
 
-export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, inPerfil: boolean, isLogado: boolean }) {
+export default function Post({ animal, inPerfil, isLogado, inAdotados }: { animal: PetPost, inPerfil: boolean, isLogado: boolean, inAdotados: boolean }) {
     const router = useRouter()
     const [error, setError] = useState<{ title: string; detalhes: string } | null>(null);
     const service = new PetService();
@@ -33,6 +33,8 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                 const detalhes = res.response.data.detail
                 // alert(`${title} ${detalhes}`)
                 setError({ title, detalhes });
+                // alert(`${title} ${detalhes}`)
+                setError({ title, detalhes });
             });
         }
     }
@@ -54,14 +56,14 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
         },
         onscreen: {
             y: 0,
+            x: 0,
             rotate: 0,
             transition: {
                 type: "spring",
-                bounce: 0.5,
+                bounce: 0.4,
                 duration: 1.2
             }
         }
-        
     };
 
     return (
@@ -71,10 +73,8 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                     variants={cardVariants}
                     initial="offscreen"
                     whileInView="onscreen"
-                    viewport={{ once: true, amount: 0.8 }}
+                    viewport={{ once: false, amount: 0.1 }}
                 >
-                    <div className="splash w-[50px] h-[50px]" />
-
                     <div className="h-[440px] rounded-lg overflow-hidden shadow-lg bg-gray-800 transform transition-transform hover:scale-105">
                         <div className="relative w-auto h-[240px] overflow-hidden rounded-t-lg">
                             {/* <Image src={"/logo.png"} alt={"title"} width={400} height={400} className="rounded-lg" /> */}
@@ -112,22 +112,10 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                             </div>
                         </Link>
                         {
-                            inPerfil ? (
+                            inPerfil && !inAdotados ? (
                                 <>
                                     <Link
-                                        href={{
-                                            pathname: `/editar_animal/${pet.id}`,
-                                            query: {
-                                                id: pet.id,
-                                                nome: pet.nome,
-                                                tipo: pet.tipo,
-                                                castrado: pet.castrado,
-                                                sexo: pet.sexo,
-                                                porte: pet.porte,
-                                                idade: pet.idade,
-                                                descricao: pet.descricao,
-                                            },
-                                        }}
+                                        href={`/editar_animal/${pet.id}`}
                                     >
                                         <button
                                             id={`${pet.id}`}
@@ -145,22 +133,21 @@ export default function Post({ animal, inPerfil, isLogado }: { animal: PetPost, 
                                     </button>
                                 </>
 
-                            ) :
-                                (
-                                    <div>
-                                        <button
-                                            id={`${pet.id}`}
-                                            className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
-                                            onClick={solicitarAdocao}
-                                        >
-                                            Adotar
-                                        </button>
-                                        {error && <ToastDemo title={error.title} detalhes={error.detalhes} />}
-                                    </div>
-                                )
+                            ) : !inAdotados &&
+                            (
+                                <div>
+                                    <button
+                                        id={`${pet.id}`}
+                                        className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
+                                        onClick={solicitarAdocao}
+                                    >
+                                        Adotar
+                                    </button>
+                                    {error && <ToastDemo title={error.title} detalhes={error.detalhes} />}
+                                </div>
+                            )
                         }
                     </div>
-                
                 </motion.div>
             </>
     );

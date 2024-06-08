@@ -1,35 +1,35 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { AuthenticationService } from "@/data/AuthenticationService";
 import { PetService } from "@/data/PetService";
 import { AxiosError } from "axios";
 import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-import Button_Cancel from "@/app/components/Buttons/Button_Cancel";
+import Stack from '@mui/material/Stack'; 
 import Button_YellowTarja from "@/app/components/Buttons/Button_YellowTarja";
 import LinkButton_YellowTarja from "@/app/components/Buttons/LinkButton_YellowTarja";
 import Link from "next/link";
+import { PetPost } from "@/domain/Pet";
 
 export default function Form({ }) {
     const authService = new AuthenticationService();
     const service = new PetService();
     const ref = useRef(null);
-    const router = useRouter();
-    const searchParams = useSearchParams();
+    const router = useRouter(); 
+    const params = useParams()
     const [imagem, setImagem] = useState(null);
     const [tamImg, setTamImg] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
-    const petId = searchParams.get('id');
-    const [nome, setNome] = useState(searchParams.get('nome') || "");
-    const [tipo, setTipo] = useState(searchParams.get('tipo') || "C");
-    const [castrado, setCastrado] = useState(searchParams.get('castrado') || "N");
-    const [sexo, setSexo] = useState(searchParams.get('sexo') || "M");
-    const [porte, setPorte] = useState(searchParams.get('porte') || "P");
-    const [idade, setIdade] = useState(parseInt(searchParams.get('idade')) || 0);
-    const [descricao, setDescricao] = useState(searchParams.get('descricao') || "");
+    const petId: string = params.id
+    const [nome, setNome] = useState("");
+    const [tipo, setTipo] = useState("");
+    const [castrado, setCastrado] = useState("");
+    const [sexo, setSexo] = useState("");
+    const [porte, setPorte] = useState("");
+    const [idade, setIdade] = useState("");
+    const [descricao, setDescricao] = useState("");
 
     useEffect(() => {
         init();
@@ -37,13 +37,19 @@ export default function Form({ }) {
 
     async function init() {
         try {
-            const response = await authService.logged();
-            if (!response) {
-                console.log("Usuário sem autenticação, direcionando para login");
-                router.push("/login");
+            const response: PetPost = await service.obterPorId(petId)
+            if (response) {
+                setNome(response.nome)
+                setTipo(response.tipo.id)
+                setSexo(response.sexo.id)
+                setPorte(response.porte.id)
+                setCastrado(response.castrado.id)
+                setIdade(response.idade)
+                setDescricao(response.descricao)
             }
         } catch (e) {
             console.log(e)
+            if(e.response.status == 401) router.push("/login")
         }
     }
 
@@ -66,8 +72,7 @@ export default function Form({ }) {
         }
 
         try {
-            const response = await service.updatePet(
-                petId,
+            const response = await service.atualizar(
                 nome,
                 idade,
                 sexo,
@@ -75,7 +80,7 @@ export default function Form({ }) {
                 tipo,
                 castrado,
                 descricao,
-                imagem
+                petId
             )
             console.log(response)
             if (imagem) {
@@ -240,11 +245,11 @@ export default function Form({ }) {
                             alt="Imgem pet" />
                     </div>
                     <div className="flex justify-between md:col-span-2">
-                        <Link href="/">
+                        <Link href="/usuario">
                             <LinkButton_YellowTarja texto={"Cancelar"} />
                         </Link>
 
-                        <Button_YellowTarja texto="Cadastrar" />
+                        <Button_YellowTarja texto="Atualizar" />
                     </div>
                 </div>
                 {error && (

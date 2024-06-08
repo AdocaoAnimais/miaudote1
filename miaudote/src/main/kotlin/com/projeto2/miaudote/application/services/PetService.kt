@@ -35,4 +35,12 @@ class PetService (
     fun atualizar(pet: Pet): Pet {
         return repository.save(pet)
     }
+
+    fun obterPetsAdotados(): List<Pet>?{
+        return repository.findPetsAdotados()
+    }
+
+    fun obterPetsAdotadosUsuario(id: Long): List<Pet>? {
+        return repository.findPetsAdotadosUsuario(id)
+    }
 }

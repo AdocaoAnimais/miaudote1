@@ -15,6 +15,7 @@ class UsuarioResponse(
     val cpf: String?,
     val descricao: String?,
     val contato: String?,
+    val endereco: String?,
 )
 
 fun Usuario.fromEntity(token: String): UsuarioCreateResponse {

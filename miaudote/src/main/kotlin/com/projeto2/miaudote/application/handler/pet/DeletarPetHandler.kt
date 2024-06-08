@@ -16,22 +16,16 @@ class DeletarPetProcessor(
     private val service: PetService,
 ) : ProcessorHandler<DeletarPetHandler>() {
     override fun process(handler: DeletarPetHandler): Result<Any> {
-        val usuarioId = handler.token.name.toLongOrNull() ?: return Result.failure(
-            deletarPetProblem(
-                "Id do usuário não encontrado.",
-                "ID",
-            )
-        )
         val pet = service.obterPorId(handler.petId) ?: return deletarPetProblem(
             "Pet não encontrado",
             "pet",
         ).toFailure()
 
-        if (pet.idUsuario != usuarioId) {
+        if (pet.idUsuario != handler.usuarioId) {
             return deletarPetProblem(
                 "Usuário não tem permissão para atualizar este pet",
                 "usuarioId",
-                usuarioId.toString()
+                handler.usuarioId.toString()
             ).toFailure()
         }
         // testar se o pet de fato existe
@@ -43,12 +37,18 @@ class DeletarPetProcessor(
 
 class DeletarPetHandler(
     val petId: Long,
-    val token: JwtAuthenticationToken
+    val usuarioId: Long
 ) : RequestHandler {
     companion object {
         fun newOrProblem(petId: Long, token: JwtAuthenticationToken): Result<DeletarPetHandler> {
             // You can perform any necessary initialization or validation here
             // For simplicity, let's assume no specific initialization is needed
+            val usuarioId = token.name.toLongOrNull() ?: return Result.failure(
+                deletarPetProblem(
+                    "Id do usuário não encontrado.",
+                    "ID",
+                )
+            )
 
             if (petId <= 0) return Result.failure(
                 deletarPetProblem(
@@ -58,7 +58,7 @@ class DeletarPetHandler(
                 )
             )
 
-            return Result.success(DeletarPetHandler(petId, token))
+            return Result.success(DeletarPetHandler(petId, usuarioId))
         }
     }
 }

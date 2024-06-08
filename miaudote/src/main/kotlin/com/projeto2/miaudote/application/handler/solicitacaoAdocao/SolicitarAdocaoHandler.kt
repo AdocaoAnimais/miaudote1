@@ -68,6 +68,13 @@ class SolicitarAdocaoProcessor(
             linkCancelaSolicitacao = linkCancelamento,
             adotante = usuarioAdotante,
         )
+
+        emailService.enviarEmail(
+            to = usuarioAdotante.email,
+            subject = "[MIAUDOTE] Solicitação de Adoção",
+            conteudo = geraConfirmacao(pet.nome)
+        )
+
         val response = SolicitarAdocaoResponse(
             id = result.petId,
             response = geraConfirmacao(pet.nome)
