@@ -59,6 +59,12 @@ class PetController(
         return ResponseEntity(service.obterPetsUsuario(id), HttpStatus.OK)
     }
 
+    @GetMapping("/obter-pets-adotados-usuario")
+    fun obterPetsAdotadosUsuario(token: JwtAuthenticationToken): ResponseEntity<List<Pet>> {
+        val id = token.name.toLongOrNull() ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(service.obterPetsAdotadosUsuario(id), HttpStatus.OK)
+    }
+
     @PostMapping("/")
     fun criarPet(@RequestBody pet: PetCreate, token: JwtAuthenticationToken): ResponseEntity<Any> {
         val request = CriarPetHandler.newOrProblem(pet, token).getOrElse {
