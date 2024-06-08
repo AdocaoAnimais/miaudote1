@@ -35,7 +35,7 @@ export default function Header() {
 
     return (
         <>
-            <div className="p-12 w-full justify-center flex flex-wrap gap-9 bg-gray-900">
+            <div className="p-12 w-full overflow-hidden justify-center flex flex-wrap gap-9 bg-gray-900">
                 <motion.div
                     variants={cardVariants}
                     initial="offscreen_left"

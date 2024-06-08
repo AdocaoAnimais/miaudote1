@@ -17,7 +17,9 @@ export default function Card() {
 
   return (
     <>
-      <Posts animais={pets} />
+      
+        <Posts animais={pets} />
+      
     </>
   )
 }
