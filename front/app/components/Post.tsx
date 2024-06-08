@@ -143,7 +143,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                                     >
                                         Adotar
                                     </button>
-                                    {error && <ToastDemo title={error.title} detalhes={error.detalhes} />}
+                                    {error && <ToastDemo title={error.title} detalhes={error.detalhes} fecharModal={() => setError(null)} />}
                                 </div>
                             )
                         }
