@@ -83,7 +83,7 @@ export default function Form({ }) {
             name="sobrenome"
             type="text"
             className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="Seu Sobrenome"
+            placeholder="Sobrenome"
             required
             htmlFor="sobrenome"
           />
@@ -94,7 +94,7 @@ export default function Form({ }) {
             name="cpf"
             type="text"
             className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="Seu cpf"
+            placeholder="CPF"
             required
             htmlFor="cpf"
           />
@@ -105,7 +105,7 @@ export default function Form({ }) {
             name="username"
             type="text"
             className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="Seu Username"
+            placeholder="Username"
             required
             htmlFor="username"
           />
