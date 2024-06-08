@@ -11,7 +11,7 @@ export default function Page() {
                 <CardsReceptacle />
                 <ButtonsReceptacle /> 
             */}
-            <div className='antialiased bg-theme-bg bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col'>
+            <div className='antialiased bg-theme-bg bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col w-full'>
                 <Header />
                 <Card />
             </div>

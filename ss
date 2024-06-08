@@ -1,0 +1,23 @@
+  [31morigin/HEAD[m -> origin/main
+  [31morigin/autenticacao[m
+  [31morigin/autenticacao_2.0[m
+  [31morigin/back_crud_users[m
+  [31morigin/db-scripts[m
+  [31morigin/develop[m
+  [31morigin/front-1.2[m
+  [31morigin/front-1.3[m
+  [31morigin/front-list[m
+  [31morigin/front-listarAnimais[m
+  [31morigin/front_cadastro_animal[m
+  [31morigin/front_cadastro_animal1[m
+  [31morigin/front_list_antent_1.0[m
+  [31morigin/imagem-cadastro-pet[m
+  [31morigin/login[m
+  [31morigin/main[m
+  [31morigin/main-backup-26/05/2024[m
+  [31morigin/main-backup-27/05/2024[m
+  [31morigin/mar[m
+  [31morigin/new_back_crud_pets[m
+  [31morigin/perfil-usuario[m
+  [31morigin/revert-14-autenticacao[m
+  [31morigin/solicitacao-adocao[m
