@@ -52,7 +52,7 @@ export default function Form({ }) {
         contato,
         endereco,
       );
-      router.push("/");
+      router.refresh();
     } catch (e) {
       console.log(e)
       console.log("Erro ao efetuar login: ", e.response?.data?.detail);

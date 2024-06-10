@@ -40,7 +40,7 @@ export default function LoginForm({ }) {
         try {
             await service.loggin(username, senha)
             console.log("Logado com sucesso!");
-            router.back()
+            router.refresh();
         } catch (e) {
             console.log("Erro ao efetuar login: ", e.response?.data?.detail);
             setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
