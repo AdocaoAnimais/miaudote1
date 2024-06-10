@@ -92,6 +92,13 @@ class CriarPetHandler private constructor(
             )
 
             val idadeIn = petIn.idade?.toIntOrNull() ?: 0
+            if(idadeIn > 40)  return Result.failure(
+                criarPetProblem(
+                    "Nenhum cão ou gato vive tanto tempo.",
+                    "idade",
+                    petIn.tipo
+                )
+            )
 
             val tipoIn = petIn.tipo?.toTipo()?.getOrElse {
                 return Result.failure(it)
