@@ -39,6 +39,10 @@ class ConfirmarAdocaoProcessor(
         val responsavel = usuarioService.obterPorId(solicitacao.usuarioResponsavel).toProblem().getOrElse {
             return Result.failure(it)
         }
+        val solicitacaoAtualizada = solicitacao.copy(
+            dataConfirmacaoUserAdotante = LocalDateTime.now()
+        )
+        service.atualizar(solicitacaoAtualizada)
 
         val adocao = Adocao(
             id = null,

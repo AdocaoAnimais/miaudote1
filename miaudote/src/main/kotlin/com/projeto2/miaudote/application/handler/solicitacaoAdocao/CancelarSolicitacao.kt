@@ -3,10 +3,7 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.EmailService
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.*
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -19,6 +16,7 @@ class CancelarSolicitacaoProcessor(
     val usuarioService: UsuarioService,
     val petService: PetService,
     val emailService: EmailService,
+    val adocaoService: AdocaoService
 ) : ProcessorHandler<CancelarSolicitacaoHandler>() {
     override fun process(handler: CancelarSolicitacaoHandler): Result<Any> {
         val solicitacaoAdocao = service.obterPorId(handler.solicitacaoId).toProblem().getOrElse {
@@ -26,6 +24,9 @@ class CancelarSolicitacaoProcessor(
         }
         if (solicitacaoAdocao.dataConfirmacaoUserAdotante != null) return Result.failure(
             solicitacaoInvalida("Solicitação já confirmada pelo usuario adotante.", null)
+        )
+        if(adocaoService.obterPorSolicitacaoId(solicitacaoAdocao.id!!) != null) return Result.failure(
+            solicitacaoInvalida("A solicitação já foi processada, e o animal já esta adotado.", null)
         )
         val pet = petService.obterPorId(solicitacaoAdocao.petId).toProblem().getOrElse {
             return Result.failure(it)
