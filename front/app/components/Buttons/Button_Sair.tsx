@@ -7,7 +7,7 @@ export default function Button_Sair() {
   const router = useRouter();
   function loggout() {
     service.logout(); 
-    router.refresh();
+    router.push('/cadastrar_animal');
   }
   return (
     <>
