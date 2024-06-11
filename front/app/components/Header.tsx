@@ -58,8 +58,10 @@ export default function Header() {
                     viewport={{ once: false, amount: 0.1 }}
                 >
                     <div className="text-theme-text2 max-w-[700px] p-12 overflow-hidden justify-center items-center content-center">
-                        <h1 className="font-bold text-4xl py-7">Sobre</h1>
-                        <p>Bem-vindo à nossa plataforma de adoção de animais, um refúgio digital onde histórias de amor entre humanos e animais ganham vida. Somos apaixonados por conectar animais necessitados a lares amorosos, transformando vidas de ambos os lados da tela.</p>
+                        <h1 className="font-bold text-4xl py-7">Sobre Miaudote</h1>
+                        <p>Bem-vinde à nossa plataforma de adoção de animais, onde histórias de amor entre humanos e animais ganham vida. Somos apaixonados por conectar animais necessitados a lares amorosos, transformando vidas de ambos os lados da tela. </p>
+                        <p className="font-bold text-1xl py-7"> Encontre aqui seu próximo pet ou cadastre um bichinho para adoção!</p>
+                        <p className="text-sm"> Desenvolvido por Elivelton, Felipe, Gabriel, Mariana e Paulina na disciplina de Projeto de Software, professor Cristiano Bertolini, UFSM Campus Frederico Westphalen.</p>
                     </div>
                 </motion.div>
             </div>
