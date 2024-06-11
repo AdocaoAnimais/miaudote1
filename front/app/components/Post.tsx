@@ -98,7 +98,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                                 :
                                 <Image
                                     key={"s"}
-                                    src={"https://igp.rs.gov.br/themes/modelo-noticias/images/outros/GD_imgSemImagem.png"}
+                                    src={"/not_image.jpg"}
                                     alt={`Imagem`}
                                     fill
                                     style={{ objectFit: 'cover' }}
