@@ -17,6 +17,11 @@ export interface PetPost {
     nome: string,
     id: string
   },
+  status: {
+    nome: string,
+    id: string,
+    descricao: string
+  },
   descricao: string,
   idade: number,
   idUsuario: number,
