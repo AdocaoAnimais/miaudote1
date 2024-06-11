@@ -27,12 +27,12 @@ class SolicitacaoAdocaoService(
         repository.deleteById(id)
     }
 
-    fun obterPorAdotanteIdPetId(usuarioId: Long, petID: Long): List<SolicitacaoAdocao>? {
+    fun obterPorAdotanteIdPetId(usuarioId: Long, petID: Long): SolicitacaoAdocao? {
         return repository.findByUsuarioAdotanteAndPetId(usuarioId, petID)
     }
 
-    fun obterSolicitacoesDesatualizadasNaData(oneMonthAgo: LocalDateTime): List<SolicitacaoAdocao> {
-        return repository.findByDate(oneMonthAgo)
+    fun obterSolicitacoesDesatualizadasNaData(date: LocalDateTime): List<SolicitacaoAdocao> {
+        return repository.findByDate(date)
     }
 
     fun deletarTodas(solicitacoes: List<SolicitacaoAdocao>) {

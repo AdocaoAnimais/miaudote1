@@ -17,7 +17,7 @@ interface SolicitacaoAdocaoRepository : JpaRepository<SolicitacaoAdocao, UUID> {
     fun findByUsuarioAdotanteAndPetId(
         @Param("usuarioAdotante") usuarioAdotante: Long,
         @Param("petId") petId: Long
-    ): List<SolicitacaoAdocao>
+    ): SolicitacaoAdocao?
 
     @Query(
         """

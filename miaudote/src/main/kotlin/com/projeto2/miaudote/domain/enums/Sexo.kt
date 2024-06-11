@@ -7,8 +7,8 @@ import java.net.URI
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 enum class Sexo(val id: String, val nome: String) {
-    F("F", "Feminimo"),
-    M("M", "Masculino")
+    F("F", "Fêmea"),
+    M("M", "Macho")
     ;
 }
 

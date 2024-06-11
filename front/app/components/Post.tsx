@@ -28,6 +28,15 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
             const id = event.target.id
             await service.solicitarAdocao(id).then(res => {
                 alert(res.response)
+                const p: PetPost = pet
+                setPet({
+                    ...p,
+                    status: {
+                        descricao: "Aguardando resposta reponsável.",
+                        id: "R",
+                        nome: ""
+                    }, 
+                })
             }).catch((res: any) => {
                 const title = res.response.data.title
                 const detalhes = res.response.data.detail
@@ -135,7 +144,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
 
                             ) : !inAdotados &&
                             (
-                                <div>
+                                <div className="flex space-x-2 mb-2">
                                     <button
                                         id={`${pet.id}`}
                                         className="py-2 px-6 m-2 bg-theme-button1 text-theme-text rounded hover:bg-gray-300 focus:outline-none focus:bg-gray-300"
@@ -143,6 +152,13 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                                     >
                                         Adotar
                                     </button>
+                                    {
+                                        pet.status != null && (
+                                            <p className="text-gray-500 text-center self-center">
+                                                {pet.status.descricao} Verifique seu email.
+                                            </p>
+                                        )
+                                    }
                                     {error && <ToastDemo title={error.title} detalhes={error.detalhes} fecharModal={() => setError(null)} />}
                                 </div>
                             )
