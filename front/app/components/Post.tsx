@@ -155,7 +155,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                                     {
                                         pet.status != null && (
                                             <p className="text-gray-500 text-center self-center">
-                                                {pet.status.descricao} Verifique seu email.
+                                                {pet.status.descricao} 
                                             </p>
                                         )
                                     }
