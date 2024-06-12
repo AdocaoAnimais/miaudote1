@@ -26,9 +26,9 @@ export class UsuarioService {
     }
     console.log(params)
     return await api.post(`${BASE_URL}/api/usuario/cadastrar`, params).then(res => {
-      let response = res.data as LoginResponse 
+      let response = res.data as LoginResponse
       api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
-    }).catch((error) => {throw error});
+    }).catch((error) => { throw error });
   }
 
   async obter() {
@@ -39,17 +39,17 @@ export class UsuarioService {
     nome: string,
     sobrenome: string,
     username: string,
-    email: string, 
+    email: string,
     cpf: string,
     contato: string,
     endereco: string,
     senha: string
-  ){
+  ) {
     const params = {
       "nome": nome,
       "sobrenome": sobrenome,
       "username": username,
-      "email": email, 
+      "email": email,
       "cpf": cpf,
       "contato": contato,
       "endereco": endereco,
@@ -57,5 +57,9 @@ export class UsuarioService {
       "senha": senha
     }
     return await api.post(`${BASE_URL}/api/usuario/atualizar`, params)
+  }
+
+  async deletar() {
+    return await api.delete(`${BASE_URL}/api/usuario/deletar`)
   }
 }

@@ -7,9 +7,11 @@ import InformacoesUsuario from "./InformacoesUsuario";
 import { PetService } from "@/data/PetService";
 import { PetPost } from "@/domain/Pet";
 import { Posts } from "../components/Posts"; 
+import { AuthenticationService } from "@/data/AuthenticationService";
 
 export default function PerfilUsuario() {
   const service = new UsuarioService();
+  const authService = new AuthenticationService();
   const petService = new PetService(); 
   const router = useRouter();
   const [usuario, setUsuario] = useState<Usuario>();
@@ -35,13 +37,20 @@ export default function PerfilUsuario() {
       });
   }, []);
 
+  async function deletar() {
+    await service.deletar().then(() => {
+      authService.logout()
+      router.push("/cadastrar_animal")
+    })
+  }
+
   return (
     <>
       <div className='antialiased bg-[#0b132d] text-white bg-center bg-cover bg-no-repeat min-h-[2000px] items-center flex flex-col py-16'>
         <div>
           {
             usuario != null && (
-              <InformacoesUsuario usuarioIn={usuario} />
+              <InformacoesUsuario usuarioIn={usuario}  deletar={deletar} />
             )
           }
           {

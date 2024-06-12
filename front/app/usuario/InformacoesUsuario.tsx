@@ -5,8 +5,11 @@ import { useState } from "react";
 import Button_Sair from "../components/Buttons/Button_Sair";
 import Link from "next/link";
 
-export default function InformacoesUsuario({ usuarioIn }: { usuarioIn: Usuario }) {
+export default function InformacoesUsuario({ usuarioIn, deletar }: { usuarioIn: Usuario, deletar: Function }) {
   const [usuario] = useState<Usuario>(usuarioIn)
+  function deletarClick(){
+    deletar()
+  }
   return (
     <>
       <div className="min-w-full border border-gray-400 p-20">
@@ -24,6 +27,9 @@ export default function InformacoesUsuario({ usuarioIn }: { usuarioIn: Usuario }
                 Editar
               </Link> 
               <Button_Sair />
+              <button onClick={deletarClick}  className="m-2 py-4 px-10 bg-red-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                Apagar conta
+              </button> 
             </div>
           </div>
           <div className="justify-self-end">
