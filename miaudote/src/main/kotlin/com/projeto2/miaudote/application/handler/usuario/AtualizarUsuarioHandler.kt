@@ -122,27 +122,12 @@ class AtualizarUsuarioHandler private constructor(
             val sobrenomeIn = usuario.validaSobrenome().getOrElse { return Result.failure(it) }
             val usernameIn = usuario.validaUsername().getOrElse { return Result.failure(it) }
             val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
-            val emailIn = usuario.validaEmailRegex().getOrElse { return Result.failure(it) }
+            val emailIn = usuario.validaEmail().getOrElse { return Result.failure(it) }
             val enderecoIn = usuario.validaEndereco().getOrElse { return Result.failure(it) }
             val contatoIn = usuario.validaContato().getOrElse { return Result.failure(it) }
+            val descricaoIn = usuario.validaDescricao().getOrElse { return Result.failure(it) }
+            val senhaIn = usuario.validaSenha().getOrElse { return Result.failure(it) }
 
-            if (emailIn.isNullOrEmpty()) return Result.failure(
-                atualizarUsuarioProblem(
-                    "Campo 'email' não pode ser vazio",
-                    "email",
-                    usuario.email
-                )
-            )
-            val senhaIn = usuario.senha
-            if (!senhaIn.isNullOrEmpty() && senhaIn.length <= 5) {
-                return Result.failure(
-                    atualizarUsuarioProblem(
-                        "Campo 'senha' não pode ser menor que cinco caracteres",
-                        "senha",
-                        senhaIn
-                    )
-                )
-            }
 
             return Result.success(
                 AtualizarUsuarioHandler(
@@ -152,10 +137,10 @@ class AtualizarUsuarioHandler private constructor(
                     username = usernameIn,
                     email = emailIn,
                     cpf = cpfIn,
-                    descricao = usuario.descricao,
+                    descricao = descricaoIn,
                     contato = contatoIn,
                     endereco = enderecoIn,
-                    senha = usuario.senha,
+                    senha = senhaIn,
                 )
             )
         }

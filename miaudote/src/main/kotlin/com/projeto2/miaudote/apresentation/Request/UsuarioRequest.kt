@@ -15,38 +15,38 @@ class UsuarioCreate(
     val contato: String?,
     val endereco: String?,
 ) {
+    /*
+    Métodos de validação:
+
+
+    fun validaNome(): Result<String>
+        - !null/vazio, s/ caracter especial, <=100
+    fun validaSobrenome(): Result<String>
+        - !null/vazio, s/ caracter especial, <=100
+    fun validaUsername(): Result<String>
+        - !null/vazio, username regex, <= 50
+        - "^[a-zA-Z][a-zA-Z0-9_-]+\$" = começa com letra, sem espaço, só numero, letra e '_' e '-'
+    fun validaSenha(): Result<String>
+        - !null/vazio, 6<=senha<=30
+     fun validaEmail(): Result<String>
+        - !null/vazio, email regex
+        - "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$" = formato a_b.c@abc.efc
+    fun validaCpf(): Result<String>
+        - !null/vazio, 11 caracteres, numero regex (só numeros)
+    fun validaDescricao(): Result<String?>
+        - pode ser null/vazio, <= 1000 caracteres
+    fun validaContato(): Result<String?>
+        - pode ser null/vazio, 10 ou 11 digitos com DDD, numero regex (so numeros)
+    fun validaEndereco(): Result<String?>
+        - pode ser null/vazio, 8 digitos, numero regex (só numeros)
+     */
+
+
+
+    val textoRegex = "^[A-Za-zÀ-ÖØ-öø-ÿ \'-]+\$"
+    val usernameRegex = "^[a-zA-Z][a-zA-Z0-9_-]+\$"
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
-
-    fun validaEmailRegex (): Result<String?> {
-        if (!this.email.isNullOrEmpty() && !this.email.matches(emailRegex.toRegex())) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'email' não é um email valido",
-                "email",
-                this.email
-            )
-        )
-        return Result.success(email)
-    }
-
-    fun validaEmail(): Result<String> {
-        if (this.email.isNullOrEmpty()) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'email' não pode ser vazio",
-                "email",
-                this.email
-            )
-        )
-
-        if (!this.email.matches(emailRegex.toRegex())) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'email' não é um email valido",
-                "email",
-                this.email
-            )
-        )
-
-        return Result.success(email)
-    }
+    val numeroRegex = "^[0-9]+\$"
 
     fun validaNome(): Result<String> {
         if (this.nome.isNullOrEmpty()) return Result.failure(
@@ -99,12 +99,37 @@ class UsuarioCreate(
 
         return Result.success(sobrenome)
     }
+    fun validaUsername(): Result<String> {
+        if (this.username.isNullOrEmpty()) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'username' não pode ser vazio",
+                "username",
+                this.username
+            )
+        )
+        if(!validaUsernameRegex(this.username)) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'username' não é um nome valido",
+                "username",
+                this.username
+            )
+        )
+        if(this.username.length > 50) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'username' muito longo",
+                "username",
+                this.username
+            )
+        )
+
+        return Result.success(username)
+    }
 
     fun validaSenha(): Result<String> {
-        if (this.senha.isNullOrEmpty() || this.senha.length <= 5) {
+        if (this.senha.isNullOrEmpty() || this.senha.length <= 5 || this.senha.length > 30) {
             return Result.failure(
                 criarUsuarioProblem(
-                    "Campo 'senha' não pode ser null ou menor que cinco caracteres",
+                    "Campo 'senha' não pode ser null ou menor que seis caracteres ou maior que 30 caracteres",
                     "senha",
                     this.senha
                 )
@@ -114,6 +139,25 @@ class UsuarioCreate(
         return Result.success(senha)
     }
 
+    fun validaEmail(): Result<String> {
+        if (this.email.isNullOrEmpty()) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'email' não pode ser vazio",
+                "email",
+                this.email
+            )
+        )
+
+        if (!this.email.matches(emailRegex.toRegex())) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'email' não é um email valido",
+                "email",
+                this.email
+            )
+        )
+
+        return Result.success(email)
+    }
     fun validaCpf(): Result<String> {
 
         if (this.cpf.isNullOrEmpty() || this.cpf.length != 11) {
@@ -135,50 +179,23 @@ class UsuarioCreate(
 
         return Result.success(cpf)
     }
-
-    fun validaEndereco(): Result<String> {
-        if(this.endereco.isNullOrEmpty()){
-            Result.success(endereco)
+    fun validaDescricao(): Result<String?>{
+        if(this.descricao.isNullOrEmpty()){
+            return Result.success(contato)
         }
-        if (this.endereco!!.length != 8) return Result.failure(
+        if(this.descricao!!.length > 1000) return Result.failure(
             criarUsuarioProblem(
-                "Campo 'endereco' precisa ter 8 caracteres",
-                "endereco",
-                this.endereco
+                "Campo 'descricao' muito longo, precisa ter no maximo 1000 caracteres",
+                "descricao",
+                this.descricao
             )
         )
-        if(!validaNumeroRegex(this.endereco)) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'endereco' não é um endereco valido",
-                "endereco",
-                this.endereco
-            )
-        )
-
-        return Result.success(endereco)
+        return Result.success(descricao)
     }
 
-    fun validaUsername(): Result<String> {
-        if (this.username.isNullOrEmpty()) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'username' não pode ser vazio",
-                "username",
-                this.username
-            )
-        )
-        if(!validaUsernameRegex(this.username)) return Result.failure(
-            criarUsuarioProblem(
-                "Campo 'username' não é um nome valido",
-                "username",
-                this.username
-            )
-        )
-
-        return Result.success(username)
-    }
     fun validaContato(): Result<String?> {
         if(this.contato.isNullOrEmpty()){
-            Result.success(contato)
+            return Result.success(contato)
         }
         if (this.contato!!.length !in 10..11) return Result.failure(
             criarUsuarioProblem(
@@ -197,16 +214,36 @@ class UsuarioCreate(
 
         return Result.success(contato)
     }
+
+    fun validaEndereco(): Result<String?> {
+        if(this.endereco.isNullOrEmpty()){
+            return Result.success(endereco)
+        }
+        if (this.endereco!!.length != 8) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'endereco' precisa ter 8 digitos",
+                "endereco",
+                this.endereco
+            )
+        )
+        if(!validaNumeroRegex(this.endereco)) return Result.failure(
+            criarUsuarioProblem(
+                "Campo 'endereco' não é um endereco valido",
+                "endereco",
+                this.endereco
+            )
+        )
+
+        return Result.success(endereco)
+    }
+
     private fun validaTextoRegex(texto: String?): Boolean {
-        val textoRegex = "^[A-Za-zÀ-ÖØ-öø-ÿ \'-]+\$"
         return !(!texto.isNullOrEmpty() && !texto.matches(textoRegex.toRegex()))
     }
     private fun validaNumeroRegex(texto: String?): Boolean {
-        val textoRegex = "^[0-9]+\$"
-        return !(!texto.isNullOrEmpty() && !texto.matches(textoRegex.toRegex()))
+        return !(!texto.isNullOrEmpty() && !texto.matches(numeroRegex.toRegex()))
     }
     private fun validaUsernameRegex(texto: String?): Boolean{
-        val usernameRegex = "^[a-zA-Z][a-zA-Z0-9_-]+\$"
         return !(!texto.isNullOrEmpty() && !texto.matches(usernameRegex.toRegex()))
     }
 
