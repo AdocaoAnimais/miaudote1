@@ -9,7 +9,7 @@ export default function InformacoesUsuario({ usuarioIn }: { usuarioIn: Usuario }
   const [usuario] = useState<Usuario>(usuarioIn)
   return (
     <>
-      <div className="min-w-full border border-gray-400 p-20">
+      <div className="min-w-full border-2 rounded-xl border-theme-border p-20">
         <div className="leading-normal grid grid-cols-2">
           <div>
             <div className="m-5">

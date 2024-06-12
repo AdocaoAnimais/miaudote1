@@ -50,7 +50,6 @@ export function Posts({ animais, inPerfil, inAdotados }: { animais: PetPost[], i
         <>
             {/* {console.log(animais.length)} */}
             <section className="w-full py-12 mx-auto max-w-7xl overflow-hidden">
-
                 <motion.div
                     variants={cardVariants}
                     initial="offscreen_right"
@@ -79,7 +78,7 @@ export function Posts({ animais, inPerfil, inAdotados }: { animais: PetPost[], i
                 <div className="py-28 text-center">
                     <h1 className="text-5xl font-bold text-theme-text">Animais {inAdotados ? "adotados" : "cadastrados"}</h1>
                 </div>
-                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-9 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                <div className="mx-auto grid max-w-6xl grid-cols-1 gap-9 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                     {
                         Array.isArray(animais) && animais.length > 0
                             ? (
