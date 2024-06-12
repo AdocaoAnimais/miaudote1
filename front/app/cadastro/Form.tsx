@@ -32,14 +32,17 @@ export default function Form({ }) {
 
     // Obtendo os valores dos campos
     console.log(ref.current)
+    let cpfMask: string = ref.current.cpf.value
+    let contatoMask: string = ref.current.contato.value
+    let enderecoMask: string = ref.current.endereco.value
     const nome = ref.current.nome.value;
     const sobrenome = ref.current.sobrenome.value;
     const username = ref.current.username.value;
     const email = ref.current.email.value;
     const senha = ref.current.senha.value;
-    const cpf = ref.current.cpf.value;
-    const endereco = ref.current.endereco.value;
-    const contato = ref.current.contato.value;
+    const cpf = cpfMask.replaceAll('.','').replaceAll('-','');
+    const endereco = enderecoMask.replaceAll('-','');
+    const contato = contatoMask.replaceAll(' ','').replaceAll('(','').replaceAll(')','');
 
     try {
       await service.cadastrar(

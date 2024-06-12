@@ -4,11 +4,19 @@ import { Usuario } from "@/domain/Usuario";
 import { useState } from "react";
 import Button_Sair from "../components/Buttons/Button_Sair";
 import Link from "next/link";
+import ToastDemo from "../components/Mensagem";
 
 export default function InformacoesUsuario({ usuarioIn, deletar }: { usuarioIn: Usuario, deletar: Function }) {
   const [usuario] = useState<Usuario>(usuarioIn)
+  const [ error, setError ] = useState<{ title: string, detalhes: string } | null>(null)
   function deletarClick(){
     deletar()
+  }
+  function confirmarDeletar() {
+    setError({
+      title: "Apagar Conta",
+      detalhes: "Tem certeza que deseja apagar a sua conta? "
+    })
   }
   return (
     <>
@@ -27,11 +35,12 @@ export default function InformacoesUsuario({ usuarioIn, deletar }: { usuarioIn: 
                 Editar
               </Link> 
               <Button_Sair />
-              <button onClick={deletarClick}  className="m-2 py-4 px-10 bg-red-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+              <button onClick={confirmarDeletar}  className="m-2 py-4 px-10 bg-red-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                 Apagar conta
               </button> 
             </div>
           </div>
+            {error && <ToastDemo title={error.title} detalhes={error.detalhes} fecharModal={deletarClick} />}
           <div className="justify-self-end">
             <img
               className="h-48 lg:h-auto lg:w-48 "

@@ -27,15 +27,17 @@ export default function Form({ usuario }: { usuario: Usuario }) {
     setError(null);
     console.log('')
     event.preventDefault();
-    // const nome = ref.current.nome.value;
+    // const nome = ref.current.nome.value; 
+    const endereco = enderecoMask;
+    const contato = contatoMask;
     const nomeOut = nome
     const sobrenomeOut = sobrenome
     const usernameOut = username
     const emailOut = email
     const senhaOut = senha
-    const cpfOut = cpf
-    const enderecoOut = endereco
-    const contatoOut = contato
+    const cpfOut = cpf.replaceAll('.','').replaceAll('-','')
+    const enderecoOut = endereco.replaceAll('-','')
+    const contatoOut = contato.replaceAll(' ','').replaceAll('(','').replaceAll(')','')
     try {
       await service.atualizar(
         nomeOut,
