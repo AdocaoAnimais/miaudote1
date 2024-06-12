@@ -1,5 +1,5 @@
 'use client'
-
+import { IMaskInput } from 'react-imask';
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthenticationService } from "@/data/AuthenticationService";
@@ -89,13 +89,14 @@ export default function Form({ }) {
           />
         </div>
         <div className="md:col-span-2">
-          <input
+          <IMaskInput
+            mask="000.000.000-00"
             id="cpf"
             name="cpf"
             type="text"
             className="bg-theme-inputbg border mt-1 p-3 block w-full rounded-md border-theme-border focus:border-theme-border focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="CPF"
-            required
+            required  
             htmlFor="cpf"
           />
         </div>
@@ -133,7 +134,8 @@ export default function Form({ }) {
           />
         </div>
         <div className="">
-          <input
+          <IMaskInput
+            mask="00000-000"
             id="endereco"
             name="endereco"
             type="text"
@@ -143,7 +145,8 @@ export default function Form({ }) {
           />
         </div>
         <div className="">
-          <input
+          <IMaskInput
+            mask="(00) 0 00000000"
             id="contato"
             name="contato"
             type="text"
