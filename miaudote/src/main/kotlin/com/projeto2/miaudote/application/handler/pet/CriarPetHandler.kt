@@ -62,63 +62,12 @@ class CriarPetHandler private constructor(
                     "ID",
                 )
             )
-            val nomeIn = petIn.nome
-            if (nomeIn.isNullOrBlank() || nomeIn.length <= 2) return Result.failure(
-                criarPetProblem(
-                    "Campo 'nome' não pode ser null ou menor que três caracteres",
-                    "nome",
-                    petIn.nome
-                )
-            )
-
-            val sexoIn = petIn.sexo?.toSexo()?.getOrElse {
-                return Result.failure(it)
-            } ?: return Result.failure(
-                criarPetProblem(
-                    "Campo 'sexo' não pode ser null",
-                    "sexo",
-                    petIn.sexo
-                )
-            )
-
-            val porteIn = petIn.porte?.toPorte()?.getOrElse {
-                return Result.failure(it)
-            } ?: return Result.failure(
-                criarPetProblem(
-                    "Campo 'porte' não pode ser null",
-                    "porte",
-                    petIn.porte
-                )
-            )
-
-            val idadeIn = petIn.idade?.toIntOrNull() ?: 0
-            if(idadeIn > 40)  return Result.failure(
-                criarPetProblem(
-                    "Nenhum cão ou gato vive tanto tempo.",
-                    "idade",
-                    petIn.tipo
-                )
-            )
-
-            val tipoIn = petIn.tipo?.toTipo()?.getOrElse {
-                return Result.failure(it)
-            } ?: return Result.failure(
-                criarPetProblem(
-                    "Campo 'tipo' não pode ser null",
-                    "tipo",
-                    petIn.tipo
-                )
-            )
-
-            val castradoIn = petIn.castrado?.toCastrado()?.getOrElse {
-                return Result.failure(it)
-            } ?: return Result.failure(
-                criarPetProblem(
-                    "Campo 'castrado' não pode ser null",
-                    "castrado",
-                    petIn.castrado
-                )
-            )
+            val nomeIn = petIn.validaNome().getOrElse { return Result.failure(it) }
+            val sexoIn = petIn.validaSexo().getOrElse { return Result.failure(it) }
+            val porteIn = petIn.validaPorte().getOrElse { return Result.failure(it) }
+            val idadeIn = petIn.validaIdade().getOrElse { return Result.failure(it) }
+            val tipoIn = petIn.validaTipo().getOrElse { return Result.failure(it) }
+            val castradoIn = petIn.validaCastrado().getOrElse { return Result.failure(it) }
 
             val response = CriarPetHandler(
                 nome = nomeIn,

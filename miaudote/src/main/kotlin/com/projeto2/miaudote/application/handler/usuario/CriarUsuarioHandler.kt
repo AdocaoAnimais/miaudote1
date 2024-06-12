@@ -89,7 +89,8 @@ class CriarUsuarioHandler private constructor(
             val emailIn = usuario.validaEmail().getOrElse { return Result.failure(it) }
             val senhaIn = usuario.validaSenha().getOrElse { return Result.failure(it) }
             val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
-
+            val enderecoIn = usuario.validaEndereco().getOrElse { return Result.failure(it) }
+            val contatoIn = usuario.validaContato().getOrElse { return Result.failure(it) }
             return Result.success(
                 CriarUsuarioHandler(
                     nome = nomeIn,
@@ -99,8 +100,8 @@ class CriarUsuarioHandler private constructor(
                     senha = senhaIn,
                     cpf = cpfIn,
                     descricao = usuario.descricao,
-                    contato = usuario.contato,
-                    endereco = usuario.endereco,
+                    contato = contatoIn,
+                    endereco = enderecoIn,
                 )
             )
         }

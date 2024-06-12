@@ -123,6 +123,8 @@ class AtualizarUsuarioHandler private constructor(
             val usernameIn = usuario.validaUsername().getOrElse { return Result.failure(it) }
             val cpfIn = usuario.validaCpf().getOrElse { return Result.failure(it) }
             val emailIn = usuario.validaEmailRegex().getOrElse { return Result.failure(it) }
+            val enderecoIn = usuario.validaEndereco().getOrElse { return Result.failure(it) }
+            val contatoIn = usuario.validaContato().getOrElse { return Result.failure(it) }
 
             if (emailIn.isNullOrEmpty()) return Result.failure(
                 atualizarUsuarioProblem(
@@ -151,8 +153,8 @@ class AtualizarUsuarioHandler private constructor(
                     email = emailIn,
                     cpf = cpfIn,
                     descricao = usuario.descricao,
-                    contato = usuario.contato,
-                    endereco = usuario.endereco,
+                    contato = contatoIn,
+                    endereco = enderecoIn,
                     senha = usuario.senha,
                 )
             )

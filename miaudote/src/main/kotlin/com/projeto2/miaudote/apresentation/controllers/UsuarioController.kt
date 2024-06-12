@@ -6,7 +6,6 @@ import com.projeto2.miaudote.application.handler.usuario.CriarUsuarioHandler
 import com.projeto2.miaudote.application.handler.usuario.DeletarUsuarioHandler
 import com.projeto2.miaudote.application.handler.usuario.ObterUsuarioHandler
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
-import com.projeto2.miaudote.apresentation.Request.UsuarioUpdate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken

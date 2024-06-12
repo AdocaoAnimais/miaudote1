@@ -6,7 +6,7 @@ import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.AdocaoService
 import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.apresentation.Request.PetUpdate
+import com.projeto2.miaudote.apresentation.Request.PetCreate
 import com.projeto2.miaudote.domain.enums.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -73,7 +73,7 @@ class AtualizarPetHandler private constructor(
     companion object {
         fun newOrProblem(
             petId: Long?,
-            petIn: PetUpdate,
+            petIn: PetCreate,
             token: JwtAuthenticationToken
         ): Result<AtualizarPetHandler> {
             val id = token.name.toLongOrNull() ?: return Result.failure(
@@ -96,26 +96,12 @@ class AtualizarPetHandler private constructor(
                     petId.toString()
                 )
             )
-            val nomeIn = petIn.nome
-
-
-            val sexoIn = petIn.sexo?.toSexo()?.getOrElse {
-                return Result.failure(it)
-            }
-
-            val porteIn = petIn.porte?.toPorte()?.getOrElse {
-                return Result.failure(it)
-            }
-
-            val idadeIn = petIn.idade?.toIntOrNull()
-
-            val tipoIn = petIn.tipo?.toTipo()?.getOrElse {
-                return Result.failure(it)
-            }
-
-            val castradoIn = petIn.castrado?.toCastrado()?.getOrElse {
-                return Result.failure(it)
-            }
+            val nomeIn = petIn.validaNome().getOrElse { return Result.failure(it) }
+            val sexoIn = petIn.validaSexo().getOrElse { return Result.failure(it) }
+            val porteIn = petIn.validaPorte().getOrElse { return Result.failure(it) }
+            val idadeIn = petIn.validaIdade().getOrElse { return Result.failure(it) }
+            val tipoIn = petIn.validaTipo().getOrElse { return Result.failure(it) }
+            val castradoIn = petIn.validaCastrado().getOrElse { return Result.failure(it) }
 
             val response = AtualizarPetHandler(
                 id = idIn,

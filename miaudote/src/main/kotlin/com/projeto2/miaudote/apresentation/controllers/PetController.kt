@@ -5,7 +5,6 @@ import com.projeto2.miaudote.application.handler.pet.*
 import com.projeto2.miaudote.application.handler.solicitacaoAdocao.SolicitarAdocaoHandler
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.apresentation.Request.PetCreate
-import com.projeto2.miaudote.apresentation.Request.PetUpdate
 import com.projeto2.miaudote.domain.entities.Pet
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -95,7 +94,7 @@ class PetController(
     @PostMapping("/atualizar/{id}")
     fun atualizarPet(
         @PathVariable("id") id: Long,
-        @RequestBody pet: PetUpdate,
+        @RequestBody pet: PetCreate,
         token: JwtAuthenticationToken
     ): ResponseEntity<Any> {
         val request = AtualizarPetHandler.newOrProblem(id, pet, token).getOrElse {
