@@ -3,6 +3,7 @@ package com.projeto2.miaudote.application.handler.usuario
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
+import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
@@ -14,12 +15,15 @@ import java.net.URI
 @Component
 class DeletarUsuarioProcessor(
     private val service: UsuarioService,
+    private val petService: PetService,
 ) : ProcessorHandler<DeletarUsuarioHandler>() {
     override fun process(handler: DeletarUsuarioHandler): Result<Any> {
         val id = handler.id
         // testar se o usuário de fato existe
+        val pets = petService.obterPetsUsuario(id) ?: emptyList()
         service.obterPorId(id).toProblem().getOrElse { return Result.failure(it) }
         service.deletar(id)
+        petService.deletarTodos(pets)
         return Result.success(id)
     }
 }

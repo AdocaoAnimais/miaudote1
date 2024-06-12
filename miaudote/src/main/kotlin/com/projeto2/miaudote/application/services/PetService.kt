@@ -40,6 +40,10 @@ class PetService (
         return repository.findPetsAdotados()
     }
 
+    fun deletarTodos(pets: List<Pet>) {
+        repository.deleteAll(pets)
+    }
+
     fun obterPetsAdotadosUsuario(id: Long): List<Pet>? {
         return repository.findPetsAdotadosUsuario(id)
     }
