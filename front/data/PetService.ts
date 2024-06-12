@@ -1,7 +1,10 @@
 import api, { BASE_URL } from "@/app/App"
+import { FileService } from "./FileService"
 
 export class PetService {
-  
+
+  fileService = new FileService()
+
   async createPet(nome: string,
     idade: string,
     sexo: string,
@@ -43,13 +46,20 @@ export class PetService {
     return await api.post(`${BASE_URL}/api/pet/atualizar/${id}`, params)
   }
 
-  async uploadImagemPet(imagem: any, id: number) {
-    const form = new FormData()
-    form.append("imagem", imagem)
-
-    return api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form)
-      .then((res) => console.log(res))
-      .catch(error => { throw error })
+  async uploadImagemPet(imagemIn: Blob, id: number) { 
+    if(imagemIn.size / (1024*1024) > 1.5) {
+      await this.fileService.comprimirImagem(imagemIn, async (comprimida: Blob) => { 
+        const form = new FormData()
+        form.append("imagem", comprimida)
+  
+        return api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form) 
+      })
+    } else {
+      const form = new FormData()
+        form.append("imagem", imagemIn)
+  
+        return api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form) 
+    }
   }
 
   async obterTodosPet() {
