@@ -38,4 +38,8 @@ class SolicitacaoAdocaoService(
     fun deletarTodas(solicitacoes: List<SolicitacaoAdocao>) {
         repository.deleteAll(solicitacoes)
     }
+
+    fun obterTodasPetId(petdId: Long): List<SolicitacaoAdocao> {
+        return repository.findByPetIdAndConfirmacaoResponsavelNull(petdId)
+    }
 }

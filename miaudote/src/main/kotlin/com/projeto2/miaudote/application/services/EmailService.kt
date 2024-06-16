@@ -35,7 +35,7 @@ class EmailService(
             
             Segue abaixo o contato do tutor responsável pelo animal, você deve entrar em contato para dar continualidade à adoção:
 
-            Nome do Tutor: ${responsavel.nome}
+            Nome do Tutor: ${responsavel.nome} ${responsavel.sobrenome}
             E-mail do Tutor: ${responsavel.email}
             Telefone do Tutor: ${responsavel.contato}
             
@@ -79,14 +79,14 @@ class EmailService(
             Segue abaixo o contato do usuario interessado em adotar o(a) ${pet.nome}.
             Você deve entrar em contato para dar continualidade à adoção:
   
-            Nome do Adotante: ${adotante.nome}
+            Nome do Adotante: ${adotante.nome} ${adotante.sobrenome}
             E-mail do Adotante: ${adotante.email}
             Telefone do Adotante: ${adotante.contato}
             
             Próximos passos: 
             1. Entre em contato com ${adotante.nome}, para decidirem os detalhes e dar ou não continualidade à adoção.
             2. Recomendamos apenas confirmar a solicitação se ${adotante.nome} for um candidato(a) real para a adoção.
-            3. O usuário interessado na adoção receberá um email com seu nome, email e contato cadastrados no Miaudote para entrar em contato. 
+            3. Ao CONFIRMAR a solicitação o usuário interessado na adoção receberá um email com seu nome, email e contato cadastrados no Miaudote para entrar em contato. 
             
             ---------------------------------------------------------------
             QUERO CONFIRMAR A SOLICITAÇÃO: 

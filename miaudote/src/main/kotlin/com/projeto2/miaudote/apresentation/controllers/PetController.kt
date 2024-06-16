@@ -5,6 +5,7 @@ import com.projeto2.miaudote.application.handler.pet.*
 import com.projeto2.miaudote.application.handler.solicitacaoAdocao.SolicitarAdocaoHandler
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.apresentation.Request.PetCreate
+import com.projeto2.miaudote.apresentation.Response.PetPost
 import com.projeto2.miaudote.domain.entities.Pet
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,7 +23,8 @@ class PetController(
     private val processorDeletar: ProcessorHandler<DeletarPetHandler>,
     private val salvarImagem: ProcessorHandler<SalvarImagemHandler>,
     private val obterPets: ProcessorHandler<ObterPetsHandler>,
-    private val obterPetPorId: ProcessorHandler<ObterPetPorIdHandler>
+    private val obterPetPorId: ProcessorHandler<ObterPetPorIdHandler>,
+    private val obterPetsUsuario: ProcessorHandler<ObterPetsUsuarioIdHandler>
 ) {
     @GetMapping("/obter-pets")
     fun obterPets(token: JwtAuthenticationToken?): ResponseEntity<Any> {
@@ -53,9 +55,14 @@ class PetController(
     }
 
     @GetMapping("/obter-pets-usuario")
-    fun obterMeusPets(token: JwtAuthenticationToken): ResponseEntity<List<Pet>> {
-        val id = token.name.toLongOrNull() ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
-        return ResponseEntity(service.obterPetsUsuario(id), HttpStatus.OK)
+    fun obterMeusPets(token: JwtAuthenticationToken): ResponseEntity<Any> {
+        val request = ObterPetsUsuarioIdHandler.newOrProblem(token).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        val response = obterPetsUsuario.process(request).getOrElse {
+            return ResponseEntity(it, HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
     @GetMapping("/obter-pets-adotados-usuario")

@@ -26,4 +26,12 @@ interface SolicitacaoAdocaoRepository : JpaRepository<SolicitacaoAdocao, UUID> {
         and (sa.dataConfirmacaoUserResponsavel < :date or sa.dataSolicitacao < :date)"""
     )
     fun findByDate(@Param("date") date: LocalDateTime): List<SolicitacaoAdocao>
+
+    @Query(
+        """
+        select sa from SolicitacaoAdocao sa 
+        where sa.dataConfirmacaoUserResponsavel is null 
+        and sa.petId = :petdId """
+    )
+    fun findByPetIdAndConfirmacaoResponsavelNull(@Param("petdId") petdId: Long): List<SolicitacaoAdocao>
 }

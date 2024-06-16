@@ -41,20 +41,20 @@ class CancelarAdocaoProcessor(
         emailService.enviarEmail(
             to = responsavel.email,
             subject = "[MIAUDOTE] Adoção Cancelada - ${pet.nome}",
-            conteudo = geraConteudo(pet.nome)
+            conteudo = geraConteudo(pet.nome, adotante.nome, adotante.sobrenome)
         )
         emailService.enviarEmail(
             to = adotante.email,
             subject = "[MIAUDOTE] Adoção Cancelada com Sucesso- ${pet.nome}",
-            conteudo = geraConteudo(pet.nome)
+            conteudo = geraConteudo(pet.nome, adotante.nome, adotante.sobrenome)
         )
 
         return Result.success("Adoção cancelada com sucesso!!")
     }
 
-    fun geraConteudo(nomePet: String): String {
+    fun geraConteudo(nomePet: String, nomeAdotante: String, sobrenome: String): String {
         val conteudo = """
-            A adoção do animal $nomePet foi cancelada pelo adotante, 
+            A adoção do animal $nomePet foi cancelada pelo adotante $nomeAdotante $sobrenome, 
             o animal continua disponível para adoção.
             
             Não responda este email.

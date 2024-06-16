@@ -17,3 +17,19 @@ fun Pet.getStatus(solicitacao: SolicitacaoAdocao): PetPostStatus?{
         else -> null
     }
 }
+
+class StatusResponsavel private constructor(
+    val descricao: String,
+    val nome: String
+) {
+    companion object {
+        fun gerarStatus(quantidadeSolicitacoes: Int): StatusResponsavel {
+            val solicitacao =  if(quantidadeSolicitacoes > 1) "solicitações pendentes" else "solicitação pendente"
+
+            return StatusResponsavel(
+                descricao = """Você possui $quantidadeSolicitacoes $solicitacao. Verifique seu email.""",
+                nome = "Solicitações não respondidas"
+            )
+        }
+    }
+}
