@@ -187,7 +187,6 @@ export default function Form({ }) {
             rows="4"
             className="bg-[#111333] border mt-1 p-3 block w-full rounded-md border-[#f2a812] focus:border-[#f2a812] focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             placeholder="Descrição"
-            required
           ></textarea>
         </div>
         <div className=" md:col-span-2">

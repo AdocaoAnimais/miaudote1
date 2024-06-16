@@ -27,9 +27,7 @@ export default function Form({ usuario }: { usuario: Usuario }) {
     setError(null);
     console.log('')
     event.preventDefault();
-    // const nome = ref.current.nome.value; 
-    const endereco = enderecoMask;
-    const contato = contatoMask;
+    
     const nomeOut = nome
     const sobrenomeOut = sobrenome
     const usernameOut = username

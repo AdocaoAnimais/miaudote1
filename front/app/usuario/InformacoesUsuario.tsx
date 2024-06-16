@@ -29,6 +29,7 @@ export default function InformacoesUsuario({ usuarioIn, deletar }: { usuarioIn: 
               <p className="text-white-700 font-bold text-md">{usuario.email}</p>
               <p className="text-white-700 text-sm">{usuario.descricao}</p>
               <p className="text-white-700 text-base">CPF: {usuario.cpf}</p>
+              <p className="text-white-700 text-base">Contato: {usuario.contato}</p>
             </div>
             <div>
               <Link href={"/usuario/editar"} className="m-2 py-5 px-10 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
@@ -40,13 +41,13 @@ export default function InformacoesUsuario({ usuarioIn, deletar }: { usuarioIn: 
               </button> 
             </div>
           </div>
-            {error && <ToastDemo title={error.title} detalhes={error.detalhes} fecharModal={deletarClick} />}
           <div className="justify-self-end">
             <img
               className="h-48 lg:h-auto lg:w-48 "
               src="/logo.png"
             />
           </div>
+          {error && <ToastDemo title={error.title} detalhes={error.detalhes} fecharModal={deletarClick} />}
         </div>
       </div>
     </>
