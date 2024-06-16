@@ -18,7 +18,7 @@ export default function Form({ }) {
     const ref = useRef(null);
     const router = useRouter();
     const params = useParams()
-    const [imagem, setImagem] = useState(null);
+    const [imagem, setImagem] = useState<string | null>(null);
     const [tamImg, setTamImg] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,9 +28,8 @@ export default function Form({ }) {
     const [castrado, setCastrado] = useState("");
     const [sexo, setSexo] = useState("");
     const [porte, setPorte] = useState("");
-    const [idade, setIdade] = useState("");
-    const [descricao, setDescricao] = useState("");
-
+    const [idade, setIdade] = useState(0);
+    const [descricao, setDescricao] = useState(""); 
     useEffect(() => {
         init();
     }, []);
@@ -46,6 +45,10 @@ export default function Form({ }) {
                 setCastrado(response.castrado.id)
                 setIdade(response.idade)
                 setDescricao(response.descricao)
+                if(response.imageData){
+                    document.getElementById("preview_img").src = "data:image/png;base64," + response.imageData;
+                    setTamImg(150) 
+                }
             }
         } catch (e) {
             console.log(e)
@@ -240,7 +243,7 @@ export default function Form({ }) {
                         <div className="shrink-0 my-5">
                             <img id='preview_img' className={`h-${tamImg} w-${tamImg} object-cover`}
                                 style={{ height: tamImg }}
-                                src="https://igp.rs.gov.br/themes/modelo-noticias/images/outros/GD_imgSemImagem.png"
+                                src="/sem-imagem.png"
                                 alt="Imgem pet" />
                         </div>
                         <div className="flex justify-between md:col-span-2">
