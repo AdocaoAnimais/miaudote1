@@ -24,6 +24,10 @@ class AdocaoService(
     fun criar(adocao: Adocao): Adocao{
         return respository.save(adocao)
     }
+
+    fun deletar(adocao: Adocao) {
+        respository.delete(adocao)
+    }
 }
 fun Adocao?.toProblem(): Result<Adocao> {
     if (this != null) return Result.success(this)
