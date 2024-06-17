@@ -19,7 +19,7 @@ data class PetCreate(
 /*
 Métodos de validação:
 fun validaNome(): Result<String>
-    - !null/vazio, 2 <= nome < 100, nome regex
+    - !null/vazio, 2 <= nome < 60, nome regex
     - regex: s/ caracteres especiais
 fun validaSexo(): Result<Sexo>
     - !null/vazio
@@ -32,8 +32,12 @@ fun validaTipo(): Result<Tipo>
 fun validaCastrado(): Result<Castrado>
     - !null/vazio
 fun validaDescricao(): Result<String?>
-    - pode ser null/vazio, <= 1000 caracteres
+    - pode ser null/vazio, <= 500 caracteres
 */
+
+val LIMITECHAR : Int = 60
+val LIMDESCRICAO: Int = 500
+
 
 fun validaNome(): Result<String> {
     if (this.nome.isNullOrBlank() || this.nome.length <= 2) return Result.failure(
@@ -43,7 +47,7 @@ fun validaNome(): Result<String> {
             this.nome
         )
     )
-    if(this.nome.length > 100) return Result.failure(
+    if(this.nome.length > LIMITECHAR) return Result.failure(
         criarPetProblem(
             "Campo 'nome' muito longo",
             "nome",
@@ -137,7 +141,7 @@ fun validaCastrado(): Result<Castrado>{
         if(this.descricao.isNullOrEmpty()){
             return Result.success(descricao)
         }
-        if(this.descricao.length > 1000) return Result.failure(
+        if(this.descricao.length > LIMDESCRICAO) return Result.failure(
             criarPetProblem(
                 "Campo 'descricao' muito longo, precisa ter no maximo 1000 caracteres",
                 "descricao",

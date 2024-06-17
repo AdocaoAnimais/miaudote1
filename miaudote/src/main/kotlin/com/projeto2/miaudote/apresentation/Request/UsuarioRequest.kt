@@ -20,9 +20,9 @@ class UsuarioCreate(
 
 
     fun validaNome(): Result<String>
-        - !null/vazio, s/ caracter especial, <=100
+        - !null/vazio, s/ caracter especial, <=60
     fun validaSobrenome(): Result<String>
-        - !null/vazio, s/ caracter especial, <=100
+        - !null/vazio, s/ caracter especial, <=60
     fun validaUsername(): Result<String>
         - !null/vazio, username regex, <= 50
         - "^[a-zA-Z][a-zA-Z0-9_-]+\$" = começa com letra, sem espaço, só numero, letra e '_' e '-'
@@ -42,6 +42,8 @@ class UsuarioCreate(
      */
 
 
+    val LIMITECHAR : Int = 60
+    val LIMDESCRICAO: Int = 500
 
     val textoRegex = "^[A-Za-zÀ-ÖØ-öø-ÿ \'-]+\$"
     val usernameRegex = "^[a-zA-Z][a-zA-Z0-9_-]+\$"
@@ -56,7 +58,7 @@ class UsuarioCreate(
                 this.nome
             )
         )
-        if(this.nome.length > 100) return Result.failure(
+        if(this.nome.length > LIMITECHAR) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'nome' muito longo",
                 "nome",
@@ -82,7 +84,7 @@ class UsuarioCreate(
                 this.sobrenome
             )
         )
-        if(this.sobrenome.length > 100) return Result.failure(
+        if(this.sobrenome.length > LIMITECHAR) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'sobrenome' muito longo",
                 "sobrenome",
@@ -183,7 +185,7 @@ class UsuarioCreate(
         if(this.descricao.isNullOrEmpty()){
             return Result.success(descricao)
         }
-        if(this.descricao.length > 1000) return Result.failure(
+        if(this.descricao.length > LIMDESCRICAO) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'descricao' muito longo, precisa ter no maximo 1000 caracteres",
                 "descricao",
