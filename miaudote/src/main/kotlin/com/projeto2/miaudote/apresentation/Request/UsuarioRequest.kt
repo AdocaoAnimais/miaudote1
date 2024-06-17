@@ -181,9 +181,9 @@ class UsuarioCreate(
     }
     fun validaDescricao(): Result<String?>{
         if(this.descricao.isNullOrEmpty()){
-            return Result.success(contato)
+            return Result.success(descricao)
         }
-        if(this.descricao!!.length > 1000) return Result.failure(
+        if(this.descricao.length > 1000) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'descricao' muito longo, precisa ter no maximo 1000 caracteres",
                 "descricao",
@@ -197,7 +197,7 @@ class UsuarioCreate(
         if(this.contato.isNullOrEmpty()){
             return Result.success(contato)
         }
-        if (this.contato!!.length !in 10..11) return Result.failure(
+        if (this.contato.length !in 10..11) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'contato' precisa ter 10 ou 11 digitos, incluindo DDD",
                 "endereco",
@@ -219,7 +219,7 @@ class UsuarioCreate(
         if(this.endereco.isNullOrEmpty()){
             return Result.success(endereco)
         }
-        if (this.endereco!!.length != 8) return Result.failure(
+        if (this.endereco.length != 8) return Result.failure(
             criarUsuarioProblem(
                 "Campo 'endereco' precisa ter 8 digitos",
                 "endereco",

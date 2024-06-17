@@ -68,6 +68,7 @@ class CriarPetHandler private constructor(
             val idadeIn = petIn.validaIdade().getOrElse { return Result.failure(it) }
             val tipoIn = petIn.validaTipo().getOrElse { return Result.failure(it) }
             val castradoIn = petIn.validaCastrado().getOrElse { return Result.failure(it) }
+            val descricaoIn = petIn.validaDescricao().getOrElse { return Result.failure(it) }
 
             val response = CriarPetHandler(
                 nome = nomeIn,
@@ -76,7 +77,7 @@ class CriarPetHandler private constructor(
                 idade = idadeIn,
                 tipo = tipoIn,
                 castrado = castradoIn,
-                descricao = petIn.descricao,
+                descricao = descricaoIn,
                 idUsuario = id
             )
             return Result.success(response)
