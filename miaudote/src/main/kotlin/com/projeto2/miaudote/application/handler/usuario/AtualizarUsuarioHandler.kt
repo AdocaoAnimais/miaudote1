@@ -126,8 +126,7 @@ class AtualizarUsuarioHandler private constructor(
             val enderecoIn = usuario.validaEndereco().getOrElse { return Result.failure(it) }
             val contatoIn = usuario.validaContato().getOrElse { return Result.failure(it) }
             val descricaoIn = usuario.validaDescricao().getOrElse { return Result.failure(it) }
-            val senhaIn = usuario.validaSenha().getOrElse { return Result.failure(it) }
-
+            val senhaIn = if(!usuario.senha.isNullOrEmpty()) usuario.validaSenha().getOrElse { return Result.failure(it) } else null
 
             return Result.success(
                 AtualizarUsuarioHandler(

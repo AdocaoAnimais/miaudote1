@@ -42,12 +42,13 @@ class SalvarImagemProcessor(
         ).toFailure()
 
         val fileType = handler.imagem.contentType
-        if (fileType == null || !fileType.startsWith("image/")) {
+        if (fileType == null || !(fileType == "image/jpeg" || fileType == "image/png")) {
             return salvarImagemProblem(
                 detalhe = "Imagem em formato incorreto",
                 campo = "imageData"
             ).toFailure()
         }
+
 
         val maxFileSize = 16000000 // 16MB
         if (handler.imagem.size > maxFileSize ) {
