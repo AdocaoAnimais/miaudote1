@@ -1,8 +1,9 @@
-import api, { BASE_URL } from "@/app/App"
+import api, { BASE_URL, Problem } from "@/app/App"
 import { FileService } from "./FileService"
+import { AxiosError } from "axios"
 
 export class PetService {
-
+  tiposPermitidos: Array<string> = ["image/jpeg", "image/png"]
   fileService = new FileService()
 
   async createPet(nome: string,
@@ -46,18 +47,19 @@ export class PetService {
     return await api.post(`${BASE_URL}/api/pet/atualizar/${id}`, params)
   }
 
-  async uploadImagemPet(imagemIn: Blob, id: number) { 
+  async uploadImagemPet(imagemIn: Blob, id: number) {
+    if (this.tiposPermitidos.filter(tipo => tipo == imagemIn.type).length <= 0) throw new Problem("Não foi possivel realizar o upload da imagem", "Imagem com tipo inválido. Permitido apenas PNG e JPEG", 400, null, null)
     if(imagemIn.size / (1024*1024) > 1.5) {
       await this.fileService.comprimirImagem(imagemIn, async (comprimida: Blob) => { 
         const form = new FormData()
         form.append("imagem", comprimida)
-  
+
         return api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form) 
       })
     } else {
       const form = new FormData()
         form.append("imagem", imagemIn)
-  
+
         return api.post(`${BASE_URL}/api/pet/salvar-imagem/${id}`, form) 
     }
   }

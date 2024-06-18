@@ -17,8 +17,28 @@ api.interceptors.request.use(function (config) {
 api.interceptors.response.use(function (response) {
   return response;
 }, 
-function (error) { 
-  return Promise.reject(error);
+function (error: AxiosError) { 
+  const response: { data: Problem } = error.response as { data: Problem } 
+  const problem = response.data
+  return Promise.reject(problem);
 });
 
 export default api;
+
+
+export class Problem{
+
+  title: string | null = null;
+  detail: string | null = null;
+  status: number | null = null;
+  type: string | null = null;
+  extra: any | null = null;
+
+  constructor(title: string | null, detail: string | null, status: number | null, type: string | null, extra: any | null, ){
+    this.title = title;
+    this.detail = detail;
+    this.status = status;
+    this.type = type;
+    this.extra = extra;
+  }
+}

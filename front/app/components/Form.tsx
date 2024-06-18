@@ -70,7 +70,7 @@ export default function Form({ }) {
       if (e instanceof AxiosError && e.response.status == 400) {
         console.log(e.response)
       }
-      setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
+      setError(e.detail || "Erro desconhecido ao efetuar login");
     };
   };
 

@@ -11,6 +11,7 @@ import Button_YellowTarja from "@/app/components/Buttons/Button_YellowTarja";
 import LinkButton_YellowTarja from "@/app/components/Buttons/LinkButton_YellowTarja";
 import Link from "next/link";
 import { PetPost } from "@/domain/Pet";
+import { Problem } from "@/app/App";
 
 export default function Form({ }) {
     const authService = new AuthenticationService();
@@ -18,7 +19,7 @@ export default function Form({ }) {
     const ref = useRef(null);
     const router = useRouter();
     const params = useParams()
-    const [imagem, setImagem] = useState<string | null>(null);
+    const [imagem, setImagem] = useState<Blob | null>(null);
     const [tamImg, setTamImg] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
@@ -91,11 +92,11 @@ export default function Form({ }) {
             }
 
             router.push("/usuario")
-        } catch (e: any) {
-            if (e instanceof AxiosError && e.response.status == 400) {
-                console.log(e.response)
+        } catch (e: any) { 
+            if (e instanceof Problem && e.status == 400) {
+                console.log(e)
             }
-            setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
+            setError(e.detail || "Erro desconhecido!");
         };
     };
 

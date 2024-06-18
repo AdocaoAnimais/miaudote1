@@ -42,8 +42,8 @@ export default function LoginForm({ }) {
             console.log("Logado com sucesso!");
             router.refresh();
         } catch (e) {
-            console.log("Erro ao efetuar login: ", e.response?.data?.detail);
-            setError(e.response?.data?.detail || "Erro desconhecido ao efetuar login");
+            console.log("Erro ao efetuar login: ", e.detail);
+            setError(e.detail || "Erro desconhecido ao efetuar login");
         }
     };
 
