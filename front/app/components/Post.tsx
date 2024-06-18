@@ -105,7 +105,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                                 />
                             }
                         </div>
-                        <Link href={`post/${pet.id}`}>
+                        <div>
 
                             <div className="pt-2 pb-0 pl-4 text-white">
                                 <div className="font-bold text-2xl mb-2 text-theme-primary">{pet.nome}</div>
@@ -119,7 +119,7 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
 
                                 </p>
                             </div>
-                        </Link>
+                        </div>
                         {
                             inPerfil && !inAdotados ? (
                                 <>
