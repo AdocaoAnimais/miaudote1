@@ -62,4 +62,8 @@ export class UsuarioService {
   async deletar() {
     return await api.delete(`${BASE_URL}/api/usuario/deletar`)
   }
+
+  async enviarEmailValidacao(){
+    return await api.post(`${BASE_URL}/api/usuario/envia-email-validacao/`)
+  }
 }
