@@ -18,9 +18,12 @@ api.interceptors.response.use(function (response) {
   return response;
 }, 
 function (error: AxiosError) { 
-  const response: { data: Problem } = error.response as { data: Problem } 
-  const problem = response?.data ?? response
-  return Promise.reject(problem);
+  if(error.response){
+    const response: { data: Problem } = error.response as { data: Problem } 
+    const problem = response?.data ?? response
+    return Promise.reject(problem);
+  }
+  return Promise.reject(error);
 });
 
 export default api;
