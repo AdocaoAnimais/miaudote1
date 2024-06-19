@@ -203,7 +203,7 @@ class UsuarioCreate(
             criarUsuarioProblem(
                 "Campo 'contato' precisa ter 10 ou 11 digitos, incluindo DDD",
                 "endereco",
-                this.endereco
+                this.contato
             )
         )
         if(!validaNumeroRegex(this.contato)) return Result.failure(

@@ -64,6 +64,6 @@ export class UsuarioService {
   }
 
   async enviarEmailValidacao(){
-    return await api.post(`${BASE_URL}/api/usuario/envia-email-validacao/`)
+    return await api.post(`${BASE_URL}/api/usuario/mandar-verificacao-email`)
   }
 }

@@ -8,4 +8,5 @@ export interface Usuario {
   descricao: string,
   contato: string,
   endereco: string,
+  email_verificado: boolean
 }
