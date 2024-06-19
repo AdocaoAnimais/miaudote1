@@ -4,19 +4,26 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
+import com.projeto2.miaudote.application.services.EmailService
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.ValidacaoEmailService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import com.projeto2.miaudote.domain.entities.Usuario
+import com.projeto2.miaudote.domain.entities.ValidacaoEmail
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI
+import java.util.*
 
 @Component
 class CriarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,
+    private val validacaoEmailService: ValidacaoEmailService,
+
 ) : ProcessorHandler<CriarUsuarioHandler>() {
 
     override fun process(handler: CriarUsuarioHandler): Result<Any> {
@@ -56,6 +63,16 @@ class CriarUsuarioProcessor(
             endereco = handler.endereco,
             id = null,
         )
+
+        /* Mandar email de verificação */
+        validacaoEmailService.mandarEmailVerificacao(usuario).getOrElse { return criarUsuarioProblem(
+            "Não foi possivel enviar o email de verificação",
+            "email",
+            handler.email
+        ).toFailure(
+        ) }
+        /////////////////////////////////
+
         val usuarioCriado = service.criar(usuario = usuario)
         val token = jwtService.generateToken(usuarioCriado)
         val response = LoginResponse(
@@ -64,6 +81,7 @@ class CriarUsuarioProcessor(
             expiresIn = 5000L
         )
         return Result.success(response)
+
     }
 }
 
