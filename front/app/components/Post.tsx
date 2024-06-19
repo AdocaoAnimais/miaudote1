@@ -38,8 +38,8 @@ export default function Post({ animal, inPerfil, isLogado, inAdotados }: { anima
                     },
                 })
             }).catch((res: any) => {
-                const title = res.response.data.title
-                const detalhes = res.response.data.detail
+                const title = res.title
+                const detalhes = res.detail
                 // alert(`${title} ${detalhes}`)
                 setError({ title, detalhes });
                 // alert(`${title} ${detalhes}`)

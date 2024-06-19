@@ -34,6 +34,13 @@ class SolicitarAdocaoProcessor(
         val usuarioAdotante = usuarioService.obterPorId(handler.idUsuario).toProblem()
             .getOrElse { return Result.failure(it) }
 
+        if (!usuarioAdotante.emailVerificado) return Result.failure(
+            solicitacaoInvalida(
+                "Adoção permitida apenas para usuários com email verificado, verifique seu email!",
+                null
+            )
+        )
+
         if (service.obterPorAdotanteIdPetId(usuarioAdotante.id!!, pet.id) != null) return Result.failure(
             solicitacaoInvalida("O usuário já possui solicitação pendente para o pet ${pet.nome}.", null)
         )

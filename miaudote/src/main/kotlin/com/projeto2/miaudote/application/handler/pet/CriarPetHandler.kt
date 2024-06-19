@@ -26,6 +26,12 @@ class CriarPetProcessor(
             "Usuario invalido para cadastro de pet",
             "usuario",
         ).toFailure()
+        if (!usuario.emailVerificado) return Result.failure(
+            criarPetProblem(
+                "Email de cadastro não verificado, verifique seu email antes de cadastrar um animal!",
+                ""
+            )
+        )
         val pet = Pet(
             nome = handler.nome,
             idade = handler.idade,
