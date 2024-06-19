@@ -2,6 +2,7 @@ package com.projeto2.miaudote.application.services
 
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.Usuario
+import com.projeto2.miaudote.domain.entities.ValidacaoEmail
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
@@ -109,6 +110,34 @@ class EmailService(
 
         enviarEmail(
             to = responsavel.email,
+            subject = titulo,
+            conteudo = conteudo,
+        )
+    }
+
+    fun enviarEmailVerificacao(
+        usuario: Usuario,
+        linkVerificacao: String,
+    ) {
+        val titulo = "[MIAUDOTE] Confirme seu email"
+        val conteudo = """
+            Prezado ${usuario.nome} ${usuario.sobrenome},
+            
+            Obrigado por se cadastrar no Miaudote!
+            
+            Precisamos de um pouco mais de informações para concluir seu cadastro, incluindo a confirmação do seu e-mail.
+
+            CLIQUE ABAIXO PARA CONFIRMAR SEU EMAIL:
+
+            $linkVerificacao
+
+            Se tiver problemas, por favor, cole o URL acima no seu navegador.
+            
+            Não reponda este email.
+            """.trimIndent()
+
+        enviarEmail(
+            to = usuario.email,
             subject = titulo,
             conteudo = conteudo,
         )

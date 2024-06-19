@@ -6,6 +6,7 @@ import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
+import com.projeto2.miaudote.application.services.ValidacaoEmailService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
@@ -17,6 +18,7 @@ import java.net.URI
 class AtualizarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,
+    private val validacaoEmailService: ValidacaoEmailService
 ) : ProcessorHandler<AtualizarUsuarioHandler>() {
 
     override fun process(handler: AtualizarUsuarioHandler): Result<Any> {
@@ -60,7 +62,7 @@ class AtualizarUsuarioProcessor(
         val senhaAtualizada = if (!handler.senha.isNullOrEmpty()) jwtService.passwordEncoder.encode(handler.senha)
         else usuarioExistente.senha
 
-        val usuarioAtualizado = usuarioExistente.copy(
+        var usuarioAtualizado = usuarioExistente.copy(
             nome = handler.nome,
             sobrenome = handler.sobrenome,
             username = handler.username,
@@ -71,6 +73,16 @@ class AtualizarUsuarioProcessor(
             endereco = handler.endereco,
             senha = senhaAtualizada,
         )
+        if (usuarioExistente.email != usuarioAtualizado.email) {
+            usuarioAtualizado = usuarioAtualizado.copy(emailVerificado = false)
+            validacaoEmailService.mandarEmailVerificacao(usuarioAtualizado).getOrElse {
+                return atualizarUsuarioProblem(
+                    "Não foi possível enviar o email de verificação",
+                    "email",
+                    handler.email
+                ).toFailure()
+            }
+        }
 
         val usuarioSalvo = service.atualizar(usuario = usuarioAtualizado)
         val response = UsuarioResponse(
@@ -82,7 +94,8 @@ class AtualizarUsuarioProcessor(
             cpf = usuarioSalvo.cpf,
             descricao = usuarioSalvo.descricao,
             contato = usuarioSalvo.contato,
-            endereco = usuarioSalvo.endereco
+            endereco = usuarioSalvo.endereco,
+            email_verificado = usuarioSalvo.emailVerificado,
         )
         return Result.success(response)
     }

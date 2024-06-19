@@ -16,6 +16,7 @@ class UsuarioResponse(
     val descricao: String?,
     val contato: String?,
     val endereco: String?,
+    val email_verificado: Boolean?,
 )
 
 fun Usuario.fromEntity(token: String): UsuarioCreateResponse {
