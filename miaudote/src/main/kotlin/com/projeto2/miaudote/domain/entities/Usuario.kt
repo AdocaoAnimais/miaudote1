@@ -36,7 +36,7 @@ data class Usuario (
     @Column(name = "endereco")
     val endereco: String?,
 
-    @Column(name = "contato", unique = true)
+    @Column(name = "contato", unique = false)
     val contato: String?,
 
     @Column(name = "perfil_acesso")
