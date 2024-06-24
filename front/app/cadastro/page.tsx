@@ -25,6 +25,7 @@ export default async function Page() {
                         <div>
                             <h1 className="py-4">Cadastro</h1>
                             <p className="text-[#737380]">Faça seu cadastro!</p>
+                            <p className="text-[#FFF]">Ao realizar o cadastro enviaremos um email para confirmação de cadastro!</p>
                         </div>
                         <div className='w-full gap-2 flex p-12 text-left pt-32 pb-2 px-6'>
                             <Image
