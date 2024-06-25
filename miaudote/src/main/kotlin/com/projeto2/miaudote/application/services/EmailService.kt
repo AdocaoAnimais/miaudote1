@@ -133,7 +133,7 @@ class EmailService(
 
             Se tiver problemas, por favor, cole o URL acima no seu navegador.
             
-            Não reponda este email.
+            Não responda este email.
             """.trimIndent()
 
         enviarEmail(
