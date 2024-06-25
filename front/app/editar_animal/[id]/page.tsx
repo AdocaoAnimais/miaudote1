@@ -22,6 +22,7 @@ export default function Form({ }) {
     const [imagem, setImagem] = useState<Blob | null>(null);
     const [tamImg, setTamImg] = useState(0);
     const [error, setError] = useState<string | null>(null);
+    const [sucesso, setSucesso] = useState<string | null>(null);
 
     const petId: string = params.id
     const [nome, setNome] = useState("");
@@ -86,12 +87,12 @@ export default function Form({ }) {
                 descricao,
                 petId
             )
-            console.log(response)
+            setSucesso("Pet atualizado com sucesso!");
             if (imagem) {
                 await service.uploadImagemPet(imagem, response.data.id);
             }
-
-            router.push("/usuario")
+            
+            setTimeout(() => router.push("/usuario"), 3000) 
         } catch (e: any) { 
             if (e instanceof Problem && e.status == 400) {
                 console.log(e)
@@ -230,6 +231,16 @@ export default function Form({ }) {
                             placeholder="Descrição"
                         ></textarea>
                     </div>
+                    {sucesso && (
+                        <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert severity="success">{sucesso}</Alert>
+                        </Stack>
+                    )}
+                    {error && (
+                        <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert severity="error">{error}</Alert>
+                        </Stack>
+                    )}
                     <div className=" md:col-span-2">
                         <label className="block">
                             <span className="sr-only">Escolha a foto do perfil</span>
@@ -255,11 +266,6 @@ export default function Form({ }) {
                             <Button_YellowTarja texto="Atualizar" />
                         </div>
                     </div>
-                    {error && (
-                        <Stack sx={{ width: '100%' }} spacing={2}>
-                            <Alert severity="error">{error}</Alert>
-                        </Stack>
-                    )}
                 </form>
             </div>
         </>

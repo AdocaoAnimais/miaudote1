@@ -13,6 +13,7 @@ export default function Form({ }) {
   const router = useRouter();
 
   const [error, setError] = useState<string | null>(null);
+  const [sucesso, setSucesso] = useState<string | null>(null);
 
   const ref = useRef(null);
   init();
@@ -55,7 +56,8 @@ export default function Form({ }) {
         contato,
         endereco,
       );
-      router.refresh();
+      setSucesso("Cadastrado com sucesso!"); 
+      setTimeout(() => router.refresh(), 3000) 
     } catch (e) {
       console.log(e)
       console.log("Erro ao efetuar login: ", e.detail);
@@ -158,7 +160,16 @@ export default function Form({ }) {
             htmlFor="contato"
           />
         </div>
-
+        {sucesso && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+            <Alert severity="success">{sucesso}</Alert>
+          </Stack>
+        )}
+        {error && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+            <Alert severity="error">{error}</Alert>
+          </Stack>
+        )}
         <div className="flex justify-center md:col-span-2 pt-8">
           <button
             onClick={cadastrar}
@@ -169,11 +180,6 @@ export default function Form({ }) {
         </div>
 
       </form>
-      {error && (
-        <Stack sx={{ width: '100%' }} spacing={2}>
-          <Alert severity="error">{error}</Alert>
-        </Stack>
-      )}
     </>
   );
 }

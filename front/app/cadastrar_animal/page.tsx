@@ -32,8 +32,8 @@ export default async function Page() {
                                 src={backIcon}
                                 alt="Follow us on Twitter"
                             />
-                            <Link href={"/"} className=" text-theme-text hover:text-theme-texthighlight">
-                                Voltar para home
+                            <Link href={"/usuario"} className=" text-theme-text hover:text-theme-texthighlight">
+                                Voltar para o seu perfil
                             </Link>
                         </div>
                     </div>

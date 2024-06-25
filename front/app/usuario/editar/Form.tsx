@@ -12,6 +12,7 @@ export default function Form({ usuario }: { usuario: Usuario }) {
   const service = new UsuarioService();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [sucesso, setSucesso] = useState<string | null>(null);
 
   const [nome, setNome] = useState(usuario.nome)
   const [sobrenome, setsobrenome] = useState(usuario.sobrenome)
@@ -27,15 +28,15 @@ export default function Form({ usuario }: { usuario: Usuario }) {
     setError(null);
     console.log('')
     event.preventDefault();
-    
+
     const nomeOut = nome
     const sobrenomeOut = sobrenome
     const usernameOut = username
     const emailOut = email
     const senhaOut = senha
-    const cpfOut = cpf.replaceAll('.','').replaceAll('-','')
-    const enderecoOut = endereco.replaceAll('-','')
-    const contatoOut = contato.replaceAll(' ','').replaceAll('(','').replaceAll(')','')
+    const cpfOut = cpf.replaceAll('.', '').replaceAll('-', '')
+    const enderecoOut = endereco.replaceAll('-', '')
+    const contatoOut = contato.replaceAll(' ', '').replaceAll('(', '').replaceAll(')', '')
     try {
       await service.atualizar(
         nomeOut,
@@ -47,7 +48,8 @@ export default function Form({ usuario }: { usuario: Usuario }) {
         enderecoOut,
         senhaOut,
       )
-      router.push("/usuario");
+      setSucesso("Perfil atualizado com sucesso!"); 
+      setTimeout(() => router.push("/usuario"), 3000) 
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status == 400) {
         console.log(e.response)
@@ -145,6 +147,11 @@ export default function Form({ usuario }: { usuario: Usuario }) {
             onChange={(e) => { setcontato(e.target.value) }}
           />
         </div>
+        {sucesso && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+            <Alert severity="success">{sucesso}</Alert>
+          </Stack>
+        )}
         {error && (
           <Stack sx={{ width: '100%' }} spacing={2}>
             <Alert severity="error">{error}</Alert>
