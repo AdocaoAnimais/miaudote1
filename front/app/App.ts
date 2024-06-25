@@ -18,7 +18,7 @@ api.interceptors.response.use(function (response) {
   return response;
 }, 
 function (error: AxiosError) { 
-  if(error.response){
+  if(error.response?.data != ""){
     const response: { data: Problem } = error.response as { data: Problem } 
     const problem = response?.data ?? response
     return Promise.reject(problem);
