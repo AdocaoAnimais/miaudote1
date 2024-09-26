@@ -26,7 +26,7 @@ export class AuthenticationService {
         return await api.get(`${BASE_URL}/api/auth/logged`)
             .then(res => true)
             .catch((error: AxiosError) => {
-                const status = error.response?.status
+                const status = error?.response?.status
                 if (status == 401 || status == 400) {
                     api.defaults.headers.common['Authorization'] = null
                     window.localStorage.removeItem(this.chave)
