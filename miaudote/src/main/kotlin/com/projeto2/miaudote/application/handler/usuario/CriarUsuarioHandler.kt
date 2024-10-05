@@ -65,12 +65,7 @@ class CriarUsuarioProcessor(
         )
 
         /* Mandar email de verificação */
-        validacaoEmailService.mandarEmailVerificacao(usuario).getOrElse { return criarUsuarioProblem(
-            "Não foi possivel enviar o email de verificação",
-            "email",
-            handler.email
-        ).toFailure(
-        ) }
+        validacaoEmailService.mandarEmailVerificacao(usuario).getOrElse { return Result.failure(it) }
         /////////////////////////////////
 
         val usuarioCriado = service.criar(usuario = usuario)
@@ -131,7 +126,7 @@ class CriarUsuarioHandler private constructor(
 private fun criarUsuarioProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possivel criar um usuário",
     detail = detalhe,
-    type = URI("/cadastrar-pet"),
+    type = URI("/cadastrar-usuario"),
     status = HttpStatus.BAD_REQUEST,
     extra = mapOf(campo to valor)
 )
