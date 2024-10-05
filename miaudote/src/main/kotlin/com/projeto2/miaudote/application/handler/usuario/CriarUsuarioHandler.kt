@@ -4,19 +4,15 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
-import com.projeto2.miaudote.application.services.EmailService
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.application.services.ValidacaoEmailService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import com.projeto2.miaudote.domain.entities.Usuario
-import com.projeto2.miaudote.domain.entities.ValidacaoEmail
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI
-import java.util.*
 
 @Component
 class CriarUsuarioProcessor(
