@@ -43,9 +43,13 @@ class ValidacaoEmailHandler private constructor(
         fun newOrProblem(
             verificacaoIdIn: String
         ): Result<ValidacaoEmailHandler> {
-            val verificacaoId = UUID.fromString(verificacaoIdIn) ?: return Result.failure(
-                verificacaoEmailProblem("Id da validacao do email inválida.", verificacaoIdIn)
-            )
+            val verificacaoId =  try {
+                UUID.fromString(verificacaoIdIn)
+            } catch (e: Exception){
+                return Result.failure(
+                    verificacaoEmailProblem("Id da validacao do email inválida.", verificacaoIdIn)
+                )
+            }
             return Result.success(
                 ValidacaoEmailHandler(
                     verificacaoId = verificacaoId)

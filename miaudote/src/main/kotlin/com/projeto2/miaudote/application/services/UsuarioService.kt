@@ -10,20 +10,12 @@ class UsuarioService(
     val repository: UsuarioRepository
 ) {
 
-    fun obterPorEmailCpfUsername(email: String, cpf: String, username: String): Usuario? {
-        return repository.findByEmailOrCpfOrUsername(email = email, cpf = cpf, username = username)
-    }
-
     fun obterPorEmail(email: String): Usuario? {
         return repository.findByEmail(email = email)
     }
 
     fun obterPorCpf(cpf: String): Usuario? {
         return repository.findByCpf(cpf)
-    }
-
-    fun obterTodos(): List<Usuario> {
-        return repository.findAll()
     }
 
     fun obterUsername(username: String): Usuario? {
