@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.application.handler.usuario
 
+import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
@@ -10,20 +11,20 @@ import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
 import com.projeto2.miaudote.domain.enums.Sexo
 import com.projeto2.miaudote.domain.enums.Tipo
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.net.URI
 import java.time.Instant
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DeletarUsuarioProcessorTest {
+class DeletarUsuarioProcessorTest : BaseTestConfig() {
 
     private val usuarioService: UsuarioService = Mockito.mock<UsuarioService>()
     private val petService: PetService = Mockito.mock<PetService>()
@@ -38,11 +39,13 @@ class DeletarUsuarioProcessorTest {
         this.processorWithMock = DeletarUsuarioProcessor(usuarioService, petService)
         this.processorWithMock
     }
+
     @AfterEach
     fun tearDown() {
         // Restaurar os mocks para o estado inicial
         Mockito.reset(usuarioService, petService)
     }
+
     @Test
     @DisplayName("Deletar usuário com sucesso")
     fun `deletar_usuario_com_sucesso`() {

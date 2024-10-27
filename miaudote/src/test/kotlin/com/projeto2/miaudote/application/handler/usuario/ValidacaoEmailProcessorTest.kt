@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.application.handler.usuario
 
+import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.UsuarioService
@@ -11,21 +12,17 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.net.URI
 import java.time.Instant
 import java.util.*
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ValidacaoEmailProcessorTest {
+class ValidacaoEmailProcessorTest : BaseTestConfig() {
 
     private val service: ValidacaoEmailService = Mockito.mock(ValidacaoEmailService::class.java)
     private val usuarioService: UsuarioService = Mockito.mock(UsuarioService::class.java)

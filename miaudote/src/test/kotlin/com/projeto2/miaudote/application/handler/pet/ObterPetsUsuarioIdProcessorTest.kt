@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.application.handler.pet
 
+import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
@@ -8,14 +9,13 @@ import com.projeto2.miaudote.apresentation.Response.PetPost
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.enums.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito
 import org.mockito.kotlin.any
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.net.URI
@@ -23,9 +23,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ObterPetsUsuarioIdProcessorTest {
+class ObterPetsUsuarioIdProcessorTest : BaseTestConfig() {
 
     private val petService: PetService = Mockito.mock(PetService::class.java)
     private val solicitacaoService: SolicitacaoAdocaoService = Mockito.mock(SolicitacaoAdocaoService::class.java)

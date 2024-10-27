@@ -1,36 +1,38 @@
 package com.projeto2.miaudote.application.handler.usuario
 
+import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
-import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.application.services.ValidacaoEmailService
+import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
+import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import com.projeto2.miaudote.domain.entities.Usuario
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.mockito.kotlin.any
 import org.mockito.Mockito
+import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest 
+import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.net.URI
-import java.time.Instant 
+import java.time.Instant
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AtualizarUsuarioProcessorTest {
+class AtualizarUsuarioProcessorTest : BaseTestConfig() {
 
     private val service: UsuarioService = Mockito.mock<UsuarioService>()
+
     @Autowired
     lateinit var jwtService: JwtService
     private val validacaoEmailService: ValidacaoEmailService = Mockito.mock<ValidacaoEmailService>()
+
+    // private val viaCepService = Mockito.mock<ViaCepService>()
 
     lateinit var processorWithMock: ProcessorHandler<AtualizarUsuarioHandler>
 
@@ -38,9 +40,10 @@ class AtualizarUsuarioProcessorTest {
     lateinit var processor: ProcessorHandler<AtualizarUsuarioHandler>
 
     @BeforeEach
-    fun setUp(){
-        this.processorWithMock = AtualizarUsuarioProcessor(service, jwtService, validacaoEmailService)
+    fun setUp() {
+        this.processorWithMock = AtualizarUsuarioProcessor(service, jwtService, validacaoEmailService, viaCepService)
     }
+
     @Test
     @DisplayName("Usuário não existe pelo id")
     fun `usuario_nao_existe_id`() {
@@ -161,7 +164,7 @@ class AtualizarUsuarioProcessorTest {
             cpf = "12345678900",
             descricao = "Descrição",
             contato = "999999999",
-            endereco = "Endereço Teste",
+            endereco = null,
             emailVerificado = true,
             senha = "senhaNova"
         )
@@ -191,6 +194,58 @@ class AtualizarUsuarioProcessorTest {
         assertEquals(problem.type, URI("/atualizar-usuario"))
     }
 
+    @DisplayName("Falha ao validar cep")
+    fun `falha_ao_validar_cep`() {
+        val usuarioExistente = Usuario(
+            id = 1L,
+            nome = "Nome",
+            sobrenome = "Sobrenome",
+            username = "user",
+            email = "user@teste.com",
+            cpf = "12345678900",
+            descricao = "Descrição",
+            contato = "999999999",
+            endereco = "Endereço invalido",
+            emailVerificado = true,
+            senha = "senhaNova"
+        )
+
+        Mockito.`when`(service.obterPorId(eq(1L))).thenReturn(usuarioExistente)
+        Mockito.`when`(viaCepService.getDataFromCep(any())).thenReturn(
+            Result.failure(
+                Problem(
+                    "Erro ao validar cep",
+                    "CEP invalido",
+                    HttpStatus.BAD_REQUEST,
+                    URI("/viacep-service"),
+                    null
+                )
+            )
+        )
+        Mockito.`when`(validacaoEmailService.mandarEmailVerificacao(any<Usuario>()))
+            .thenReturn(Result.failure(RuntimeException("Erro ao enviar email")))
+
+        val token = createToken(1L)
+        val usuario = UsuarioCreate(
+            nome = "Novo",
+            sobrenome = "Usuário",
+            username = "novousuario",
+            senha = "senhaSegura123",
+            email = "novo1@teste.com",
+            cpf = "11111111111",
+            descricao = "Novo usuario para testes",
+            contato = "1234567892",
+            endereco = "98400000"
+        )
+        val handler = AtualizarUsuarioHandler.newOrProblem(usuario, token).getOrThrow()
+        val result = processorWithMock.process(handler)
+        val problem = result.exceptionOrNull() as Problem
+
+        assertEquals(problem.detail, "Erro ao validar cep")
+        assertEquals(problem.title, "CEP invalido")
+        assertEquals(problem.type, URI("/viacep-service"))
+    }
+
     @Test
     @DisplayName("Atualização de usuário com sucesso")
     fun `atualizacao_com_sucesso`() {
@@ -203,7 +258,7 @@ class AtualizarUsuarioProcessorTest {
             cpf = "12345678900",
             descricao = "Descrição",
             contato = "999999999",
-            endereco = "Endereço Teste",
+            endereco = null,
             emailVerificado = true,
             senha = "senhaNova"
         )

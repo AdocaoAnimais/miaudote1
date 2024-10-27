@@ -1,6 +1,5 @@
 package com.projeto2.miaudote.application.services
 
-import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.domain.entities.Endereco
 import org.springframework.beans.factory.annotation.Value

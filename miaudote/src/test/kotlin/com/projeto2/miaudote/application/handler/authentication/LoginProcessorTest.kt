@@ -1,20 +1,17 @@
 package com.projeto2.miaudote.application.handler.authentication
 
+import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.apresentation.Request.LoginRequest
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import java.net.URI
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class LoginProcessorTest {
+
+class LoginProcessorTest : BaseTestConfig() {
 
     @Autowired
     lateinit var processor: ProcessorHandler<LoginHandler>
@@ -29,14 +26,15 @@ class LoginProcessorTest {
         val result = LoginHandler.newOrProblem(login)
         assertEquals(result.isFailure, false)
         val request = result.getOrElse { return }
-        val response = processor.process(request).getOrElse {it ->
+        val response = processor.process(request).getOrElse { it ->
             val problem = it as Problem
-            assertEquals(problem::class.java, Problem::class.java )
+            assertEquals(problem::class.java, Problem::class.java)
             assertEquals(problem.detail, "Usuario com username 'testes' não encontrado")
             assertEquals(problem.title, "Não foi possivel efetuar login")
             assertEquals(problem.type, URI("/login"))
         }
     }
+
     @Test
     @DisplayName("Login com senha incorreta")
     fun `senha_incorreta`() {
@@ -47,14 +45,15 @@ class LoginProcessorTest {
         val result = LoginHandler.newOrProblem(login)
         assertEquals(result.isFailure, false)
         val request = result.getOrElse { return }
-        val response = processor.process(request).getOrElse {it ->
+        val response = processor.process(request).getOrElse { it ->
             val problem = it as Problem
-            assertEquals(problem::class.java, Problem::class.java )
+            assertEquals(problem::class.java, Problem::class.java)
             assertEquals(problem.detail, "A senha informada está incorreta")
             assertEquals(problem.title, "Não foi possivel efetuar login")
             assertEquals(problem.type, URI("/login"))
         }
     }
+
     @Test
     @DisplayName("login sem username")
     fun `login_sem_username`() {
@@ -65,14 +64,15 @@ class LoginProcessorTest {
         val result = LoginHandler.newOrProblem(login)
         assertEquals(result.isFailure, true)
         val request = result.getOrElse { return }
-        val response = processor.process(request).getOrElse {it ->
+        val response = processor.process(request).getOrElse { it ->
             val problem = it as Problem
-            assertEquals(problem::class.java, Problem::class.java )
+            assertEquals(problem::class.java, Problem::class.java)
             assertEquals(problem.detail, "Campo 'username' não pode ser null ou vazio")
             assertEquals(problem.title, "Não foi possivel efetuar login")
             assertEquals(problem.type, URI("/login"))
         }
     }
+
     @Test
     @DisplayName("login sem senha")
     fun `login_sem_senha`() {
@@ -83,14 +83,15 @@ class LoginProcessorTest {
         val result = LoginHandler.newOrProblem(login)
         assertEquals(result.isFailure, true)
         val request = result.getOrElse { return }
-        val response = processor.process(request).getOrElse {it ->
+        val response = processor.process(request).getOrElse { it ->
             val problem = it as Problem
-            assertEquals(problem::class.java, Problem::class.java )
+            assertEquals(problem::class.java, Problem::class.java)
             assertEquals(problem.detail, "Campo 'senha' não pode ser null ou vazio")
             assertEquals(problem.title, "Não foi possivel efetuar login")
             assertEquals(problem.type, URI("/login"))
         }
     }
+
     @Test
     @DisplayName("login com sucesso")
     fun `login_com_sucesso`() {
