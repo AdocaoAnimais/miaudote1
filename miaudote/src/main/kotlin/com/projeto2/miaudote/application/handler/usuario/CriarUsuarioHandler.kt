@@ -7,6 +7,7 @@ import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.application.services.ValidacaoEmailService
+import com.projeto2.miaudote.application.services.ViaCepService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.LoginResponse
 import com.projeto2.miaudote.domain.entities.Usuario
@@ -19,7 +20,7 @@ class CriarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,
     private val validacaoEmailService: ValidacaoEmailService,
-
+    private val viaCepService: ViaCepService,
 ) : ProcessorHandler<CriarUsuarioHandler>() {
 
     override fun process(handler: CriarUsuarioHandler): Result<Any> {
@@ -46,6 +47,12 @@ class CriarUsuarioProcessor(
             "username",
             handler.username
         ).toFailure()
+        if (handler.endereco != null) {
+            viaCepService.getDataFromCep(handler.endereco).getOrElse {
+                return Result.failure(it)
+            }
+        }
+
         val senha = jwtService.passwordEncoder.encode(handler.senha)
         val usuario = Usuario(
             nome = handler.nome,

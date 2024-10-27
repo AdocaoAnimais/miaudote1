@@ -7,6 +7,7 @@ import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.JwtService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.application.services.ValidacaoEmailService
+import com.projeto2.miaudote.application.services.ViaCepService
 import com.projeto2.miaudote.apresentation.Request.UsuarioCreate
 import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
 import org.springframework.http.HttpStatus
@@ -18,7 +19,8 @@ import java.net.URI
 class AtualizarUsuarioProcessor(
     private val service: UsuarioService,
     private val jwtService: JwtService,
-    private val validacaoEmailService: ValidacaoEmailService
+    private val validacaoEmailService: ValidacaoEmailService,
+    private val viaCepService: ViaCepService
 ) : ProcessorHandler<AtualizarUsuarioHandler>() {
 
     override fun process(handler: AtualizarUsuarioHandler): Result<Any> {
@@ -57,8 +59,11 @@ class AtualizarUsuarioProcessor(
                 handler.username
             ).toFailure()
         }
-
-
+        if (handler.endereco != null) {
+            viaCepService.getDataFromCep(handler.endereco).getOrElse {
+                return Result.failure(it)
+            }
+        }
         val senhaAtualizada = if (!handler.senha.isNullOrEmpty()) jwtService.passwordEncoder.encode(handler.senha)
         else usuarioExistente.senha
 
@@ -139,7 +144,8 @@ class AtualizarUsuarioHandler private constructor(
             val enderecoIn = usuario.validaEndereco().getOrElse { return Result.failure(it) }
             val contatoIn = usuario.validaContato().getOrElse { return Result.failure(it) }
             val descricaoIn = usuario.validaDescricao().getOrElse { return Result.failure(it) }
-            val senhaIn = if(!usuario.senha.isNullOrEmpty()) usuario.validaSenha().getOrElse { return Result.failure(it) } else null
+            val senhaIn = if (!usuario.senha.isNullOrEmpty()) usuario.validaSenha()
+                .getOrElse { return Result.failure(it) } else null
 
             return Result.success(
                 AtualizarUsuarioHandler(
