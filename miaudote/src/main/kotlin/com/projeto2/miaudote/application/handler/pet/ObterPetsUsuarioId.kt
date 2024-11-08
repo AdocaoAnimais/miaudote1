@@ -5,8 +5,10 @@ import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.apresentation.Response.PetPost
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
+import com.projeto2.miaudote.domain.entities.toProblem
 import com.projeto2.miaudote.domain.enums.StatusResponsavel
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -16,13 +18,12 @@ import java.net.URI
 @Component
 class ObterPetsUsuarioIdProcessor(
     private val service: PetService,
-    private val solicitacaoService: SolicitacaoAdocaoService
+    private val solicitacaoService: SolicitacaoAdocaoService,
+    private val usuarioService: UsuarioService,
 ) : ProcessorHandler<ObterPetsUsuarioIdHandler>() {
     override fun process(handler: ObterPetsUsuarioIdHandler): Result<Any> {
-
-        val response = when (handler.id) {
-            else -> obterPetsUsuario(handler.id)
-        }
+        usuarioService.obterPorId(handler.id).toProblem().getOrElse { return Result.failure(it) }
+        val response = obterPetsUsuario(handler.id)
         return Result.success(response) as Result<Any>
     }
 
@@ -31,7 +32,7 @@ class ObterPetsUsuarioIdProcessor(
 
         val response: List<PetPost>? = pets?.map {
             val solicitacaoAdocao = obterSolicitacaoAdocao(it.id!!).size
-            val status = if(solicitacaoAdocao > 0) StatusResponsavel.gerarStatus(solicitacaoAdocao) else null
+            val status = if (solicitacaoAdocao > 0) StatusResponsavel.gerarStatus(solicitacaoAdocao) else null
             PetPost(
                 id = it.id,
                 nome = it.nome,

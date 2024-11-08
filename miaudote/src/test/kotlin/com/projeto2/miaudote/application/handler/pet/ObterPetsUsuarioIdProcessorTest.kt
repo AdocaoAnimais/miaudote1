@@ -5,9 +5,11 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.apresentation.Response.PetPost
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
+import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.domain.enums.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -27,12 +29,13 @@ class ObterPetsUsuarioIdProcessorTest : BaseTestConfig() {
 
     private val petService: PetService = Mockito.mock(PetService::class.java)
     private val solicitacaoService: SolicitacaoAdocaoService = Mockito.mock(SolicitacaoAdocaoService::class.java)
+    private val usuarioService: UsuarioService = Mockito.mock(UsuarioService::class.java)
 
     lateinit var processor: ProcessorHandler<ObterPetsUsuarioIdHandler>
 
     @BeforeEach
     fun setUp() {
-        processor = ObterPetsUsuarioIdProcessor(petService, solicitacaoService)
+        processor = ObterPetsUsuarioIdProcessor(petService, solicitacaoService, usuarioService)
     }
 
     @Test
@@ -62,12 +65,41 @@ class ObterPetsUsuarioIdProcessorTest : BaseTestConfig() {
     }
 
     @Test
+    @DisplayName("Obter pets do usuário não encontrado")
+    fun `obter_pets_usuario_nao_encotrado`() {
+        val validToken = createToken(123L)
+        val handler = ObterPetsUsuarioIdHandler.newOrProblem(validToken).getOrElse { return }
+        Mockito.`when`(usuarioService.obterPorId(handler.id)).thenReturn(null)
+
+        val response = processor.process(handler).exceptionOrNull()
+
+        // Verifica se um problema adequado é retornado
+        val problem = response as Problem
+        assertEquals(problem.detail, "O usuário com id informado não esta cadastrado")
+        assertEquals(problem.title, "Usuário não encontrado")
+        assertEquals(problem.type, URI("/obter-usuario-por-id"))
+    }
+
+    @Test
     @DisplayName("Obter pets do usuário com sucesso")
     fun `obter_pets_usuario_sucesso`() {
         val validToken = createToken(123L)
         val handler = ObterPetsUsuarioIdHandler.newOrProblem(validToken).getOrElse { return }
-
+        val usuario = Usuario(
+            123L,
+            "Camila",
+            "Jeferson",
+            "Camila",
+            "123456789",
+            "camila@gmail.com",
+        "123123",
+            "12345678",
+            "12345678999",
+            "A",
+            ""
+        )
         val petList = listOf(mockPet(1L, "Pet 1"), mockPet(2L, "Pet 2"))
+        Mockito.`when`(usuarioService.obterPorId(handler.id)).thenReturn(usuario)
         Mockito.`when`(petService.obterPetsUsuario(handler.id)).thenReturn(petList)
 
         val solicitacaoAdocaoList = listOf(mockSolicitacaoAdocao(1L, handler.id))
