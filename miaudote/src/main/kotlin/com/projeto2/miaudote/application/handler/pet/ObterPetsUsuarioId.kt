@@ -19,9 +19,9 @@ class ObterPetsUsuarioIdProcessor(
     private val solicitacaoService: SolicitacaoAdocaoService
 ) : ProcessorHandler<ObterPetsUsuarioIdHandler>() {
     override fun process(handler: ObterPetsUsuarioIdHandler): Result<Any> {
+
         val response = when (handler.id) {
-            is Long -> obterPetsUsuario(handler.id)
-            else -> service.obterTodosDiponiveis()
+            else -> obterPetsUsuario(handler.id)
         }
         return Result.success(response) as Result<Any>
     }
@@ -30,10 +30,10 @@ class ObterPetsUsuarioIdProcessor(
         val pets = service.obterPetsUsuario(id)
 
         val response: List<PetPost>? = pets?.map {
-            val solicitacaoAdocao = obterSolicitacaoAdocao(id, it.id!!).size
+            val solicitacaoAdocao = obterSolicitacaoAdocao(it.id!!).size
             val status = if(solicitacaoAdocao > 0) StatusResponsavel.gerarStatus(solicitacaoAdocao) else null
             PetPost(
-                id = it.id!!,
+                id = it.id,
                 nome = it.nome,
                 descricao = it.descricao,
                 sexo = it.sexo,
@@ -47,7 +47,7 @@ class ObterPetsUsuarioIdProcessor(
         return response
     }
 
-    private fun obterSolicitacaoAdocao(id: Long, petId: Long): List<SolicitacaoAdocao> {
+    private fun obterSolicitacaoAdocao(petId: Long): List<SolicitacaoAdocao> {
         val solicitacao = solicitacaoService.obterTodasPetId(petId)
         return solicitacao
     }

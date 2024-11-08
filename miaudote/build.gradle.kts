@@ -3,10 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "3.2.5"
 	id("io.spring.dependency-management") version "1.1.4"
+
+	id("jacoco")
+	id("org.sonarqube") version "3.5.0.2730"
 	kotlin("jvm") version "1.9.23"
 	kotlin("plugin.spring") version "1.9.23"
 	kotlin("plugin.jpa") version "1.9.23"
 }
+
 
 group = "com.projeto2"
 version = "0.0.1-SNAPSHOT"
@@ -26,6 +30,9 @@ repositories {
 }
 
 dependencies {
+	// https://mvnrepository.com/artifact/org.apache.maven.reporting/maven-reporting-api
+	implementation("org.apache.maven.reporting:maven-reporting-api:4.0.0")
+	implementation("org.jacoco:jacoco-maven-plugin:0.8.12")
 	implementation("com.h2database:h2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -60,4 +67,10 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.withType<JacocoReport> {
+	reports {
+		xml.required = true
+	}
 }

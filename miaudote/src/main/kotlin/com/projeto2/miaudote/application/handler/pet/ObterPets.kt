@@ -32,7 +32,7 @@ class ObterPetsProcessor(
             }
 
             PetPost(
-                id = it.id!!,
+                id = it.id,
                 nome = it.nome,
                 descricao = it.descricao,
                 sexo = it.sexo,

@@ -11,5 +11,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 class MiaudoteApplication // classe que tem a aplicação inteira
 
 fun main(args: Array<String>) {
-	runApplication<MiaudoteApplication>(*args)
+    runApplication<MiaudoteApplication>(*args)
 }
