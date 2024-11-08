@@ -102,7 +102,7 @@ class ObterPetsUsuarioIdProcessorTest : BaseTestConfig() {
         Mockito.`when`(usuarioService.obterPorId(handler.id)).thenReturn(usuario)
         Mockito.`when`(petService.obterPetsUsuario(handler.id)).thenReturn(petList)
 
-        val solicitacaoAdocaoList = listOf(mockSolicitacaoAdocao(1L, handler.id))
+        val solicitacaoAdocaoList = listOf(mockSolicitacaoAdocao(1L))
         Mockito.`when`(solicitacaoService.obterTodasPetId(any())).thenReturn(solicitacaoAdocaoList)
 
         val response = processor.process(handler).getOrElse { return }
@@ -131,7 +131,7 @@ class ObterPetsUsuarioIdProcessorTest : BaseTestConfig() {
         )
     }
 
-    private fun mockSolicitacaoAdocao(petId: Long, usuarioId: Long): SolicitacaoAdocao {
+    private fun mockSolicitacaoAdocao(petId: Long): SolicitacaoAdocao {
         return SolicitacaoAdocao(
             id = UUID.randomUUID(), petId = petId, usuarioResponsavel = 2L, usuarioAdotante = 3L
         )

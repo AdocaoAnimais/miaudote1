@@ -4,6 +4,7 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.*
+import com.projeto2.miaudote.application.shared.toUUID
 import com.projeto2.miaudote.domain.entities.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -26,7 +27,7 @@ class CancelarAdocaoProcessor(
             return Result.failure(it)
         }
         val adocao = adocaoService.obterPorSolicitacaoId(solicitacaoId = solicitacao.id!!)
-        if(adocao != null) {
+        if (adocao != null) {
             adocaoService.deletar(adocao)
         }
         val adotante = usuarioService.obterPorId(solicitacao.usuarioAdotante).toProblem().getOrElse {
@@ -68,9 +69,15 @@ class CancelarAdocaoHandler private constructor(
 ) : RequestHandler {
     companion object {
         fun newOrProblem(solicitacaoAdocaoIdIn: String): Result<CancelarAdocaoHandler> {
-            val solicitacaoAdocaoId = UUID.fromString(solicitacaoAdocaoIdIn) ?: return Result.failure(
-                adocaoInvalida("Id da solicitação da adoção inválida.", null)
-            )
+            val solicitacaoAdocaoId = solicitacaoAdocaoIdIn.toUUID().getOrElse {
+                it as Problem
+                return Result.failure(
+                    adocaoInvalida(
+                        "Id da solicitação da adoção inválida.",
+                        mapOf(Pair("solicitacaoAdocaoId", solicitacaoAdocaoIdIn))
+                    )
+                )
+            }
             return Result.success(
                 CancelarAdocaoHandler(
                     solicitacaoAdocaoId = solicitacaoAdocaoId,
