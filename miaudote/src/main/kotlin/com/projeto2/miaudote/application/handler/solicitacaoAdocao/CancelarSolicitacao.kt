@@ -25,7 +25,7 @@ class CancelarSolicitacaoProcessor(
         if (solicitacaoAdocao.dataConfirmacaoUserAdotante != null) return Result.failure(
             solicitacaoInvalida("Solicitação já confirmada pelo usuario adotante.", null)
         )
-        if(adocaoService.obterPorSolicitacaoId(solicitacaoAdocao.id!!) != null) return Result.failure(
+        if (adocaoService.obterPorSolicitacaoId(solicitacaoAdocao.id!!) != null) return Result.failure(
             solicitacaoInvalida("A solicitação já foi processada, e o animal já esta adotado.", null)
         )
         val pet = petService.obterPorId(solicitacaoAdocao.petId).toProblem().getOrElse {
