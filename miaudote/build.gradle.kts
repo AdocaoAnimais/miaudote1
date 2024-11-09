@@ -5,7 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.4"
 
 	id("jacoco")
-	id("org.sonarqube") version "3.5.0.2730"
+	id("org.sonarqube") version "5.1.0.4882"
 	kotlin("jvm") version "1.9.23"
 	kotlin("plugin.spring") version "1.9.23"
 	kotlin("plugin.jpa") version "1.9.23"
@@ -18,7 +18,23 @@ version = "0.0.1-SNAPSHOT"
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 }
-
+jacoco {
+	toolVersion = "0.8.7"
+}
+sonar {
+	properties {
+		property("sonar.projectKey", "AdocaoAnimais_miaudote1")
+		property("sonar.organization", "adocaoanimais")
+		property("sonar.host.url", "https://sonarcloud.io")
+		property( "sonar.sources", "/src")
+        property("sonar.java.source", 17) 
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.sources", "src/main/kotlin")
+        property("sonar.exclusions", "build/**")
+        property("sonar.tests", "src/test/kotlin")
+        property("sonar.import_unknown_files", true) 
+	}
+}
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
@@ -30,7 +46,6 @@ repositories {
 }
 
 dependencies {
-	// https://mvnrepository.com/artifact/org.apache.maven.reporting/maven-reporting-api
 	implementation("org.apache.maven.reporting:maven-reporting-api:4.0.0")
 	implementation("org.jacoco:jacoco-maven-plugin:0.8.12")
 	implementation("com.h2database:h2")
@@ -67,10 +82,13 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.withType<JacocoReport> {
+	dependsOn(tasks.test) // tests are required to run before generating the report
 	reports {
-		xml.required = true
+		xml.required.set(true)
+		html.required.set(false)
 	}
 }
