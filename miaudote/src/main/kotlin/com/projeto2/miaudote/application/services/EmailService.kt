@@ -13,12 +13,24 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
 import java.net.URI
 
+/**
+ * Serviço responsável pelo envio de emails através do JavaMailSender.
+ * Contém métodos para enviar diferentes tipos de emails, como confirmação de adoção e verificação de email.
+ */
 @Service
 class EmailService(
     val mailSender: JavaMailSender,
     @Value("\${spring.mail.username}")
     private val from: String,
 ) {
+    /**
+     * Envia um email simples para o destinatário especificado.
+     *
+     * @param to O endereço de email do destinatário.
+     * @param subject O assunto do email.
+     * @param conteudo O conteúdo do email.
+     * @return Um resultado indicando se o envio foi bem-sucedido ou não.
+     */
     fun enviarEmail(to: String, subject: String, conteudo: String): Result<Any> {
         val message = SimpleMailMessage()
         message.setTo(to)
@@ -35,7 +47,16 @@ class EmailService(
         }
         return Result.success("")
     }
-
+    /**
+     * Envia um email para o usuário adotante com informações sobre a adoção e links para confirmar ou cancelar a adoção.
+     *
+     * @param adotante O usuário adotante que receberá o email.
+     * @param pet O pet sendo adotado.
+     * @param linkConfirmaAdocao O link para confirmar a adoção.
+     * @param linkCancelaAdocao O link para cancelar a adoção.
+     * @param responsavel O responsável pelo pet.
+     * @return Um resultado indicando se o envio foi bem-sucedido ou não.
+     */
     fun enviarEmailUsuarioAdotante(
         adotante: Usuario,
         pet: Pet,
@@ -77,7 +98,16 @@ class EmailService(
             conteudo = conteudo,
         )
     }
-
+    /**
+     * Envia um email para o responsável com informações sobre a solicitação de adoção de um pet e links para confirmar ou cancelar a solicitação.
+     *
+     * @param responsavel O responsável pelo pet que receberá o email.
+     * @param pet O pet sendo solicitado para adoção.
+     * @param linkConfirmacaoSolicitacao O link para confirmar a solicitação de adoção.
+     * @param linkCancelaSolicitacao O link para cancelar a solicitação de adoção.
+     * @param adotante O usuário adotante que fez a solicitação.
+     * @return Um resultado indicando se o envio foi bem-sucedido ou não.
+     */
     fun enviarEmailUsuarioResponsavel(
         responsavel: Usuario,
         pet: Pet,
@@ -127,7 +157,13 @@ class EmailService(
             conteudo = conteudo,
         )
     }
-
+    /**
+     * Envia um email para o usuário com um link para confirmar seu endereço de email.
+     *
+     * @param usuario O usuário que precisa confirmar seu email.
+     * @param linkVerificacao O link para confirmar o email.
+     * @return Um resultado indicando se o envio foi bem-sucedido ou não.
+     */
     fun enviarEmailVerificacao(
         usuario: Usuario,
         linkVerificacao: String,
@@ -156,6 +192,15 @@ class EmailService(
         )
     }
 }
+
+/**
+ * Gera um objeto Problem com informações sobre falhas no envio de email.
+ *
+ * @param detalhe A descrição do erro ocorrido ao tentar enviar o email.
+ * @param campo O campo relacionado ao erro (geralmente "email").
+ * @param valor O valor associado ao erro (se aplicável).
+ * @return Um objeto Problem com os detalhes do erro.
+ */
 private fun enviarEmailProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possivel enviar o email",
     detail = detalhe,

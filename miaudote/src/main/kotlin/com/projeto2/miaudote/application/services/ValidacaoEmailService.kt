@@ -7,7 +7,14 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
-
+/**
+ * Serviço responsável por gerenciar a validação de email de usuários, incluindo a criação, exclusão e recuperação
+ * de registros de validação de email, além do envio de emails de verificação para os usuários.
+ *
+ * @param repository O repositório responsável pela persistência de dados de validação de email.
+ * @param emailService O serviço utilizado para enviar emails de verificação.
+ * @param baseUrl A URL base usada para criar links de verificação de email.
+ */
 @Service
 class ValidacaoEmailService(
     private val repository: ValidacaoEmailRepository,
@@ -24,6 +31,13 @@ class ValidacaoEmailService(
     fun obterPorId(id: UUID): ValidacaoEmail? {
         return repository.findById(id).getOrNull()
     }
+    /**
+     * Envia um email de verificação para o usuário, contendo um link único de validação.
+     * O link é gerado com base no ID de validação de email recém-criado e enviado para o usuário.
+     *
+     * @param usuario O usuário para o qual o email de verificação será enviado.
+     * @return O link de verificação gerado e enviado ao usuário.
+     */
     fun mandarEmailVerificacao(usuario: Usuario): Result<Any> {
         val validacao = ValidacaoEmail(
             id = null,

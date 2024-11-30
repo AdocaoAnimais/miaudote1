@@ -8,7 +8,14 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 import java.net.URI
-
+/**
+ * Serviço responsável por obter os dados de endereço a partir de um CEP utilizando a API ViaCep.
+ * Faz uso de um RestTemplate para realizar requisições HTTP à API ViaCep.
+ *
+ * @param restTemplate O objeto RestTemplate utilizado para realizar as requisições HTTP.
+ * @param urlApiCep A URL base da API ViaCep configurada no arquivo de propriedades.
+ * @param requestType O tipo de requisição (geralmente sufixo como "/json") configurado no arquivo de propriedades.
+ */
 @Service
 class ViaCepService(
     val restTemplate: RestTemplate,
@@ -17,6 +24,14 @@ class ViaCepService(
     @Value("\${viacep.requestType}")
     private val requestType: String
 ) {
+    /**
+     * Obtém os dados de endereço a partir do CEP fornecido, fazendo uma requisição à API ViaCep.
+     * Caso o CEP seja válido, retorna um objeto `Endereco` com os dados correspondentes.
+     * Caso contrário, retorna uma falha com o erro apropriado.
+     *
+     * @param cep O CEP do qual se deseja obter os dados de endereço.
+     * @return Um objeto `Result` que contém os dados de endereço em caso de sucesso ou um erro em caso de falha.
+     */
     fun getDataFromCep(cep: String): Result<Endereco?> {
         return try {
             val urlMontada = urlApiCep + cep + requestType

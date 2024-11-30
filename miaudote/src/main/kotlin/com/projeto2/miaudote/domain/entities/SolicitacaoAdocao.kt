@@ -6,7 +6,11 @@ import org.springframework.http.HttpStatus
 import java.net.URI
 import java.time.LocalDateTime
 import java.util.*
-
+/**
+ * Representa uma solicitação de adoção de pet.
+ *
+ * Esta classe contém detalhes da solicitação, incluindo os usuários responsáveis, o pet solicitado e as datas de confirmação.
+ */
 @Entity
 @Table(name = "solicitacao_adocao")
 data class SolicitacaoAdocao(
@@ -34,6 +38,13 @@ data class SolicitacaoAdocao(
     @Column(name = "data_confirmacao_usuario_responsavel")
     val dataConfirmacaoUserResponsavel: LocalDateTime? = null,
 ) {
+    /**
+     * Método para atualizar a solicitação de adoção com as novas datas de confirmação.
+     *
+     * @param dataConfirmacaoUserAdotante A data de confirmação do adotante.
+     * @param dataConfirmacaoUserResponsavel A data de confirmação do responsável pelo pet.
+     * @return Uma nova instância de `SolicitacaoAdocao` com as datas atualizadas.
+     */
     fun update(
         dataConfirmacaoUserAdotante: LocalDateTime?,
         dataConfirmacaoUserResponsavel: LocalDateTime?
@@ -44,7 +55,11 @@ data class SolicitacaoAdocao(
         )
     }
 }
-
+/**
+ * Função de extensão para verificar se uma solicitação de adoção existe e retornar um problema caso não.
+ *
+ * @return Um `Result` contendo a solicitação de adoção se encontrada ou um erro caso contrário.
+ */
 fun SolicitacaoAdocao?.toProblem(): Result<SolicitacaoAdocao> {
     if (this != null) return Result.success(this)
     return Result.failure(

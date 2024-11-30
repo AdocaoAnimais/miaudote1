@@ -4,6 +4,8 @@ plugins {
 	id("org.springframework.boot") version "3.2.5"
 	id("io.spring.dependency-management") version "1.1.4"
 
+	id("org.jetbrains.dokka") version "1.9.20"
+
 	id("jacoco")
 	id("org.sonarqube") version "5.1.0.4882"
 	kotlin("jvm") version "1.9.23"
@@ -18,6 +20,7 @@ version = "0.0.1-SNAPSHOT"
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 }
+
 jacoco {
 	toolVersion = "0.8.7"
 }

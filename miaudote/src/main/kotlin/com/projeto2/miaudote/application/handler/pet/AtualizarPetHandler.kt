@@ -12,13 +12,23 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
 import java.net.URI
-
+/**
+ * Processa a atualização de informações de um pet.
+ *
+ * @property petService serviço responsável pelas operações de pets.
+ * @property adocaoService serviço responsável pelas operações de adoção.
+ */
 @Component
 class AtualizarPetProcessor(
     private val petService: PetService,
     private val adocaoService: AdocaoService,
 ) : ProcessorHandler<AtualizarPetHandler>() {
-
+    /**
+     * Processa a atualização de um pet, validando permissões e verificando se o pet pode ser atualizado.
+     *
+     * @param handler contém os dados necessários para a atualização.
+     * @return resultado contendo o pet atualizado ou informações de erro.
+     */
     override fun process(handler: AtualizarPetHandler): Result<Any> {
         val id = handler.token.name.toLongOrNull() ?: return atualizarPetProblem(
             "Id do usuário não encontrado.",
@@ -58,7 +68,19 @@ class AtualizarPetProcessor(
         return Result.success(result)
     }
 }
-
+/**
+ * Manipulador para dados de entrada na atualização de um pet.
+ *
+ * @property id ID do pet a ser atualizado.
+ * @property nome nome atualizado do pet.
+ * @property sexo sexo atualizado do pet.
+ * @property porte porte atualizado do pet.
+ * @property idade idade atualizada do pet.
+ * @property tipo tipo atualizado do pet.
+ * @property castrado status de castração atualizado do pet.
+ * @property descricao descrição atualizada do pet.
+ * @property token token de autenticação do usuário.
+ */
 class AtualizarPetHandler private constructor(
     val id: Long,
     val nome: String?,
@@ -71,6 +93,14 @@ class AtualizarPetHandler private constructor(
     val token: JwtAuthenticationToken
 ) : RequestHandler {
     companion object {
+        /**
+         * Cria uma instância de AtualizarPetHandler ou retorna um problema em caso de validações inválidas.
+         *
+         * @param petId ID do pet.
+         * @param petIn dados do pet a serem atualizados.
+         * @param token token de autenticação.
+         * @return instância de AtualizarPetHandler ou problema de validação.
+         */
         fun newOrProblem(
             petId: Long?,
             petIn: PetCreate,
@@ -119,7 +149,14 @@ class AtualizarPetHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um objeto de problema específico para erros na atualização de um pet.
+ *
+ * @param detalhe mensagem detalhada do problema.
+ * @param campo campo que causou o problema.
+ * @param valor valor fornecido que causou o erro, default é "null".
+ * @return objeto de problema configurado.
+ */
 private fun atualizarPetProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possível atualizar o pet",
     detail = detalhe,

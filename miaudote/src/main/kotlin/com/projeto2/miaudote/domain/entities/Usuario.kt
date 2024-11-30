@@ -6,7 +6,12 @@ import jakarta.persistence.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.net.URI
-
+/**
+ * Representa um usuário do sistema.
+ *
+ * Contém informações pessoais como nome, sobrenome, username, CPF, email, senha e dados adicionais
+ * como endereço, contato, perfil de acesso e descrição.
+ */
 @Entity
 @Table(name = "usuario")
 data class Usuario (
@@ -48,11 +53,23 @@ data class Usuario (
     @Column(name = "email_verificado")
     val emailVerificado: Boolean = false,
 ) {
+    /**
+     * Valida se a senha fornecida corresponde à senha do usuário.
+     *
+     * @param senha A senha fornecida para validação.
+     * @param passwordEncoder O objeto que realiza a validação da senha.
+     * @return Retorna true se a senha for válida, caso contrário false.
+     */
     fun validaLogin(senha: String, passwordEncoder: PasswordEncoder): Boolean {
         return passwordEncoder.matches(senha, this.senha)
     }
 
 }
+/**
+ * Função de extensão para verificar se um usuário existe e retornar um problema caso não.
+ *
+ * @return Um `Result` contendo o usuário se encontrado ou um erro caso contrário.
+ */
 fun Usuario?.toProblem(): Result<Usuario> {
     if(this != null) return Result.success(this)
     return Result.failure(

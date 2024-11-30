@@ -14,7 +14,17 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
 import java.net.URI
-
+/**
+ * Processor responsável por atualizar as informações de um usuário.
+ *
+ * Este processador valida e atualiza as informações de um usuário, como nome, sobrenome, email, CPF, etc.
+ * Além disso, ele envia um email de verificação caso o email do usuário seja alterado.
+ *
+ * @param service Serviço que gerencia os usuários.
+ * @param jwtService Serviço responsável pela codificação e validação de senhas.
+ * @param validacaoEmailService Serviço que envia emails de verificação de email.
+ * @param viaCepService Serviço que consulta dados de endereço via CEP.
+ */
 @Component
 class AtualizarUsuarioProcessor(
     private val service: UsuarioService,
@@ -22,7 +32,15 @@ class AtualizarUsuarioProcessor(
     private val validacaoEmailService: ValidacaoEmailService,
     private val viaCepService: ViaCepService
 ) : ProcessorHandler<AtualizarUsuarioHandler>() {
-
+    /**
+     * Processa a atualização das informações de um usuário.
+     *
+     * Verifica se o usuário existe, se o email, CPF e username são únicos e se o endereço é válido.
+     * Se o email for alterado, um email de verificação será enviado. Em seguida, o usuário é atualizado e a resposta é retornada.
+     *
+     * @param handler Dados necessários para atualizar o usuário.
+     * @return Resultado da operação de atualização, incluindo a resposta com os dados do usuário atualizado.
+     */
     override fun process(handler: AtualizarUsuarioHandler): Result<Any> {
         val usuarioExistente = service.obterPorId(handler.id)
             ?: return atualizarUsuarioProblem(
@@ -105,7 +123,22 @@ class AtualizarUsuarioProcessor(
         return Result.success(response)
     }
 }
-
+/**
+ * Classe de handler que contém os dados necessários para atualizar um usuário.
+ *
+ * Este handler é utilizado para validar e processar a solicitação de atualização do usuário, validando campos como nome, email e CPF.
+ *
+ * @param id ID do usuário a ser atualizado.
+ * @param nome Nome do usuário a ser atualizado.
+ * @param sobrenome Sobrenome do usuário a ser atualizado.
+ * @param username Nome de usuário a ser atualizado.
+ * @param email Email do usuário a ser atualizado.
+ * @param cpf CPF do usuário a ser atualizado.
+ * @param descricao Descrição adicional do usuário.
+ * @param contato Contato adicional do usuário.
+ * @param endereco Endereço do usuário a ser atualizado.
+ * @param senha Senha do usuário a ser atualizada.
+ */
 class AtualizarUsuarioHandler private constructor(
     val id: Long,
     val nome: String,
@@ -119,6 +152,15 @@ class AtualizarUsuarioHandler private constructor(
     val senha: String?,
 ) : RequestHandler {
     companion object {
+        /**
+         * Cria um novo handler de atualização de usuário ou retorna um erro caso os dados sejam inválidos.
+         *
+         * Este método valida todos os campos fornecidos para garantir que a atualização do usuário seja feita corretamente.
+         *
+         * @param usuario Dados do usuário a ser atualizado.
+         * @param token Token JWT contendo o ID do usuário.
+         * @return Resultado contendo o handler para a atualização ou erro de validação.
+         */
         fun newOrProblem(
             usuario: UsuarioCreate,
             token: JwtAuthenticationToken
@@ -164,7 +206,16 @@ class AtualizarUsuarioHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um problema com detalhes sobre a falha ao tentar atualizar o usuário.
+ *
+ * Este método cria um problema que será retornado quando ocorrer algum erro ao tentar atualizar as informações de um usuário.
+ *
+ * @param detalhe Descrição detalhada do erro ocorrido.
+ * @param campo Campo que causou o erro.
+ * @param valor Valor do campo que causou o erro.
+ * @return O problema gerado com os detalhes do erro.
+ */
 private fun atualizarUsuarioProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possível atualizar o usuário",
     detail = detalhe,

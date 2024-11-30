@@ -18,7 +18,12 @@ import org.springframework.http.HttpStatus
 import java.net.URI
 import java.sql.Blob
 import java.time.LocalDateTime
-
+/**
+ * Representa um pet disponível para adoção.
+ *
+ * Contém informações como nome, idade, porte, sexo, tipo, status de castração,
+ * descrição, dados do usuário que cadastrou, data de cadastro e imagem do pet.
+ */
 @Entity
 @Table(name = "pet")
 data class Pet (
@@ -64,7 +69,11 @@ data class Pet (
     @Column(name = "imageData")
     val imageData: Blob?,
 )
-
+/**
+ * Função de extensão para verificar se um pet existe e retornar um problema caso não.
+ *
+ * @return Um `Result` contendo o pet se encontrado ou um erro caso contrário.
+ */
 fun Pet?.toProblem(): Result<Pet> {
     if(this != null) return Result.success(this)
     return Result.failure(

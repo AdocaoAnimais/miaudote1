@@ -14,12 +14,23 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component
 import java.net.URI
 import java.time.LocalDateTime
-
+/**
+ * Processa a criação de um novo pet no sistema.
+ *
+ * @property service serviço responsável pelas operações relacionadas a pets.
+ * @property usuarioService serviço responsável pelas operações relacionadas a usuários.
+ */
 @Component
 class CriarPetProcessor(
     val service: PetService,
     val usuarioService: UsuarioService,
 ) : ProcessorHandler<CriarPetHandler>() {
+    /**
+     * Processa a criação de um pet, validando o usuário e seus requisitos antes de cadastrar o pet.
+     *
+     * @param handler contém os dados necessários para a criação do pet.
+     * @return resultado contendo o pet criado ou informações de erro.
+     */
     override fun process(handler: CriarPetHandler): Result<Any> {
 
         val usuario = usuarioService.obterPorId(handler.idUsuario) ?: return criarPetProblem(
@@ -49,7 +60,18 @@ class CriarPetProcessor(
         return Result.success(result)
     }
 }
-
+/**
+ * Manipulador para dados de entrada na criação de um pet.
+ *
+ * @property nome nome do pet.
+ * @property sexo sexo do pet.
+ * @property porte porte do pet.
+ * @property idade idade do pet.
+ * @property tipo tipo do pet.
+ * @property castrado status de castração do pet.
+ * @property descricao descrição adicional do pet.
+ * @property idUsuario ID do usuário associado ao pet.
+ */
 class CriarPetHandler private constructor(
     val nome: String,
     val sexo: Sexo,
@@ -61,6 +83,13 @@ class CriarPetHandler private constructor(
     val idUsuario: Long
 ) : RequestHandler {
     companion object {
+        /**
+         * Valida e cria uma instância de CriarPetHandler, retornando problemas em caso de dados inválidos.
+         *
+         * @param petIn dados do pet a serem validados.
+         * @param token token de autenticação do usuário.
+         * @return instância de CriarPetHandler ou problema de validação.
+         */
         fun newOrProblem(petIn: PetCreate, token: JwtAuthenticationToken): Result<CriarPetHandler> {
             val id = token.name.toLongOrNull() ?: return Result.failure(
                 criarPetProblem(
@@ -90,7 +119,13 @@ class CriarPetHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um objeto de problema específico para erros na criação de um pet.
+ *
+ * @param detalhe mensagem detalhada do problema.
+ * @param campo campo que causou o problema.
+ * @return objeto de problema configurado.
+ */
 private fun criarPetProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possivel criar o pet",
     detail = detalhe,

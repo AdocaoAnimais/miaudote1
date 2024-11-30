@@ -14,7 +14,18 @@ import com.projeto2.miaudote.domain.entities.Usuario
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI
-
+/**
+ * Processor responsável por criar um novo usuário.
+ *
+ * Este processador valida as informações fornecidas para o novo usuário, verifica se o email, CPF e username são únicos,
+ * valida o endereço através de um serviço externo (ViaCep), e envia um email de verificação. Após isso, cria o usuário e
+ * gera um token de autenticação.
+ *
+ * @param service Serviço que gerencia os usuários.
+ * @param jwtService Serviço responsável pela codificação e geração do token JWT.
+ * @param validacaoEmailService Serviço que envia emails de verificação de email.
+ * @param viaCepService Serviço que consulta dados de endereço via CEP.
+ */
 @Component
 class CriarUsuarioProcessor(
     private val service: UsuarioService,
@@ -22,7 +33,16 @@ class CriarUsuarioProcessor(
     private val validacaoEmailService: ValidacaoEmailService,
     private val viaCepService: ViaCepService,
 ) : ProcessorHandler<CriarUsuarioHandler>() {
-
+    /**
+     * Processa a criação de um novo usuário.
+     *
+     * Valida se o email, CPF e username são únicos. Se o endereço for fornecido, verifica a validade do CEP.
+     * Em seguida, a senha é codificada e o usuário é criado. Um email de verificação é enviado, e o token de autenticação
+     * é gerado e retornado na resposta.
+     *
+     * @param handler Dados necessários para criar um novo usuário.
+     * @return Resultado da operação de criação, incluindo a resposta com o token de autenticação.
+     */
     override fun process(handler: CriarUsuarioHandler): Result<Any> {
         if (service.obterPorEmail(
                 email = handler.email,
@@ -69,8 +89,6 @@ class CriarUsuarioProcessor(
 
         /* Mandar email de verificação */
         validacaoEmailService.mandarEmailVerificacao(usuario).getOrElse { return Result.failure(it) }
-        /////////////////////////////////
-
         val usuarioCriado = service.criar(usuario = usuario)
         val token = jwtService.generateToken(usuarioCriado)
         val response = LoginResponse(
@@ -82,7 +100,21 @@ class CriarUsuarioProcessor(
 
     }
 }
-
+/**
+ * Classe de handler que contém os dados necessários para criar um novo usuário.
+ *
+ * Este handler é utilizado para validar e processar a solicitação de criação de um novo usuário, validando campos como nome, email e CPF.
+ *
+ * @param nome Nome do novo usuário.
+ * @param sobrenome Sobrenome do novo usuário.
+ * @param username Nome de usuário do novo usuário.
+ * @param senha Senha do novo usuário.
+ * @param email Email do novo usuário.
+ * @param cpf CPF do novo usuário.
+ * @param descricao Descrição adicional do novo usuário.
+ * @param contato Contato adicional do novo usuário.
+ * @param endereco Endereço do novo usuário.
+ */
 class CriarUsuarioHandler private constructor(
     val nome: String,
     val sobrenome: String,
@@ -95,6 +127,14 @@ class CriarUsuarioHandler private constructor(
     val endereco: String?,
 ) : RequestHandler {
     companion object {
+        /**
+         * Cria um novo handler para criação de usuário ou retorna um erro caso os dados sejam inválidos.
+         *
+         * Este método valida todos os campos fornecidos para garantir que a criação do usuário seja feita corretamente.
+         *
+         * @param usuario Dados do novo usuário a ser criado.
+         * @return Resultado contendo o handler para a criação ou erro de validação.
+         */
         fun newOrProblem(
             usuario: UsuarioCreate
         ): Result<CriarUsuarioHandler> {
@@ -125,7 +165,17 @@ class CriarUsuarioHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um problema com detalhes sobre a falha ao tentar criar um usuário.
+ *
+ * Este método cria um problema que será retornado quando ocorrer algum erro ao tentar criar um novo usuário,
+ * como a duplicação de email, CPF ou username.
+ *
+ * @param detalhe Descrição detalhada do erro ocorrido.
+ * @param campo Campo que causou o erro.
+ * @param valor Valor do campo que causou o erro.
+ * @return O problema gerado com os detalhes do erro.
+ */
 private fun criarUsuarioProblem(detalhe: String, campo: String, valor: String? = "null") = Problem(
     title = "Não foi possivel criar um usuário",
     detail = detalhe,

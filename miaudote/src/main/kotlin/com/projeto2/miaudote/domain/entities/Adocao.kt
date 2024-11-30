@@ -3,7 +3,12 @@ package com.projeto2.miaudote.domain.entities
 import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.UUID
-
+/**
+ * Representa uma adoção de pet.
+ *
+ * Esta classe contém os detalhes da adoção, como o ID da adoção, o ID do pet adotado,
+ * o ID da solicitação de adoção e a data da adoção.
+ */
 @Entity
 @Table(name = "adocao")
 class Adocao(

@@ -10,7 +10,15 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI
 import java.util.*
-
+/**
+ * Processador responsável por cancelar uma adoção.
+ *
+ * @property service Serviço para gerenciar solicitações de adoção.
+ * @property usuarioService Serviço para gerenciar operações relacionadas a usuários.
+ * @property petService Serviço para gerenciar operações relacionadas a pets.
+ * @property emailService Serviço para enviar e-mails.
+ * @property adocaoService Serviço para gerenciar adoções.
+ */
 @Component
 class CancelarAdocaoProcessor(
     val service: SolicitacaoAdocaoService,
@@ -19,6 +27,12 @@ class CancelarAdocaoProcessor(
     val emailService: EmailService,
     val adocaoService: AdocaoService
 ) : ProcessorHandler<CancelarAdocaoHandler>() {
+    /**
+     * Processa a solicitação de cancelamento de adoção.
+     *
+     * @param handler Objeto contendo os dados necessários para o processamento.
+     * @return Resultado do processo, indicando sucesso ou falha.
+     */
     override fun process(handler: CancelarAdocaoHandler): Result<Any> {
         val solicitacao = service.obterPorId(handler.solicitacaoAdocaoId).toProblem().getOrElse {
             return Result.failure(it)
@@ -52,7 +66,14 @@ class CancelarAdocaoProcessor(
 
         return Result.success("Adoção cancelada com sucesso!!")
     }
-
+    /**
+     * Gera o conteúdo do e-mail a ser enviado para o adotante e o responsável.
+     *
+     * @param nomePet Nome do pet.
+     * @param nomeAdotante Nome do adotante.
+     * @param sobrenome Sobrenome do adotante.
+     * @return Conteúdo do e-mail.
+     */
     fun geraConteudo(nomePet: String, nomeAdotante: String, sobrenome: String): String {
         val conteudo = """
             A adoção do animal $nomePet foi cancelada pelo adotante $nomeAdotante $sobrenome, 
@@ -63,11 +84,21 @@ class CancelarAdocaoProcessor(
         return conteudo
     }
 }
-
+/**
+ * Handler para cancelar uma adoção, contendo o ID da solicitação de adoção.
+ *
+ * @property solicitacaoAdocaoId ID da solicitação de adoção.
+ */
 class CancelarAdocaoHandler private constructor(
     val solicitacaoAdocaoId: UUID,
 ) : RequestHandler {
     companion object {
+        /**
+         * Cria uma nova instância do handler ou retorna um erro caso o ID seja inválido.
+         *
+         * @param solicitacaoAdocaoIdIn ID da solicitação de adoção em formato String.
+         * @return Resultado com a instância do handler ou um erro.
+         */
         fun newOrProblem(solicitacaoAdocaoIdIn: String): Result<CancelarAdocaoHandler> {
             val solicitacaoAdocaoId = solicitacaoAdocaoIdIn.toUUID().getOrElse {
                 it as Problem
@@ -86,7 +117,13 @@ class CancelarAdocaoHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um objeto Problem representando um erro ao tentar cancelar uma adoção.
+ *
+ * @param detail Detalhes sobre o erro.
+ * @param extra Informações adicionais sobre o erro.
+ * @return Um objeto Problem com o erro especificado.
+ */
 private fun adocaoInvalida(detail: String, extra: Map<String, String?>?): Problem = Problem(
     title = "Não foi possivel cancelar a adoção.",
     detail = detail,

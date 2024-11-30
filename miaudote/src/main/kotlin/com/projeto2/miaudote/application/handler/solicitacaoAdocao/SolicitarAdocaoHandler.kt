@@ -13,7 +13,16 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component
 import java.net.URI
 import java.time.LocalDateTime
-
+/**
+ * Processador responsável por realizar a solicitação de adoção de um pet.
+ *
+ * @property emailService Serviço para enviar e-mails.
+ * @property service Serviço para gerenciar solicitações de adoção.
+ * @property usuarioService Serviço para gerenciar operações relacionadas a usuários.
+ * @property petService Serviço para gerenciar operações relacionadas a pets.
+ * @property adocaoService Serviço para gerenciar adoções.
+ * @property baseUrl URL base da aplicação, utilizada para gerar links de confirmação e cancelamento.
+ */
 @Component
 class SolicitarAdocaoProcessor(
     val emailService: EmailService,
@@ -24,6 +33,12 @@ class SolicitarAdocaoProcessor(
     @Value("\${base.url}")
     private val baseUrl: String,
 ) : ProcessorHandler<SolicitarAdocaoHandler>() {
+    /**
+     * Processa a solicitação de adoção de um pet.
+     *
+     * @param handler Objeto contendo os dados necessários para o processamento.
+     * @return Resultado do processo, indicando sucesso ou falha.
+     */
     override fun process(handler: SolicitarAdocaoHandler): Result<Any> {
         val pet = petService.obterPorId(handler.petId).toProblem().getOrElse { return Result.failure(it) }
 
@@ -89,6 +104,12 @@ class SolicitarAdocaoProcessor(
         return Result.success(response)
     }
 
+    /**
+     * Gera uma mensagem de confirmação para o adotante.
+     *
+     * @param nomePet Nome do pet solicitado.
+     * @return Mensagem de confirmação formatada.
+     */
     private fun geraConfirmacao(nomePet: String): String {
         val confirmacao = """
             Solicitação de adoção realizada com sucesso!! 
@@ -100,11 +121,24 @@ class SolicitarAdocaoProcessor(
     }
 }
 
+/**
+ * Handler para solicitar a adoção de um pet, contendo o ID do usuário e do pet.
+ *
+ * @property idUsuario ID do usuário que está solicitando a adoção.
+ * @property petId ID do pet que está sendo solicitado para adoção.
+ */
 class SolicitarAdocaoHandler private constructor(
     val idUsuario: Long,
     val petId: Long,
 ) : RequestHandler {
     companion object {
+        /**
+         * Cria uma nova instância do handler ou retorna um erro caso o ID do pet ou do usuário seja inválido.
+         *
+         * @param petId ID do pet em formato String.
+         * @param token Token de autenticação JWT do usuário.
+         * @return Resultado com a instância do handler ou um erro.
+         */
         fun newOrProblem(petId: String?, token: JwtAuthenticationToken): Result<SolicitarAdocaoHandler> {
             val pedIdIn: Long = petId?.toLongOrNull() ?: return Result.failure(
                 solicitacaoInvalida("Id do pet inválido.", null)
@@ -122,7 +156,13 @@ class SolicitarAdocaoHandler private constructor(
         }
     }
 }
-
+/**
+ * Cria um objeto Problem representando um erro ao tentar solicitar a adoção.
+ *
+ * @param detail Detalhes sobre o erro.
+ * @param extra Informações adicionais sobre o erro.
+ * @return Um objeto Problem com o erro especificado.
+ */
 private fun solicitacaoInvalida(detail: String, extra: Map<String, String?>?): Problem = Problem(
     title = "Não foi possivel solicitar a adoção.",
     detail = detail,
