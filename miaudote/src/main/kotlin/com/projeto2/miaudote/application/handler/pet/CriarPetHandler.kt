@@ -4,10 +4,10 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.apresentation.Request.PetCreate
-import com.projeto2.miaudote.domain.entities.Pet
+import com.projeto2.miaudote.application.services.pet.PetService
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.apresentation.request.pet.PetCreate
+import com.projeto2.miaudote.domain.entities.pet.Pet
 import com.projeto2.miaudote.domain.enums.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken

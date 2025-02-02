@@ -40,7 +40,7 @@ class SecurityConfig(
         http.csrf { it.disable() }.authorizeHttpRequests { auth ->
             auth.requestMatchers(
                 "api/auth/login",
-                "/api/auth/logged",
+                "api/auth/logged",
                 "api/usuario/cadastrar",
                 "api/pet/obter-pets",
                 "api/pet/obter-pets-adotados"

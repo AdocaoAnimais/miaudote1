@@ -4,16 +4,12 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.EmailService
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.application.services.ValidacaoEmailService
-import com.projeto2.miaudote.domain.entities.Usuario
-import com.projeto2.miaudote.domain.entities.ValidacaoEmail
-import org.springframework.beans.factory.annotation.Value
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.application.services.usuario.ValidacaoEmailService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI
-import java.util.*
+
 /**
  * Processor responsável por enviar o email de verificação para o usuário.
  *

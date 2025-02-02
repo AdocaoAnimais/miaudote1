@@ -2,7 +2,7 @@ package com.projeto2.miaudote.application.services.adocao
 
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.domain.entities.Adocao
-import com.projeto2.miaudote.infraestructure.repositories.adocao.jpa.AdocaoRepository
+import com.projeto2.miaudote.infraestructure.repositories.jpa.adocao.AdocaoRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.URI

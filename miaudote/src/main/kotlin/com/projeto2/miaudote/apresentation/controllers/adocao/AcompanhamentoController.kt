@@ -1,6 +1,6 @@
 package com.projeto2.miaudote.apresentation.controllers.adocao
 
-import com.projeto2.miaudote.apresentation.Request.PublicacaoRequest
+import com.projeto2.miaudote.apresentation.request.adocao.acompanhamento.PublicacaoRequest
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
 

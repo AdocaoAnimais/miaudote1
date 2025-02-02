@@ -1,7 +1,7 @@
 package com.projeto2.miaudote.application.services.adocao
 
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
-import com.projeto2.miaudote.infraestructure.repositories.adocao.jpa.SolicitacaoAdocaoRepository
+import com.projeto2.miaudote.infraestructure.repositories.jpa.adocao.solicitacaoAdocao.SolicitacaoAdocaoRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*

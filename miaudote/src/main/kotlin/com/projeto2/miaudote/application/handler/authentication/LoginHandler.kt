@@ -3,10 +3,10 @@ package com.projeto2.miaudote.application.handler.authentication
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.JwtService
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.apresentation.Request.LoginRequest
-import com.projeto2.miaudote.apresentation.Response.LoginResponse
+import com.projeto2.miaudote.application.services.external.jwt.JwtService
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.apresentation.request.usuario.LoginRequest
+import com.projeto2.miaudote.apresentation.response.usuario.LoginResponse
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.net.URI

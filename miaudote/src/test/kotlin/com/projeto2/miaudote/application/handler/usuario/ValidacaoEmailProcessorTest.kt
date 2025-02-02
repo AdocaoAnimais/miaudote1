@@ -3,10 +3,10 @@ package com.projeto2.miaudote.application.handler.usuario
 import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.application.services.ValidacaoEmailService
-import com.projeto2.miaudote.domain.entities.Usuario
-import com.projeto2.miaudote.domain.entities.ValidacaoEmail
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.application.services.usuario.ValidacaoEmailService
+import com.projeto2.miaudote.domain.entities.usuario.Usuario
+import com.projeto2.miaudote.domain.entities.usuario.ValidacaoEmail
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach

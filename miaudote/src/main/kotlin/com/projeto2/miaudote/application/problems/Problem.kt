@@ -1,5 +1,6 @@
 package com.projeto2.miaudote.application.problems
 
+import com.projeto2.miaudote.domain.entities.pet.Pet
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import java.net.URI

@@ -1,7 +1,10 @@
 package com.projeto2.miaudote.apresentation.controllers.adocao
 
 import com.projeto2.miaudote.application.handler.ProcessorHandler
-import com.projeto2.miaudote.application.handler.solicitacaoAdocao.*
+import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarAdocaoHandler
+import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarSolicitacaoHandler
+import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.ConfirmarAdocaoHandler
+import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.ConfirmarSolicitacaoHandler
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
