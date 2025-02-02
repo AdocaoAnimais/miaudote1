@@ -2,9 +2,9 @@ package com.projeto2.miaudote.application.handler.pet
 
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.apresentation.Response.PetPost
+import com.projeto2.miaudote.application.services.pet.PetService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
+import com.projeto2.miaudote.apresentation.response.pet.PetPost
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.enums.getStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken

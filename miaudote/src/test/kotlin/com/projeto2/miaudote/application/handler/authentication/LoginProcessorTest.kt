@@ -3,7 +3,7 @@ package com.projeto2.miaudote.application.handler.authentication
 import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.apresentation.Request.LoginRequest
+import com.projeto2.miaudote.apresentation.request.usuario.LoginRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

@@ -3,9 +3,9 @@ package com.projeto2.miaudote.application.handler.usuario
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.apresentation.Response.UsuarioResponse
-import com.projeto2.miaudote.domain.entities.toProblem
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.apresentation.response.usuario.UsuarioResponse
+import com.projeto2.miaudote.domain.entities.usuario.toProblem
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component

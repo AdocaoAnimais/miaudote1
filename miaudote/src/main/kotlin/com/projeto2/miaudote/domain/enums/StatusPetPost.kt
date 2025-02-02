@@ -1,7 +1,7 @@
 package com.projeto2.miaudote.domain.enums
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.projeto2.miaudote.domain.entities.Pet
+import com.projeto2.miaudote.domain.entities.pet.Pet
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 /**
  * Enumeração que representa os possíveis status de um pet em relação a uma solicitação de adoção.

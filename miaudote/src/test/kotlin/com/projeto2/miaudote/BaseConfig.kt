@@ -1,6 +1,6 @@
 package com.projeto2.miaudote
 
-import com.projeto2.miaudote.application.services.ViaCepService
+import com.projeto2.miaudote.application.services.external.viacep.ViaCepService
 import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean

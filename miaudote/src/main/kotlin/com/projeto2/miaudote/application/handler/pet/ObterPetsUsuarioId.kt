@@ -3,12 +3,12 @@ package com.projeto2.miaudote.application.handler.pet
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
-import com.projeto2.miaudote.application.services.UsuarioService
-import com.projeto2.miaudote.apresentation.Response.PetPost
+import com.projeto2.miaudote.application.services.pet.PetService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.apresentation.response.pet.PetPost
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
-import com.projeto2.miaudote.domain.entities.toProblem
+import com.projeto2.miaudote.domain.entities.usuario.toProblem
 import com.projeto2.miaudote.domain.enums.StatusResponsavel
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
