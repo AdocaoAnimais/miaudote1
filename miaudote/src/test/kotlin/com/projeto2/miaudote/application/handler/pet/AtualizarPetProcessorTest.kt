@@ -3,7 +3,7 @@ package com.projeto2.miaudote.application.handler.pet
 import com.projeto2.miaudote.BaseTestConfig
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.problems.Problem
-import com.projeto2.miaudote.application.services.AdocaoService
+import com.projeto2.miaudote.application.services.adocao.AdocaoService
 import com.projeto2.miaudote.application.services.PetService
 import com.projeto2.miaudote.apresentation.Request.PetCreate
 import com.projeto2.miaudote.domain.entities.Adocao

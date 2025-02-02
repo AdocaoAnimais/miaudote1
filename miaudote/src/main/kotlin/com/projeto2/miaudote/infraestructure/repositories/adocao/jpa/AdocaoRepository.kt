@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.infraestructure.repositories
+package com.projeto2.miaudote.infraestructure.repositories.adocao.jpa
 
 import com.projeto2.miaudote.domain.entities.Adocao
 import org.springframework.data.jpa.repository.JpaRepository

@@ -4,7 +4,7 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.PetService
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.application.services.UsuarioService
 import com.projeto2.miaudote.apresentation.Response.PetPost
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao

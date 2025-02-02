@@ -1,6 +1,6 @@
 package com.projeto2.miaudote.application.tasks
 
-import com.projeto2.miaudote.application.services.SolicitacaoAdocaoService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime

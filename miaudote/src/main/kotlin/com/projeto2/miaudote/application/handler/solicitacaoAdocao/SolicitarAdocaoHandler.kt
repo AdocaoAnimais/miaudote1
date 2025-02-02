@@ -4,6 +4,8 @@ import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.*
+import com.projeto2.miaudote.application.services.adocao.AdocaoService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.apresentation.Response.SolicitarAdocaoResponse
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.entities.toProblem

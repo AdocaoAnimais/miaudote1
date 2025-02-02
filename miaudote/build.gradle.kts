@@ -74,6 +74,7 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.3.0")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    implementation(kotlin("stdlib"))
 }
 
 tasks.withType<KotlinCompile> {

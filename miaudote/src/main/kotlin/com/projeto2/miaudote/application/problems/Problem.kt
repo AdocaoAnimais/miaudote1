@@ -70,4 +70,4 @@ class Problem(
  *
  * @return Um objeto `Result` que contém a falha representada pelo problema atual.
  */
-fun Problem.toFailure(): Result<Any> = Result.failure(this)
+fun <T> Problem.toFailure(): Result<T> = Result.failure(this)

@@ -2,6 +2,8 @@ package com.projeto2.miaudote.application.handler.solicitacaoAdocao
 
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.*
+import com.projeto2.miaudote.application.services.adocao.AdocaoService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.entities.Usuario

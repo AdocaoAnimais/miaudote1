@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.apresentation.controllers
+package com.projeto2.miaudote.apresentation.controllers.adocao
 
 import com.projeto2.miaudote.application.handler.ProcessorHandler
 import com.projeto2.miaudote.application.handler.solicitacaoAdocao.*

@@ -7,6 +7,8 @@ import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.entities.Pet
 import com.projeto2.miaudote.domain.entities.Usuario
 import com.projeto2.miaudote.application.problems.Problem
+import com.projeto2.miaudote.application.services.adocao.AdocaoService
+import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
 import com.projeto2.miaudote.domain.enums.Sexo
