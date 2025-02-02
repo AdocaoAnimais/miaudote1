@@ -10,7 +10,7 @@ class AcompanhamentoController {
 
     @PostMapping("/cadastrar/{adocaoId}")
     fun cadastrar(
-        @PathVariable("adocaoId") adocaoId: String,
+        @PathVariable("petId") petId: Long,
         @RequestBody publicacao: PublicacaoRequest,
         token: JwtAuthenticationToken
     ){

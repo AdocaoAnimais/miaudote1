@@ -5,6 +5,8 @@ import com.projeto2.miaudote.application.handler.RequestHandler
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.problems.toFailure
 import com.projeto2.miaudote.application.services.pet.PetService
+import com.projeto2.miaudote.shared.validateSize
+import com.projeto2.miaudote.shared.validateType
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
@@ -50,22 +52,9 @@ class SalvarImagemProcessor(
             campo = "imageData"
         ).toFailure()
 
-        val fileType = handler.imagem.contentType
-        if (fileType == null || !(fileType == "image/jpeg" || fileType == "image/png")) {
-            return salvarImagemProblem(
-                detalhe = "Imagem em formato incorreto",
-                campo = "imageData"
-            ).toFailure()
-        }
+        handler.imagem.validateType().getOrElse { return Result.failure(it) }
 
-
-        val maxFileSize = 16000000 // 16MB
-        if (handler.imagem.size > maxFileSize ) {
-            return salvarImagemProblem(
-                detalhe = "Imagem excede o tamanho de 16MB",
-                campo = "compressedImageData",
-            ).toFailure()
-        }
+        handler.imagem.validateSize().getOrElse { return Result.failure(it) }
 
         val blob = SerialBlob(imageData)
         val petAtualizado = petExistente.copy(
