@@ -1,6 +1,8 @@
 package com.projeto2.miaudote.infraestructure.repositories.jpa.pet;
 
 import com.projeto2.miaudote.domain.entities.pet.Pet
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -27,7 +29,7 @@ interface PetRepository : JpaRepository<Pet, Long> {
         )
         """
     )
-    fun findPetsOthersUsuarios(@Param("idUsuario") idUsuario: Long): List<Pet>?
+    fun findPetsOthersUsuarios(@Param("idUsuario") idUsuario: Long, pageable: Pageable): Page<Pet>
 
     @Query(
         """
@@ -36,7 +38,7 @@ interface PetRepository : JpaRepository<Pet, Long> {
             select adocao.petId from Adocao adocao
         )"""
     )
-    fun findPetsNaoAdotados(): List<Pet>?
+    fun findPetsNaoAdotados(pageable: Pageable): Page<Pet>
 
     @Query(
         """
@@ -45,7 +47,7 @@ interface PetRepository : JpaRepository<Pet, Long> {
             select adocao.petId from Adocao adocao
         )"""
     )
-    fun findPetsAdotados(): List<Pet>?
+    fun findPetsAdotados(pageable: Pageable): Page<Pet>
 
     @Query(
         """

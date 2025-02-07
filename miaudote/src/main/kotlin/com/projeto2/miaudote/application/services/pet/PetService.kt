@@ -2,6 +2,8 @@ package com.projeto2.miaudote.application.services.pet
 
 import com.projeto2.miaudote.domain.entities.pet.Pet
 import com.projeto2.miaudote.infraestructure.repositories.jpa.pet.PetRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
@@ -9,11 +11,11 @@ import kotlin.jvm.optionals.getOrNull
 class PetService (
     val repository: PetRepository
 ) {
-    fun obterTodosDiponiveis(): List<Pet>? {
-        return repository.findPetsNaoAdotados()
+    fun obterTodosDiponiveis(pageable: Pageable): Page<Pet> {
+        return repository.findPetsNaoAdotados(pageable)
     }
-    fun obterPetsOutrosUsuarios(id: Long): List<Pet>?{
-        return repository.findPetsOthersUsuarios(id)
+    fun obterPetsOutrosUsuarios(id: Long, pageable: Pageable): Page<Pet> {
+        return repository.findPetsOthersUsuarios(id, pageable)
     }
 
     fun obterPetsUsuario(id: Long): List<Pet>?{
@@ -36,8 +38,8 @@ class PetService (
         return repository.save(pet)
     }
 
-    fun obterPetsAdotados(): List<Pet>?{
-        return repository.findPetsAdotados()
+    fun obterPetsAdotados(pageable: Pageable):  Page<Pet>{
+        return repository.findPetsAdotados(pageable)
     }
 
     fun deletarTodos(pets: List<Pet>) {

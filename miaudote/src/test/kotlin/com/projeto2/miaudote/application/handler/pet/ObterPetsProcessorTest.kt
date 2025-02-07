@@ -14,6 +14,10 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import java.time.Instant
@@ -27,6 +31,8 @@ class ObterPetsProcessorTest : BaseTestConfig() {
 
     lateinit var processor: ProcessorHandler<ObterPetsHandler>
 
+    private val pageable = PageRequest.of(1,9)
+
     @BeforeEach
     fun setUp() {
         processor = ObterPetsProcessor(petService, solicitacaoService)
@@ -36,8 +42,7 @@ class ObterPetsProcessorTest : BaseTestConfig() {
     @DisplayName("Criar handler com ID válido")
     fun `criar_handler_com_id_valido`() {
         val validToken = createToken(123L)
-
-        val result = ObterPetsHandler.newOrProblem(validToken)
+        val result = ObterPetsHandler.newOrProblem(validToken, pageable)
 
         assertTrue(result.isSuccess)
         val handler = result.getOrNull()
@@ -47,7 +52,7 @@ class ObterPetsProcessorTest : BaseTestConfig() {
     @Test
     @DisplayName("Criar handler com token nulo")
     fun `criar_handler_com_token_nulo`() {
-        val result = ObterPetsHandler.newOrProblem(null)
+        val result = ObterPetsHandler.newOrProblem(null, pageable)
 
         assertTrue(result.isSuccess)
         val handler = result.getOrNull()
@@ -58,14 +63,15 @@ class ObterPetsProcessorTest : BaseTestConfig() {
     @DisplayName("Obter todos os pets disponíveis quando o ID é nulo")
     fun `obter_todos_pets_disponiveis_quando_id_nulo`() {
         val validToken = createToken("Invalid")
-        val handler: ObterPetsHandler = ObterPetsHandler.newOrProblem(validToken).getOrNull()!!
+        val handler: ObterPetsHandler = ObterPetsHandler.newOrProblem(validToken, pageable).getOrNull()!!
 
         val petList = listOf(mockPet(1L, "Pet 1"), mockPet(2L, "Pet 2"))
-        Mockito.`when`(petService.obterTodosDiponiveis()).thenReturn(petList)
+        val pages = PageImpl(petList)
+        Mockito.`when`(petService.obterTodosDiponiveis(pageable)).thenReturn(pages)
 
-        val response = processor.process(handler).getOrNull() as List<Pet>
+        val response = processor.process(handler).getOrNull() as Page<Pet>
         assertEquals(petList.size, response.size)
-        assertEquals(petList[0].nome, response[0].nome)
+        assertEquals(petList[0].nome, response.toList()[0].nome)
     }
 
 
@@ -73,10 +79,11 @@ class ObterPetsProcessorTest : BaseTestConfig() {
     @DisplayName("Obter pets de outros usuários com sucesso")
     fun `obter_pets_outros_usuarios_com_sucesso`() {
         val validToken = createToken(123L)
-        val handler = ObterPetsHandler.newOrProblem(validToken).getOrElse { return }
+        val handler = ObterPetsHandler.newOrProblem(validToken, pageable).getOrElse { return }
 
         val petList = listOf(mockPet(1L, "Pet 1"), mockPet(2L, "Pet 2"))
-        Mockito.`when`(petService.obterPetsOutrosUsuarios(handler.id!!)).thenReturn(petList)
+        val pages = PageImpl(petList)
+        Mockito.`when`(petService.obterPetsOutrosUsuarios(handler.id!!, pageable)).thenReturn(pages)
 
         val solicitacaoAdocao = mockSolicitacaoAdocao(1L, handler.id!!)
         Mockito.`when`(solicitacaoService.obterPorAdotanteIdPetId(any(), any())).thenReturn(solicitacaoAdocao)
@@ -91,10 +98,10 @@ class ObterPetsProcessorTest : BaseTestConfig() {
     @DisplayName("Obter pets de outros usuários quando não há solicitações de adoção")
     fun `obter_pets_outros_usuarios_sem_solicitacoes_adocao`() {
         val validToken = createToken(123L)
-        val handler = ObterPetsHandler.newOrProblem(validToken).getOrElse { return }
-
+        val handler = ObterPetsHandler.newOrProblem(validToken, pageable).getOrElse { return }
         val petList = listOf(mockPet(1L, "Pet 1"), mockPet(2L, "Pet 2"))
-        Mockito.`when`(petService.obterPetsOutrosUsuarios(handler.id!!)).thenReturn(petList)
+        val pages = PageImpl(petList)
+        Mockito.`when`(petService.obterPetsOutrosUsuarios(handler.id!!, pageable)).thenReturn(pages)
 
         Mockito.`when`(solicitacaoService.obterPorAdotanteIdPetId(any(), any())).thenReturn(null)
 

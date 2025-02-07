@@ -6,6 +6,7 @@ import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.Solici
 import com.projeto2.miaudote.application.services.pet.PetService
 import com.projeto2.miaudote.apresentation.request.pet.PetCreate
 import com.projeto2.miaudote.domain.entities.pet.Pet
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -26,8 +27,8 @@ class PetController(
     private val obterPetsUsuario: ProcessorHandler<ObterPetsUsuarioIdHandler>
 ) {
     @GetMapping("/obter-pets")
-    fun obterPets(token: JwtAuthenticationToken?): ResponseEntity<Any> {
-        val request = ObterPetsHandler.newOrProblem(token).getOrElse {
+    fun obterPets(token: JwtAuthenticationToken?, pageable: Pageable): ResponseEntity<Any> {
+        val request = ObterPetsHandler.newOrProblem(token, pageable).getOrElse {
             return ResponseEntity(it, HttpStatus.BAD_REQUEST)
         }
         val response = obterPets.process(request).getOrElse {
@@ -37,8 +38,10 @@ class PetController(
     }
 
     @GetMapping("/obter-pets-adotados")
-    fun obterPetsAdotados(): ResponseEntity<Any> {
-        val response = service.obterPetsAdotados()
+    fun obterPetsAdotados(
+       pageable: Pageable
+    ): ResponseEntity<Any> {
+        val response = service.obterPetsAdotados(pageable)
         return ResponseEntity(response, HttpStatus.OK)
     }
 

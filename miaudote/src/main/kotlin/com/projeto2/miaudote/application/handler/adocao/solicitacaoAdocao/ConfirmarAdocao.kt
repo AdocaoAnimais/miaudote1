@@ -106,6 +106,13 @@ class ConfirmarAdocaoProcessor(
         val conteudo = """
             Recebemos a confirmação da adoção de ${pet.nome} foi concluída com sucesso.
             Então ${pet.nome} não esta mais dísponivel para adoção!!
+            
+            ---------- PRÓXIMOS PASSOS -----------
+            Você deverá dar início ao acompanhamento, 
+            no seu perfil estará disponível uma nova funcionalidade, 
+            onde você deverá fazer uma publicação do pet recém adotado.
+            
+            As publicações irão aparecer no feed para os outros usuários acompanharem! 
         """.trimIndent()
         emailService.enviarEmail(
             to = adotante.email,

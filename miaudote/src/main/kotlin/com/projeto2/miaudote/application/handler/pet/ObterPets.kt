@@ -7,6 +7,7 @@ import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoServic
 import com.projeto2.miaudote.apresentation.response.pet.PetPost
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
 import com.projeto2.miaudote.domain.enums.getStatus
+import org.springframework.data.domain.Pageable
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.stereotype.Component
 /**
@@ -28,8 +29,8 @@ class ObterPetsProcessor(
      */
     override fun process(handler: ObterPetsHandler): Result<Any> {
         val response = when (handler.id) {
-            is Long -> obterPetsOutrosUsuarios(handler.id)
-            else -> service.obterTodosDiponiveis()
+            is Long -> obterPetsOutrosUsuarios(handler.id, handler.pageable)
+            else -> service.obterTodosDiponiveis( handler.pageable)
         }
         return Result.success(response) as Result<Any>
     }
@@ -39,10 +40,10 @@ class ObterPetsProcessor(
      * @param id ID do usuário atual.
      * @return lista de pets mapeados para o formato de resposta.
      */
-    private fun obterPetsOutrosUsuarios(id: Long): List<PetPost>? {
-        val pets = service.obterPetsOutrosUsuarios(id)
+    private fun obterPetsOutrosUsuarios(id: Long, pageable: Pageable): List<PetPost>? {
+        val pets = service.obterPetsOutrosUsuarios(id, pageable)
 
-        val response: List<PetPost>? = pets?.map {
+        val response: List<PetPost>? = pets.toList().map {
             val status = obterSolicitacaoAdocao(id, it.id!!)?.let { solicitacao ->
                 it.getStatus(solicitacao)
             }
@@ -80,7 +81,8 @@ class ObterPetsProcessor(
  * @property id ID do usuário solicitante, se disponível.
  */
 class ObterPetsHandler private constructor(
-    val id: Long?
+    val id: Long?,
+    val pageable: Pageable
 ) : RequestHandler {
     companion object {
         /**
@@ -89,10 +91,10 @@ class ObterPetsHandler private constructor(
          * @param token token de autenticação do usuário.
          * @return instância de ObterPetsHandler ou problema de validação.
          */
-        fun newOrProblem(token: JwtAuthenticationToken?): Result<ObterPetsHandler> {
+        fun newOrProblem(token: JwtAuthenticationToken?, pageable: Pageable): Result<ObterPetsHandler> {
             val id = token?.name?.toLongOrNull()
 
-            return Result.success(ObterPetsHandler(id))
+            return Result.success(ObterPetsHandler(id, pageable))
         }
     }
 }
