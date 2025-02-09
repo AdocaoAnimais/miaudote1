@@ -16,12 +16,14 @@ import com.projeto2.miaudote.shared.validateSize
 import com.projeto2.miaudote.shared.validateType
 import org.springframework.http.HttpStatus
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import org.springframework.stereotype.Component
 import java.net.URI
 import java.sql.Blob
 import java.time.LocalDate
 import java.util.UUID
 import javax.sql.rowset.serial.SerialBlob
 
+@Component
 class CriarAcompanhamentoProcessor(
     val adocaoService: AdocaoService,
     val publicacaoService: PublicacaoService,

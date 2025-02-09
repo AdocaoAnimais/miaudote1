@@ -1,22 +1,21 @@
 package com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao
 
-import org.junit.jupiter.api.Assertions.*
 import com.projeto2.miaudote.BaseTestConfig
-import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarAdocaoHandler
-import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarAdocaoProcessor
-import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
-import com.projeto2.miaudote.domain.entities.pet.Pet
-import com.projeto2.miaudote.domain.entities.usuario.Usuario
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.adocao.AdocaoService
 import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.application.services.external.mail.EmailService
 import com.projeto2.miaudote.application.services.pet.PetService
 import com.projeto2.miaudote.application.services.usuario.UsuarioService
+import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
+import com.projeto2.miaudote.domain.entities.pet.Pet
+import com.projeto2.miaudote.domain.entities.usuario.Usuario
 import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
 import com.projeto2.miaudote.domain.enums.Sexo
 import com.projeto2.miaudote.domain.enums.Tipo
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

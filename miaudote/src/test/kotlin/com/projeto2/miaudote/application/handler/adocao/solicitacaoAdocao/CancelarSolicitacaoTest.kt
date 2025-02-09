@@ -1,15 +1,13 @@
 package com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao
 
-import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarSolicitacaoHandler
-import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarSolicitacaoProcessor
 import com.projeto2.miaudote.application.problems.Problem
 import com.projeto2.miaudote.application.services.adocao.AdocaoService
 import com.projeto2.miaudote.application.services.adocao.SolicitacaoAdocaoService
 import com.projeto2.miaudote.application.services.external.mail.EmailService
 import com.projeto2.miaudote.application.services.pet.PetService
 import com.projeto2.miaudote.application.services.usuario.UsuarioService
-import com.projeto2.miaudote.domain.entities.pet.Pet
 import com.projeto2.miaudote.domain.entities.SolicitacaoAdocao
+import com.projeto2.miaudote.domain.entities.pet.Pet
 import com.projeto2.miaudote.domain.entities.usuario.Usuario
 import com.projeto2.miaudote.domain.enums.Castrado
 import com.projeto2.miaudote.domain.enums.Porte
