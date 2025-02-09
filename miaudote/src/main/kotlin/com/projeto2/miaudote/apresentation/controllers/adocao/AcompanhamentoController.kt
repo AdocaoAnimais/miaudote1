@@ -14,7 +14,7 @@ class AcompanhamentoController(
     private val criar: ProcessorHandler<CriarAcompanhamentoHandler>,
 ) {
 
-    @PostMapping("/cadastrar/{adocaoId}")
+    @PostMapping("/cadastrar/{petId}")
     fun cadastrar(
         @PathVariable("petId") petId: Long,
         @RequestBody publicacao: PublicacaoRequest,

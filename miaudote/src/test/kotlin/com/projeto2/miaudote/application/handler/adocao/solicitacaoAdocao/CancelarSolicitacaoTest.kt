@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.application.handler.solicitacaoAdocao
+package com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao
 
 import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarSolicitacaoHandler
 import com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao.CancelarSolicitacaoProcessor

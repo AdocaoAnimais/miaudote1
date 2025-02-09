@@ -1,4 +1,4 @@
-package com.projeto2.miaudote.application.handler.solicitacaoAdocao
+package com.projeto2.miaudote.application.handler.adocao.solicitacaoAdocao
 
 import org.junit.jupiter.api.Assertions.*
 import com.projeto2.miaudote.BaseTestConfig
