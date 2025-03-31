@@ -48,6 +48,7 @@ class SecurityConfig(
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/solicitacao-adocao/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "api/usuario/verificar-email/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/acompanhamento/**").permitAll()
                 .anyRequest().authenticated()
         }
             .httpBasic(Customizer.withDefaults())

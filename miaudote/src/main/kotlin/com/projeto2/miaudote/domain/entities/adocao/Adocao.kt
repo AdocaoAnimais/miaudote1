@@ -26,3 +26,4 @@ class Adocao(
     @Column(name = "data_adocao")
     val dataAdocao: LocalDateTime
 )
+
