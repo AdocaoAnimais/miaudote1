@@ -33,22 +33,26 @@ class SecurityConfig(
 
     @Value("\${jwt.private.key}")
     private val private: RSAPrivateKey,
+
+    @Value("\${miaudote.api.url}")
+    private val apiUrl: String,
 ) {
 
     @Bean
     fun securityfilterChain(http: HttpSecurity): SecurityFilterChain {
+        println(apiUrl)
         http.csrf { it.disable() }.authorizeHttpRequests { auth ->
             auth.requestMatchers(
-                "api/auth/login",
-                "api/auth/logged",
-                "api/usuario/cadastrar",
-                "api/pet/obter-pets",
-                "api/pet/obter-pets-adotados"
+                "$apiUrl/auth/login",
+                "$apiUrl/auth/logged",
+                "$apiUrl/usuario/cadastrar",
+                "$apiUrl/pet/obter-pets",
+                "$apiUrl/pet/obter-pets-adotados"
             ).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/solicitacao-adocao/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/usuario/verificar-email/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/acompanhamento/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "$apiUrl/usuario/verificar-email/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/$apiUrl/acompanhamento/**").permitAll()
                 .anyRequest().authenticated()
         }
             .httpBasic(Customizer.withDefaults())

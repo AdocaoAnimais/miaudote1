@@ -18,7 +18,7 @@ group = "com.projeto2"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
 }
 
 jacoco {
@@ -30,7 +30,7 @@ sonar {
 		property("sonar.organization", "adocaoanimais")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property( "sonar.sources", "/src")
-        property("sonar.java.source", 17) 
+        property("sonar.java.source", 21)
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.sources", "src/main/kotlin")
         property("sonar.exclusions", "build/**")
@@ -80,7 +80,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+		jvmTarget = "21"
 	}
 }
 

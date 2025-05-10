@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("\${miaudote.api.url}/auth")
 class AuthenticationController(
     private val service: UsuarioService,
     val serviceJwt: JwtService,

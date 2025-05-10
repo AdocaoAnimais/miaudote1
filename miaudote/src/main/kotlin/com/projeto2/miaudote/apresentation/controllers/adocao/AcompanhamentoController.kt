@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("api/acompanhamento")
+@RequestMapping("\${miaudote.api.url}/acompanhamento")
 @RestController
 class AcompanhamentoController(
     private val criar: ProcessorHandler<CriarAcompanhamentoHandler>,

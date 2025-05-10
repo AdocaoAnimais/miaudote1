@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/solicitacao-adocao")
+@RequestMapping("\${miaudote.api.url}/solicitacao-adocao")
 @RestController
 class SolicitacaoAdocaoController(
     private val confirmarSolicitacaoProcessor: ProcessorHandler<ConfirmarSolicitacaoHandler>,

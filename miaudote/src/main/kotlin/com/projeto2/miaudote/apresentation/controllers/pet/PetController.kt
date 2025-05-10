@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("api/pet")
+@RequestMapping("\${miaudote.api.url}/pet")
 class PetController(
     private val service: PetService,
     private val criarPet: ProcessorHandler<CriarPetHandler>,
